@@ -37,6 +37,7 @@ To use AlgoStrike, follow these steps:
     AlgoStrike fetches real-time market data, applies AI-driven strategies, and executes trades automatically via broker APIs.
 
 3. **How can I get a broker API?**
+    
     Most brokers offer APIs as part of their services. Contact your broker or check their developer documentation for access.
  
 ## AlgoStrike
