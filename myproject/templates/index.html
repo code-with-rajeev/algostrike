@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlgoTrading.com</title>
+    <link rel = "stylesheet" href = "{% static 'css/style.css' %}">
+    <link rel = "icon" href = "assets/logo_favicon.png">
+    <style>
+        /*
+        These property will be overlayed.
+
+        */
+	}
+    </style>
+</head>
+<body>
+    <header>
+      <div class= 'ui-core-header-wrapper'>
+      <div class='ui-core-header-blur-effect'></div>
+      <nav class = 'navbar'>
+        <div class="nav-branding">AlgoTrader</div>
+        <div class="nav-menu">
+          <div class="nav-menu-list">
+            <ul class='nav-links'>
+              <li><a href='/home'>Home</a></li>
+              <li><a href='/features'>Feature</a></li>
+              <li><a href='/guide'>Guide</a></li>
+              <li><a href='/contact'>Contact us</a></li>
+            </ul>
+          </div>
+          <button class="nav-menu-login">Login</div>
+        </div>
+        <div class = 'hamburger'>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+      </div>
+    
+
+    </header>
+
+    <main>
+    <div class = 'main-section'>
+      <div class = 'particle-container'>
+        <canvas class="animated-bg" style="width: 100%; height:800px;"></canvas>
+      </div>
+      <div class = 'intro'>
+        <div class="intro-title-title-container">
+          <h1 class="intro-title">TRADE</h1>
+          <h1 class="intro-title"><span class="text-glow">SMARTER </span></h1>
+        </div>
+        <div class="intro-about"><p>See real results. Enhance your trading experience with our next-gen algorithm.</p></div>
+        <div class = 'intro-sign-up-wrapper'><a href = "#" target = "_blank"><span class= 'intro-sign-up'>Sign Up Now</span></a></div>
+       
+        <div class="intro-review-wrapper">
+        <div class="intro-review">
+          <span class = 'intro-review-number' id = 'verified-users'>0</span>
+          <span class = 'intro-review-title'>Verified Users</span>
+        </div>
+        <div class="intro-review">
+          <span class = 'intro-review-number' id = 'premium-features'>0</span>
+          <span class = 'intro-review-title'>Premium Features</span>
+        </div>
+        
+      </div> 
+      <div class = 'brand-logos-wrapper'>
+        <div class = 'brand-logos'><img src = "logos/yahoo-news-logo.png" width = "100px"  alt = 'yahoo'></img></div>
+        <div class = 'brand-logos'><img src = "logos/marketWatch.png" width = "150px"  alt = 'yahoo'></img></div>
+        <div class = 'brand-logos'><img src = "logos/discord.png" width = "150px"  alt = 'yahoo'></img></div>
+        <div class = 'brand-logos'><img src = "logos/tradingView.png" width = "150px"  alt = 'yahoo'></img></div>
+      </div>
+      <h1 class = 'ab'>Site Under Development</h1>
+    </div>
+    
+    </main>
+
+    <footer>
+    </footer>
+    
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

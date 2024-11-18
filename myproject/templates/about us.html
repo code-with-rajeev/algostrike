@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AlgoStrike.com</title>
+    <link rel = "stylesheet" href = "{% static 'css/style.css' %}">
+    <link rel = "icon" href = "assets/logo_favicon.png">
+    <style>
+        .about-us-wrapper{
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    background: #121923;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 18px 26px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    border: solid 1px #9250f6;
+    outline: 0;
+    transition: 0.2s transform;
+    box-shadow: 0 0 25px #893bffda !important;
+    width: auto;
+          position: relative;
+          margin-top: 150px;
+          margin: 150px 150px;
+          padding: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+	}
+
+        .about-us-title{
+          text-align: center;
+          font-size: 60px;
+          padding: 10px;
+        }
+        
+        .about-us-content{
+          padding-top: 110px;
+          padding-bottom: 20px;
+          font-size: 20px;
+          text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+      <div class= 'ui-core-header-wrapper'>
+      <div class='ui-core-header-blur-effect'></div>
+      <nav class = 'navbar'>
+        <div class="nav-branding">AlgoTrader</div>
+        <div class="nav-menu">
+          <div class="nav-menu-list">
+            <ul class='nav-links'>
+              <li><a href='/home'>Home</a></li>
+              <li><a href='/features'>Feature</a></li>
+              <li><a href='/guide'>Guide</a></li>
+              <li><a href='contact'>Contact us</a></li>
+            </ul>
+          </div>
+          <button class="nav-menu-login">Login</div>
+        </div>
+        <div class = 'hamburger'>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+      </div>
+    
+
+    </header>
+
+    <main>
+    <div class = 'main-section'>
+      <div class = 'about-us-wrapper'>
+        <h2 class = "about-us-title">About Us</h2>
+        <hr width ='100%'>
+        <p class = "about-us-content">AlgoStrike is an Algorithmic Trading Platform that enables users to automate trades via broker APIs, monitior performace in real-time. Built with Python, leveraging AI and machine learning to anlayze charts and execute trades with adanvace data analysis and decision-making capablities.<br><br>Note: This website is under-development. You can still contact us through our instagram handle @algostrike</p>
+      </div>
+    </div>
+    
+    </main>
+
+    <footer>
+    </footer>
+    
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
