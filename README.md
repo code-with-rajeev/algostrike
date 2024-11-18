@@ -29,12 +29,15 @@ To use AlgoStrike, follow these steps:
 ## FAQs
 
 1. **What is Algo Trading?**
+
 Algo Trading, uses automated programs to execute trades based on pre-defined strategies and market conditions.
 
 2. **How does AlgoStrike work?**
+
 AlgoStrike fetches real-time market data, applies AI-driven strategies, and executes trades automatically via broker APIs.
 
-1. **How can I get a broker API?**
+3. **How can I get a broker API?**
+
 Most brokers offer APIs as part of their services. Contact your broker or check their developer documentation for access.
  
 ## AlgoStrike
