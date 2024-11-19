@@ -4,4 +4,4 @@
 pip install -r requirements.txt
 
 #collect the static files
-python manage.py collectstatic --noinput
+python3.11 manage.py collectstatic
