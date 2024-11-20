@@ -5,13 +5,6 @@
             "src": "myproject/wsgi.py",
             "use": "@vercel/python",
             "config": { "maxLamdaSize": "15mb", "runtime": "python3.11" }
-        },
-        {
-            "src": "build.sh",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "staticfiles_build"
-            }
         }
     ],
     "routes": [
