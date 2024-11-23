@@ -308,6 +308,67 @@
      font-size:14px;
   }
   
+
+
+  .faq-wrapper{
+    background: #070c12;
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+
+}
+.faq-title{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.faq-list{
+    display: flex;
+    max-width: 760px;
+    flex-direction: column;
+    margin: 10px 0px;
+    gap: 10px
+}
+.faq-ques{
+    background-color: #2120226e;
+    border-style: none;
+    border-radius: 16px 16px 16px 16px;
+    overflow: hidden;
+    padding: 24px 24px 24px 24px;
+    font-family: "Montserrat", Sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    transition: max-height .3s ease-in-out;
+}
+.faq-ques:hover{
+    background-color: #52438cde;
+    padding: 25px;
+    transition: all .3s ease-in-out;
+    box-shadow: 0 0 25px #893bffda !important;
+}
+
+.faq-ans{
+    max-height: 0px;
+    background: #2120226e;
+    font-weight: 200;
+    font-size: 16px;
+    width: 100%;
+    overflow: hidden;
+    transition: all .3s ease-in-out;
+    border-radius: 16px 16px 16px 16px;
+    overflow: hidden;
+}
+.faq.active .faq-ans{
+    max-height: 300px;
+}
+.faq-ans p{
+    padding: 24px 24px 24px 24px;
+    font-size: 18px;
+    border-top: 1px solid black;
+
+}
     </style>
 </head>
 <body>
@@ -370,7 +431,72 @@
       </div>
       <h1 class = 'ab'>Website Under Development</h1>
     </div>
-    
+    <div class = "faq-wrapper">
+      <div class = 'faq-list'>
+        <div class = 'faq-title'><h2>Frequently Asked <span style ='color: #BF40FF 
+
+!important;
+text-shadow: 0 0 18px rgb(137 59 255 / 70%);'>Question<span><h2></div>
+
+        <div class = 'faq'>
+          <div class = 'faq-ques'>
+            <p>What is Algo Trading?</p>
+          </div>
+          <div class = 'faq-ans'>
+            <p>Algo Trading, uses automated programs to execute trades based on 
+
+pre-defined strategies and market conditions.</p>
+          </div>
+        </div>
+
+        <div class = 'faq'>
+          <div class = 'faq-ques'>
+            <p>How does AlgoStrike work?</p>
+          </div>
+          <div class = 'faq-ans'>
+            <p>AlgoStrike fetches real-time market data, applies AI-driven 
+
+strategies, and executes trades automatically via broker APIs.</p>
+          </div>
+        </div>
+
+        <div class = 'faq'>
+          <div class = 'faq-ques'>
+            <p>How can I get a broker API?</p>
+          </div>
+          <div class = 'faq-ans'>
+            <p>Most brokers offer APIs as part of their services. Contact your 
+
+broker or check their developer documentation for access.</p>
+          </div>
+        </div>
+
+        <div class = 'faq'>
+          <div class = 'faq-ques'>
+            <p>Do I need coding knowledge to use AlgoStrike?</p>
+          </div>
+          <div class = 'faq-ans'>
+            <p>No, AlgoStrike is designed to be user-friendly. once you connect your 
+
+broker account, the algorithms handle the trading for you.</p>
+          </div>
+        </div>
+
+        <div class = 'faq'>
+          <div class = 'faq-ques'>
+            <p>Is AlgoStrike safe for trading?</p>
+          </div>
+          <div class = 'faq-ans'>
+            <p>Yes, Algostrike uses encrypted connection to ensure data and 
+
+transactions are secure. Additionally strategies are back-tested to minimize risks in 
+
+live trading conditions.</p>
+          </div>
+        </div>
+      </div>
+  </div>
+
     </main>
 
     <footer class = 'ui-footer'>
@@ -475,6 +601,26 @@
               count2.textContent = `${premium_features}+`;
           }
       }, intervalTime);      
+
+      
+
+const faqs = document.querySelectorAll(".faq");
+
+faqs.forEach((faq)=>{
+    console.log('clikced');
+    faq.addEventListener("click", ()=>{
+      if(faq.classList.contains("active")){
+        faq.classList.remove("active");
+      }else{
+        faq.classList.add("active");
+        faqs.forEach((otherFaq)=>{
+          if(otherFaq!= faq){
+            otherFaq.classList.remove("active");
+          }
+        })
+      }
+    })
+})
     </script>
 </body>
 </html>
