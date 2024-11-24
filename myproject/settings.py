@@ -131,3 +131,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
 WSGI_APPLICATION = 'api.wsgi.app'
+
+LOGIN_URL =  '/login'
+AUTH_USER_MODEL ='myapp.CustomUser'

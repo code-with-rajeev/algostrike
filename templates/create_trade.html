@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Trade</title>
+</head>
+<body>
+    <h1>Create a New Trade</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="trade_type">Trade Type (Buy/Sell):</label><br>
+        <input type="text" name="trade_type" required><br><br>
+
+        <label for="symbol">Symbol (e.g., AAPL):</label><br>
+        <input type="text" name="symbol" required><br><br>
+
+        <label for="quantity">Quantity:</label><br>
+        <input type="number" name="quantity" required><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="number" name="price" step="0.01" required><br><br>
+
+        <button type="submit">Submit Trade</button>
+    </form>
+
+    <br><br>
+    <a href="{% url 'user_trades' %}">View All Trades</a>
+</body>
+</html>
