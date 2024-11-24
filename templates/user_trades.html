@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Trades</title>
+</head>
+<body>
+    <h1>Your Trades</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Trade Type</th>
+                <th>Symbol</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in trades %}
+            <tr>
+                <td>{{ trade.trade_type }}</td>
+                <td>{{ trade.symbol }}</td>
+                <td>{{ trade.symbol }}</td>
+                <td>{{ trade.quantity }}</td>
+                <td>{{ trade.price }}</td>
+                <td>{{ trade.trade_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No trades found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+    <a href="{% url 'create_trade' %}">Create New Trade</a>
+</body>
+</html>
