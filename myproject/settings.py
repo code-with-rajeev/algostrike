@@ -82,7 +82,7 @@ DATABASES = {
         'USER': os.environ.get('postgres.rrkobwdvvppslqqwkjxx'),
         'PASSWORD': os.environ.get('bMSOEKP4obKNVSJG'),
         'HOST': os.environ.get('aws-0-ap-south-1.pooler.supabase.com'),
-        'PORT': os.environ.get('6543,5432'),
+        'PORT': os.environ.get('6543'),
     }
 }
 user=postgres.rrkobwdvvppslqqwkjxx password=[YOUR-PASSWORD] host=aws-0-ap-south-1.pooler.supabase.com port=6543 dbname=postgres
