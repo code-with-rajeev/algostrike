@@ -4,3 +4,4 @@ sqlparse==0.5.2
 tzdata==2024.2
 whitenoise==6.4.0
 psycopg2-binary==2.9.10
+python-dotenv==6.4.0
