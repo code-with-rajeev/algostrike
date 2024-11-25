@@ -2,24 +2,177 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #121212;
+  overflow-x: hidden;
+
+  height: 1024px;
+
+  /* code to make all text unselectable */
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+/* Disables selector ring */
+body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) input:focus,
+body:not(.user-is-tabbing) select:focus,
+body:not(.user-is-tabbing) textarea:focus {
+  outline: none;
+}
+
+/* ########################################################## */
+
+h1 {
+  color: white;
+
+  font-size: 35px;
+  font-weight: 800;
+}
+
+.flex-container {
+  width: 100vw;
+
+  margin-top: 120px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-container {
+  width: 500px;
+  height: 450px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 450px;
+
+  margin-top: 5px;
+  padding-top: 20px;
+
+  border-radius: 12px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 5p 5px 1px rgba(0,0,0, 0.199);
+  background: #1f1f1f;
+}
+
+.message {
+  padding-top:10px;
+  height: 20px;
+  font-size: small;
+  color: #dc6d6d;
+  width: 100%;
+}
+
+.message li{
+  list-style: none;
+}
+
+.subtitle {
+  font-size: 16px;
+
+  color:#ffffff91;
+}
+
+input {
+  border: none;
+  border-bottom: solid rgb(143, 143, 143) 1px;
+
+  margin-bottom: 30px;
+
+  background: none;
+  color: rgba(255, 255, 255, 0.555);
+
+  height: 35px;
+  width: 300px;
+}
+.submit-btn {
+  cursor: pointer;
+
+  border: none;
+  border-radius: 8px;
+
+  box-shadow: 2px 2px 7px #38d39f70;
+
+  background: #38d39f;
+  width: 100px;
+  height:40px;
+  color: rgba(255, 255, 255, 0.8);
+
+  width: 80px;
+
+  transition: all 1s;
+}
+
+.submit-btn:hover {
+  color: rgb(255, 255, 255);
+
+  box-shadow: none;
+}
+.heading{
+    text-align: center;
+    width: 100%;
+    color: white;
+    font-size: 50px;
+}
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    {% if messages %}
-        <ul>
+<div class = 'heading'>Are you a <span style='color:#38d39f;'>Developer?</span></div>
+<div class="flex-container">
+  <div class="content-container">
+    <div class="form-container">
+      <form method="post">
+        <h1>
+          Login
+        </h1>
+        <div class='message'>
+        {% if messages %}
+          <ul>
             {% for message in messages %}
-                <li>{{ message }}</li>
+              <li>{{ message }}</li>
             {% endfor %}
-        </ul>
-    {% endif %}
-    <form method="post">
+          </ul>
+        {% endif %}
+        </div>
+        <br>
+        <br>
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
+        <label for="username" class = 'subtitle'>username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password" class = 'subtitle'>Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'logout' %}">Logout</a><br><a href="{% url 'register' %}">register</a>
+        <input type="submit" class = 'submit-btn'></input>
+        <span class = 'message' style = 'color:white; padding-left: 30px'>Are you a new User? <a href="{% url 'register' %}" style='text-decoration: none ; color:#38d39f'>register</a></span>
+      </form>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>
