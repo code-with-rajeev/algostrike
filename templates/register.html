@@ -153,13 +153,7 @@ input {
           Sign Up
         </h1>
         <div class='message'>
-        {% if messages %}
-          <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+          {{message}}
         </div>
         <br>
         <br>
