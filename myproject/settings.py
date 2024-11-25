@@ -85,7 +85,7 @@ DATABASES = {
         'PORT': os.environ.get('6543'),
     }
 }
-user=postgres.rrkobwdvvppslqqwkjxx password=[YOUR-PASSWORD] host=aws-0-ap-south-1.pooler.supabase.com port=6543 dbname=postgres
+#user=postgres.rrkobwdvvppslqqwkjxx password=[YOUR-PASSWORD] host=aws-0-ap-south-1.pooler.supabase.com port=6543 dbname=postgres
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
