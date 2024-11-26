@@ -124,7 +124,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Added manually, for production level
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build','static')
+STATIC_ROOT = BASE_DIR/'static'
+#adding whitenoise to serve static files in Vercel
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' #dependency whitenoise
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
