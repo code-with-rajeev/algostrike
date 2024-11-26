@@ -190,7 +190,7 @@
      padding: 10px 10%;
      margin-top: 100px;
      display: grid;
-     color: #06090e;
+     background: #06090e;
      grid-template-columns: 1fr 1fr 1fr 1fr;
      height: 125px;
      width: 100%;
