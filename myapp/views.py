@@ -3,8 +3,10 @@ from django.http import HttpResponse as HR #add this
 from django.contrib.auth.decorators import login_required #protect portfolio access
 from django.contrib.auth import authenticate, login, logout #for login, logout
 from django.contrib import messages 
-
-from .models import Trade
+from django.shortcuts import render, redirect
+from .models import TradeLog
+from django.contrib.auth.hashers import make_password
+from myapp.models import CustomUser
 
 # Create your views here.
 def index(request):
@@ -45,12 +47,9 @@ def portfolio_view(request):
         return redirect(f'/login/?next={request.path}')
     return render(request, 'portfolio.html')
 
-from django.shortcuts import render, redirect
-from .models import Trade
-from django.contrib.auth.decorators import login_required
-
 @login_required
 def create_trade(request):
+    """
     if request.method == 'POST':
         trade_type = request.POST['trade_type']
         symbol = request.POST['symbol']
@@ -58,7 +57,7 @@ def create_trade(request):
         price = request.POST['price']
         
         # Create a new Trade record
-        trade = Trade(
+        trade = TradeLog(
             user=request.user,
             trade_type=trade_type,
             symbol=symbol,
@@ -67,16 +66,15 @@ def create_trade(request):
         )
         trade.save()
         return redirect('user_trades')  # Redirect to a page showing all trades
-
+    """
     return render(request, 'create_trade.html')
 
 @login_required
 def user_trades(request):
-    trades = Trade.objects.filter(user=request.user)  # Fetch all trade records
+    """
+    trades = TradeLog.objects.filter(user=request.user)  # Fetch all trade records
     return render(request, 'user_trades.html', {'trades': trades})
-
-from django.contrib.auth.hashers import make_password
-from myapp.models import CustomUser
+    """
 
 def register(request):
     if request.method == "POST":
@@ -97,8 +95,6 @@ def register(request):
             username=username,
             email=email,
             password=make_password(password),  # Hash the password
-            pnl=0,  # Default PnL
-            invested=0,  # Default invested amount
             )
             new_user.save()            
         except IntegrityError:
