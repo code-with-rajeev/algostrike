@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel = "stylesheet" href = "{% static 'css/style.css' %}">
+    <link rel = "stylesheet" href = "{% static 'css/dashboard.css' %}">
     <link rel = "icon" href = "{% static 'assets/logo_favicon.png' %}">
     <style>
       /* These properties will be overlayed */
@@ -11,21 +11,32 @@
 </head>
 <body>
     <div class = 'main-wrapper'>
+        <header class = 'header-wrapper'>
+            <div class = 'container-fluid'>
+                <div class = 'top-bar'>
 
+                </div>
+            </div>
+            <div class = 'border-bottom'>
+            </div>
+            <div class = 'container-fluid'>
+                <div class = 'nav-bar'>
+
+                </div>
+            </div>
+        </header>
+    
+        <div class = 'content-wrapper'>
+            <div class = 'container-fluid'>
+                
+            </div>
+        </div>
+    
+        <div class = 'quick-chat'>
+            <p>chat us</p>
+        </div>
+        <br>
+        <a href = 'logout'>Log out</a>
     </div>
-
-    <header class = 'header-wrapper'>
-
-    </header>
-
-    <div class = 'content-wrapper'>
-
-    </div>
-
-    <div class = 'quick-chat'>
-        <p>chat us</p>
-    </div>
-    <br>
-    <a href = 'logout'>Log out</a>
 </body>
 </html>
