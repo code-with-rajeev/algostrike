@@ -28,8 +28,23 @@ body{
    max-width: 95%;
    margin: 0 auto;
 }
+
+.top-bar{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 8px 20px;
+}
+.top-bar ul{
+   list-style: none;
+}
 .border-bottom {
    border-bottom: 1px solid #dee2e6!important;
+}
+
+.nav-bar{
+   display: flex;
+
 }
 .header-wrapper{
    width: 100%;
