@@ -70,8 +70,6 @@ def register(request):
 def dashboard(request):
     #trades = TradeLog.objects.all()
     #return render(request, 'portfolio.html', {'trades': trades})
-    if not request.user.is_authenticated:
-        return redirect(f'/login/?next={request.path}')
     return render(request, 'dashboard.html')
 
 @login_required
