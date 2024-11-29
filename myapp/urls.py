@@ -12,6 +12,7 @@ urlpatterns = [
     path('login',views.login_view, name ='login'),
     path('logout',views.logout_view, name ='logout'),
     path('register',views.register, name ='register'),
+    path('dashboard',views.dashboard, name ='dashboard'),
     path('portfolio',views.portfolio_view, name ='portfolio'),
     path('create_trade',views.create_trade, name ='create_trade'),
     path('user_trades',views.user_trades, name ='user_trades'),
