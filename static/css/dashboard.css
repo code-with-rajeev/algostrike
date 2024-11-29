@@ -44,8 +44,17 @@ body{
 
 .nav-bar{
    display: flex;
-
+   align-items: center;
+   padding: 0 20px;
 }
+.nav-bar ul{
+   list-style: none;
+   display: flex;
+}
+.nav-bar li{
+   margin-right: 45px;
+}
+
 .header-wrapper{
    width: 100%;
    display: inline-block;
