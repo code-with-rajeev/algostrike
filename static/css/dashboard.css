@@ -104,7 +104,31 @@ body{
 .content-wrapper{
    padding: 40px 20px 0px;
 }
-
+.row-filter-wrapper{
+   display: flex;
+   flex-wrap: wrap;
+   margin-right: 15px;
+   margin-left: 15px;
+}
+.live-dashboard-wrapper{
+   flex: 0 0 58.333333%;
+   max-width: 58.333333%;
+   position: relative;
+   width: 100%;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+.live-dashboard{
+   padding: 16px 18px;
+   box-shadow: rgb(0 0 0 / 10%) 0 0 8px;
+   border-radius: 10px;
+   background: var(--white);
+   display: flex;
+   align-items: center;
+   padding: 5px 10px;
+   max-width: 630px;
+   gap: 30px;
+}
 .quick-chat{
    width: 45px;
    height: 45px;
