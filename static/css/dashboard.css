@@ -24,7 +24,13 @@ body{
    height: 100%;
    padding-top: 90px;
 }
-
+.main-wrapper .container-fluid {
+   max-width: 95%;
+   margin: 0 auto;
+}
+.border-bottom {
+   border-bottom: 1px solid #dee2e6!important;
+}
 .header-wrapper{
    width: 100%;
    display: inline-block;
