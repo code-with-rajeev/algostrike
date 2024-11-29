@@ -34,10 +34,30 @@ body{
    justify-content: space-between;
    align-items: center;
    padding: 8px 20px;
+   background: aliceblue;
 }
-.top-bar ul{
-   list-style: none;
+.top-bar-right{
+   display: flex;
+   align-items: center;
 }
+.top-bar-right .username-wrapper{
+    padding: 0px 10px;
+}
+.top-bar-right .logout{
+    height: 30px;
+    border-radius: 8px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #b599f9;
+}
+.top-bar-right .logout a{
+    text-decoration: none;
+    color: white;
+}
+
+
 .border-bottom {
    border-bottom: 1px solid #dee2e6!important;
 }
@@ -46,7 +66,10 @@ body{
    display: flex;
    align-items: center;
    padding: 0 20px;
+   height: 42px;
+   background: azure;
 }
+
 .nav-bar ul{
    list-style: none;
    display: flex;
@@ -55,6 +78,16 @@ body{
    margin-right: 45px;
 }
 
+.nav-bar a{
+    position: relative;
+    font-size: 14px;
+    padding: 10px 0;
+    cursor: pointer;
+    color: #7589a2;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
 .header-wrapper{
    width: 100%;
    display: inline-block;
@@ -69,7 +102,7 @@ body{
 }
 
 .content-wrapper{
-   padding: 40px 20px 10px;
+   padding: 40px 20px 0px;
 }
 
 .quick-chat{
