@@ -214,6 +214,7 @@ th {
    position: relative;
    width: 100%;
    padding-right: 15px;
+   font-family: Nunitno, SANS-SERIF;
    padding-left: 15px;
 }
 .strategies{
@@ -225,10 +226,8 @@ th {
    margin-left: -15px;
 }
 .strategies-card{
-   min-width:500px;
    width: 100%;
    margin: 40px;
-   height: 300px;
    position: relative;
    padding-right: 15px;
    padding-left: 15px;
@@ -243,7 +242,113 @@ th {
    display: block;
    box-shadow: rgb(0 0 0 / 10%) 0 0 8px;
 }
+.cus-card-body{
+   padding: 20px;
+}
+.cus-card-body .title{
+   width: auto;
+   display: inline-block;
+   font-size: 22px;
+   margin-bottom: 3px;
+   font-weight: 700!important;
+   padding-bottom: 0!important;
+}
+.cus-card-body .description{
+   padding: 0 0 20px 0;
+   margin: 0;
+   font-size: 15px;
+   width: 100%;
+   float: left;
+   color: darkgray
+   line-height: normal;
+   padding-bottom: 1rem!important;
+}
 
+.cus-card-body .category{
+   margin-bottom: 1rem!important;
+}
+
+.s-card{
+   background: #EAEEF6;
+   border-radius: 200px;
+   padding: 5px 13px;
+   font-size: 15px;
+   display: inline-block;
+   margin-right: 5px;
+   color: #757990;
+   margin-bottom: 7px;
+   line-height: normal;
+}
+.s-category{
+    background: #EAEEF6;
+    border-radius: 200px;
+    padding: 5px 13px;
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 7px;
+    line-height: normal;
+    color: #2a2b33;
+    font-weight: 700;
+}
+.subscription{
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   align-items: center;
+}
+.strategy-details{
+   max-width: 100%;
+   width: 100%;
+}
+.strategy-value{
+   padding: 8px;
+   border-radius: 5px;
+   display: inline-block;
+   text-align: center;
+   margin-left: 0.5rem!important;
+   background: #3f404a;
+   width: 30%;
+}
+.mx-auto{
+   margin-right: auto!important;
+   margin-left: auto!important;
+}
+.s-value-title{
+   font-size: 14px;
+   font-weight: 600;
+}
+.s-value{
+   color: #e25959;
+   font-size: 14px;
+   font-weight: 700!important;
+   padding-bottom: 0!important;
+}
+h1, h2, h3, h4, h5, h6 {
+   line-height: 1.4em;
+   letter-spacing: 0.025em;
+   margin: 0;
+}
+.subscribe-btn{
+   background: #00C980;
+   border: 1px solid #D1FADF;
+   border: 1px solid #00C980;
+    border-radius: 8px;
+    padding: 7px 15px;
+    display: flex;
+    width: 100%;
+    height: 47px;
+    max-width: 230px;
+    justify-content: center;
+    align-items: center;
+}
+
+.subscribe-btn h6{
+   font-weight: 600;
+   text-transform: uppercase;
+   color: #ffffff;
+   font-size: 14px;
+}
 .quick-chat{
    display: flex;
    justify-content: center;
