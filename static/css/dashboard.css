@@ -209,6 +209,41 @@ body{
 th {
    text-align: inherit;
 }
+
+.strategies-wrapper{
+   position: relative;
+   width: 100%;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+.strategies{
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-items: center;
+   margin-right: -15px;
+   margin-left: -15px;
+}
+.strategies-card{
+   min-width:500px;
+   width: 100%;
+   margin: 40px;
+   height: 300px;
+   position: relative;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+.cus-card {
+   width: 100%;
+   background: #2a2b33;
+   border: none;
+   height: 100%;
+   border-radius: 10px;
+   margin-bottom: 25px;
+   display: block;
+   box-shadow: rgb(0 0 0 / 10%) 0 0 8px;
+}
+
 .quick-chat{
    display: flex;
    justify-content: center;
