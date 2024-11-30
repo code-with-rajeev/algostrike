@@ -114,7 +114,7 @@ body{
    flex-wrap: wrap;
    margin-right: 15px;
    margin-left: 15px;
-   padding-bottom: 20px;
+   padding: 20px;
    margin-bottom: 25px;
    box-shadow: 0 2px 4px #66739973;
    border-radius: 20px;
@@ -144,6 +144,7 @@ body{
    flex-wrap: wrap;
    margin-right: -15px;
    margin-left: -15px;
+   padding: 10px;
    box-shadow: 0 2px 4px #66739973;
    background: #1f1f1f;
    border-radius: 20px;
