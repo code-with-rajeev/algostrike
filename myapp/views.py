@@ -84,9 +84,9 @@ def subscription(request):
     return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !"})
 
 @login_required
-def report(request):
+def reports(request):
     
-    return render(request, 'report.html', {'message':'No Reports to show !'})
+    return render(request, 'reports.html', {'message':'No Reports to show !'})
     
 @login_required
 def wizard(request):

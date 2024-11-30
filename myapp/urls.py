@@ -15,8 +15,8 @@ urlpatterns = [
     # dashboard view
     path('dashboard',views.dashboard, name ='dashboard'),
     path('strategies',views.strategies, name ='strategies'),
-    path('subscription',views.dashboard, name ='subscription'),
-    path('report',views.report, name ='report'),
+    path('subscription',views.subscription, name ='subscription'),
+    path('reports',views.reports, name ='reports'),
     path('wizard',views.wizard, name ='wizard'),
     # others
     path('portfolio',views.portfolio_view, name ='portfolio'),
