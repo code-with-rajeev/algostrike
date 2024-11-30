@@ -35,8 +35,8 @@ body{
    display: inline-block;
    padding: 0;
    position: fixed;
-   box-shadow: rgb(0 0 0 / 5%) 0 1px 5px;
-   background: #121212;
+   box-shadow: rgb(58 65 95 / 55%) 0 1px 5px;
+   background: #100e13c7;
    top: 0;
    left: 0;
    z-index: 1010;
@@ -117,6 +117,7 @@ body{
    padding-bottom: 20px;
    margin-bottom: 25px;
    box-shadow: 0 2px 4px #66739973;
+   border-radius: 20px;
    background: #1f1f1f;
 }
 .live-dashboard-wrapper{
@@ -145,6 +146,7 @@ body{
    margin-left: -15px;
    box-shadow: 0 2px 4px #66739973;
    background: #1f1f1f;
+   border-radius: 20px;
 }
 .row{
    position: relative;
@@ -157,6 +159,7 @@ body{
    box-shadow: rgb(0 0 0 / 10%) 0 0 8px;
    border-radius: 10px;
    margin-bottom: 30px;
+
 }
 .table-responsive {
    display: block;
