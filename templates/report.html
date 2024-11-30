@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel = "stylesheet" href = "{% static 'css/dashboard.css' %}">
+    <link rel = "icon" href = "{% static 'assets/logo_favicon.png' %}">
+    <style>
+      /* These properties will be overlayed */
+    </style>
+</head>
+<body>
+    <div class = 'main-wrapper'>
+        <header class = 'header-wrapper'>
+            <div class = 'container-fluid'>
+                <div class = 'top-bar'>
+                    <div class = 'logo'>
+                        <h1>AlgoStrike</h1>
+                    </div>
+                    <div class = 'top-bar-right'>
+                        <div class = 'username-wrapper'>
+                            <div class = 'username'>
+                                Hello, User !
+                            </div>
+                            <div class = 'link-expand'>
+
+                            </div>
+                        </div>
+                        <div class = 'logout'>
+                            <a href = 'logout'>Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = 'border-bottom'>
+            </div>
+            <div class = 'container-fluid'>
+                <div class = 'nav-bar'>
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href = 'dashboard'>Dashboard</a>
+                            </li>
+                            <li>
+                                <a href = 'strategies'>Strategies</a>
+                            </li>
+                            <li>
+                                <a href = 'subscription'>Subscription</a>
+                            </li>
+                            <li>
+                                <a href = 'reports'>Reports</a>
+                            </li>
+                            <li>
+                                <a href = 'wizard'>Wizard</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    
+        <div class = 'content-wrapper'>
+            <div class = 'container-fluid'>
+                <h1>{{message}}</h1>
+            </div>
+        </div>
+    
+        <div class = 'quick-chat'>
+            <img src = "{% static 'logos/WhatsApp_icon_64px.png' %}" width = "45px"  alt = 'whatsapp-logo'></img>
+        </div>
+        <br>
+        <h3>Site under develepment !</h3>
+    </div>
+</body>
+</html>
