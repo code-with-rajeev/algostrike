@@ -71,27 +71,27 @@ def register(request):
 def dashboard(request):
     #trades = TradeLog.objects.all()
     #return render(request, 'portfolio.html', {'trades': trades})
-    return render(request, 'dashboard.html')
+    return render(request, 'dashboard.html', {'name': request.user.username})
 
 @login_required
 def strategies(request):
     
-    return render(request, 'strategies.html',{'message':'No Strategies yet !'})
+    return render(request, 'strategies.html',{'message':'No Strategies yet !', 'name': request.user.username})
     
 @login_required
 def subscription(request):
     
-    return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !"})
+    return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !, 'name': request.user.username"})
 
 @login_required
 def reports(request):
     
-    return render(request, 'reports.html', {'message':'No Reports to show !'})
+    return render(request, 'reports.html', {'message':'No Reports to show !','name': request.user.username})
     
 @login_required
 def wizard(request):
     
-    return render(request, 'wizard.html', {'message':'This Strategy Builder feature will be available soon !'})
+    return render(request, 'wizard.html', {'message':'This Strategy Builder feature will be available soon !', 'name': request.user.username})
     
 
 
