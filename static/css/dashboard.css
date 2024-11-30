@@ -210,11 +210,16 @@ th {
    text-align: inherit;
 }
 .quick-chat{
-   width: 45px;
-   height: 45px;
-   background-color: aqua;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 60px;
+   height: 60px;
    position: fixed;
    right: 13px;
    bottom: 40px;
+   border-radius: 50%;
+   background: rgba(255, 255, 255, 0.04) !important;
+   backdrop-filter: blur(100px) !important;
    z-index: 155;
 }

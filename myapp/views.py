@@ -66,11 +66,36 @@ def register(request):
 
     return render(request, 'register.html',{'message':'Please enter unique credentials only'})
 
+#Dashboard View
 @login_required
 def dashboard(request):
     #trades = TradeLog.objects.all()
     #return render(request, 'portfolio.html', {'trades': trades})
     return render(request, 'dashboard.html')
+
+@login_required
+def strategies(request):
+    
+    return render(request, 'strategies.html',{'message':'No Strategies yet !'})
+    
+@login_required
+def subscription(request):
+    
+    return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !"})
+
+@login_required
+def report(request):
+    
+    return render(request, 'report.html', {'message':'No Reports to show !'})
+    
+@login_required
+def wizard(request):
+    
+    return render(request, 'wizard.html', {'message':'This Strategy Builder feature will be available soon !'})
+    
+
+
+# Other services
 
 @login_required
 def portfolio_view(request):
