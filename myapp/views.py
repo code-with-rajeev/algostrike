@@ -81,7 +81,7 @@ def strategies(request):
 @login_required
 def subscription(request):
     
-    return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !, 'name': request.user.username"})
+    return render(request, 'subscription.html', {"message":"You Don't have any Subscription yet !", 'name': request.user.username})
 
 @login_required
 def reports(request):
