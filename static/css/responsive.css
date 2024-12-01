@@ -1,0 +1,726 @@
+/* every thing reduced by 8.33% */
+@media (max-width: 1024px){
+  .navbar{
+    height: 55px;
+    padding: 9px 27px;
+  }
+.navbar .nav-branding {
+   font-size: 22px;
+   font-weight: bold;
+}
+.navbar .na-menu-list{
+    padding: 5px 9px;
+}
+.navbar .nav-links li {
+    margin: 0px 14px;
+    line-height: 20px !important;
+    font-weight: 550;
+}
+.navbar a{
+    font-size: 14px;
+}
+.navbar .nav-menu-login{
+    font-size: 13px;
+    font-weight: 350;
+    border-radius: 6px;
+    box-shadow: 0 0 23px #893bffda !important;
+    width: 130px;
+    height: 37px;
+    margin-left: 22px;
+}
+
+.intro{
+    padding-top: 83px;
+}
+.intro-title{
+    font-size: 100px;
+    margin: 0px;
+}
+.intro-title-title-container{
+    padding: 23px;
+}
+.intro-title-title-container .intro-title{
+    margin: -11px;
+}
+span.text-glow {
+    text-shadow: 0 0 16px rgb(137 59 255 / 70%);
+}
+.intro-about{
+    font-size: 17px;
+}
+.intro-sign-up-wrapper{
+    padding-top: 91px;
+}
+.intro-sign-up {
+    font-size: 15px;
+    font-weight: 550;
+    border-radius: 6px;
+    padding: 17px 24px;
+    box-shadow: 0 0 23px #893bffda !important;
+}
+.intro-review-wrapper{
+    padding: 19px;
+    padding-top: 28px;
+    gap: 19px;
+}
+.intro-review-number{
+    padding: 9px;
+    font-size: 41px;
+    font-weight: 550;
+}
+.intro-review-title{
+    font-size: 18px;
+}
+.brand-logos-wrapper{
+    padding: 9px 10%;
+    margin-top: 92px;
+    height: 115px;
+    column-gap: 5%;
+}
+.ui-core-footer-wrapper{
+    padding: 39px 29px;
+}
+.ui-core-footer-intro{
+    margin-bottom: 1.85rem;
+    padding-bottom: 1.85rem;
+}
+.footer-intro-title{
+    margin-bottom: 0.345rem;
+    font-size: 22px;
+}
+.footer-intro-title h2{
+    font-weight: 650;
+    font-size: 22px;
+    margin-bottom: 9px;
+}
+.footer-intro h5{
+    font-weight: 92;
+    font-size: 15px;
+}
+.footer-intro{
+    font-size: 15px;
+}
+
+.ui-core-footer-content{
+    display: flex;
+    max-width: 70rem;
+    
+}
+.footer-content-1-title{
+    margin-bottom: 22px;
+    font-size: 33px;
+}
+.footer-content-1-title h1{
+    font-size: 32px;
+}
+.footer-content-1-content p{
+    font-weight: 92;
+    line-height: 1.4rem;
+    font-size: 13px;
+    margin-bottom: 19px
+}
+.footer-content-title{
+    margin-bottom: 15px;
+}
+.ui-core-footer-content .footer-content-1{
+    max-width: 40rem;
+}
+.footer-content-1{
+    padding-right: 9px;
+}
+.footer-content-title {
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+.footer-content-list a{
+    color: white;
+    font-size: 13px;
+    font-weight: 92;
+}
+.footer-content-list li{
+    margin: 7.5px 0px;
+}
+.social-icon{
+    height: 23px;
+    width: 23px;
+    margin-bottom: 19px;
+}
+.ui-core-footer-support{
+   font-size:15px;
+}
+.ui-core-footer-support span{
+   font-size:13px;
+}
+
+.faq-title{
+    font-size: 27.5px;
+    margin-bottom: 19px;
+}
+.faq-list{
+    max-width: 700px;
+    margin: 9px 0px;
+    gap: 9px
+}
+.faq-ques{
+    border-radius: 15px
+    padding: 23px
+    font-size: 19px;
+    font-weight: 460;
+}
+.faq-ques:hover{
+    padding-top: 28px;
+    padding-bottom: 28px;
+    box-shadow: 0 0 24px #893bffda !important;
+}
+
+
+.faq-ans{
+    font-weight: 184;
+    font-size: 17px;
+    width: 100%;
+    border-radius: 15px;
+}
+.faq.active .faq-ans{
+    max-height: 275px;
+}
+.faq-ans p{
+    padding: 23px;
+    font-size: 17px;
+}
+
+}
+
+
+
+/* every thing reduced by 8.33% */
+@media (max-width: 800px){
+  .navbar{
+    height: 50px;
+    padding: 8px 26px;
+  }
+.navbar .nav-branding {
+   font-size: 21px;
+}
+.navbar .na-menu-list{
+    padding: 5px 8.5px;
+}
+.navbar .nav-links li {
+    margin: 0px 13px;
+    line-height: 18.5px !important;
+    font-weight: 510;
+}
+.navbar a{
+    font-size: 13px;
+}
+.navbar .nav-menu-login{
+    font-size: 12px;
+    font-weight: 325;
+    border-radius: 5.5px;
+    box-shadow: 0 0 22px #893bffda !important;
+    width: 120px;
+    height: 34px;
+    margin-left: 21px;
+}
+
+.intro{
+    padding-top: 77px;
+}
+.intro-title{
+    font-size: 92px;
+}
+.intro-title-title-container{
+    padding: 22px;
+}
+.intro-title-title-container .intro-title{
+    margin: -12px;
+}
+span.text-glow {
+    text-shadow: 0 0 15px rgb(137 59 255 / 70%);
+}
+.intro-about{
+    font-size: 16px;
+}
+.intro-sign-up-wrapper{
+    padding-top: 84px;
+}
+.intro-sign-up {
+    font-size: 14px;
+    font-weight: 510;
+    border-radius: 6px;
+    padding: 16px 23px;
+    box-shadow: 0 0 22px #893bffda !important;
+}
+.intro-review-wrapper{
+    padding: 18px;
+    padding-top: 26px;
+    gap: 19px;
+}
+.intro-review-number{
+    padding: 8.5px;
+    font-size: 38px;
+    font-weight: 510;
+}
+.intro-review-title{
+    font-size: 17px;
+}
+.brand-logos-wrapper{
+    padding: 8.5px 10%;
+    margin-top: 85px;
+    column-gap: 5%;
+    height: 105px;
+}
+.ui-core-footer-wrapper{
+    padding: 36px 27px;
+}
+.ui-core-footer-intro{
+    margin-bottom: 1.60rem;
+    padding-bottom: 1.60rem;
+}
+.footer-intro-title{
+    margin-bottom: 0.315rem;
+    font-size: 21px;
+}
+.footer-intro-title h2{
+    font-weight: 600;
+    font-size: 21px;
+    margin-bottom: 8.5px;
+}
+.footer-intro h5{
+    font-weight: 85;
+    font-size: 14px;
+}
+.footer-intro{
+    font-size: 14px;
+}
+
+.ui-core-footer-content{
+    max-width: 65rem;
+   
+}
+.footer-content-1-title{
+    margin-bottom: 21px;
+    font-size: 31px;
+}
+.footer-content-1-title h1{
+    font-size: 30px;
+}
+.footer-content-1-content p{
+    font-weight: 85;
+    line-height: 1.3rem;
+    font-size: 12px;
+    margin-bottom: 18px
+}
+.footer-content-title{
+    margin-bottom: 14px;
+}
+.ui-core-footer-content .footer-content-1{
+    max-width: 37rem;
+}
+.footer-content-1{
+    padding-right: 8.5px;
+}
+.footer-content-title {
+    font-size: 16px;
+    margin-bottom: 14px;
+}
+.footer-content-list a{
+    font-size: 12px;
+    font-weight: 85;
+}
+.footer-content-list li{
+    margin: 7.25px 0px;
+}
+.social-icon{
+    height: 22px;
+    width: 22px;
+    margin-bottom: 18px;
+}
+.ui-core-footer-support{
+   font-size:14px;
+}
+.ui-core-footer-support span{
+   font-size:12px;
+}
+
+.faq-title{
+    font-size: 25.5px;
+    margin-bottom: 18px;
+}
+.faq-list{
+    max-width: 640px;
+    margin: 8.5px 0px;
+    gap: 8.5px;
+}
+.faq-ques{
+    border-radius: 14px
+    padding: 22px
+    font-size: 18px;
+    font-weight: 430;
+}
+.faq-ques:hover{
+    padding-top: 27px;
+    padding-bottom: 27px;
+    box-shadow: 0 0 23px #893bffda !important;
+}
+
+
+.faq-ans{
+    font-weight: 170;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 14px;
+}
+.faq.active .faq-ans{
+    max-height: 255px;
+}
+.faq-ans p{
+    padding: 22px;
+    font-size: 16px;
+}
+
+}
+
+
+
+/* every thing reduced by 8.33% */
+@media (max-width: 700px){
+  .navbar{
+    height: 47px;
+    padding: 7.5px 24px;
+  }
+.navbar .nav-branding {
+   font-size: 21px;
+}
+.navbar .nav-menu{
+    display: none;
+}
+.hamburger{
+    display: flex;
+    align-items: center;
+}
+.intro{
+    padding-top: 71px;
+}
+.intro-title{
+    font-size: 84px;
+}
+intro-title-title-container{
+    padding: 20px;
+}
+.intro-title-title-container .intro-title{
+    margin: -14px;
+}
+span.text-glow {
+    text-shadow: 0 0 14px rgb(137 59 255 / 70%);
+}
+.intro-about{
+    font-size: 15px;
+}
+.intro-sign-up-wrapper{
+    padding-top: 78px;
+}
+.intro-sign-up {
+    font-size: 13px;
+    font-weight: 370;
+    border-radius: 6px;
+    padding: 15px 22px;
+    box-shadow: 0 0 21px #893bffda !important;
+}
+.intro-review-wrapper{
+    padding: 17px;
+    padding-top: 25px;
+    gap: 17px;
+}
+.intro-review-number{
+    padding: 8px;
+    font-size: 35px;
+    font-weight: 470;
+}
+.intro-review-title{
+    font-size: 16px;
+}
+.brand-logos-wrapper{
+    padding: 8px 10%;
+    margin-top: 77px;
+    height: 98px;
+}
+.ui-core-footer-wrapper{
+    padding: 33px 25px;
+}
+.ui-core-footer-intro{
+    margin-bottom: 1.48rem;
+    padding-bottom: 1.48rem;
+}
+.footer-intro-title{
+    margin-bottom: 0.290rem;
+    font-size: 20px;
+}
+.footer-intro-title h2{
+    font-weight: 560;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.footer-intro h5{
+    font-weight: 77;
+    font-size: 13px;
+}
+.footer-intro{
+    font-size: 13px;
+}
+
+.ui-core-footer-content{
+    max-width: 60rem;
+   
+}
+.footer-content-1-title{
+    margin-bottom: 20px;
+    font-size: 27px;
+}
+.footer-content-1-title h1{
+    font-size: 28.5px;
+}
+.footer-content-1-content p{
+    font-weight: 78;
+    line-height: 1.2rem;
+    font-size: 11px;
+    margin-bottom: 16.5px
+}
+.footer-content-title{
+    margin-bottom: 13px;
+}
+.ui-core-footer-content .footer-content-1{
+    max-width: 34rem;
+}
+.footer-content-1{
+    padding-right: 8px;
+}
+.footer-content-title {
+    font-size: 15px;
+    margin-bottom: 13px;
+}
+.footer-content-list a{
+    font-size: 11px;
+    font-weight: 78;
+}
+.footer-content-list li{
+    margin: 6.90px 0px;
+}
+.social-icon{
+    height: 20.5px;
+    width: 20.5px;
+    margin-bottom: 16.5px;
+}
+.ui-core-footer-support{
+   font-size:13px;
+}
+.ui-core-footer-support span{
+   font-size:11px;
+}
+
+.faq-title{
+    font-size: 26px;
+    margin-bottom: 16.5px;
+}
+.faq-list{
+    margin: 8px 5%;
+    gap: 8px;
+}
+.faq-ques{
+    border-radius: 13px
+    padding: 20px
+    font-size: 16.5px;
+    font-weight: 400;
+}
+.faq-ques:hover{
+    padding-top: 25px;
+    padding-bottom: 25px;
+    box-shadow: 0 0 23px #893bffda !important;
+}
+
+
+.faq-ans{
+    font-weight: 155;
+    font-size: 15px;
+    border-radius: 13px;
+    width: 100%;
+}
+.faq.active .faq-ans{
+    max-height: 234px;
+}
+.faq-ans p{
+    padding: 21px;
+    font-size: 15px;
+}
+
+}
+
+/* every thing reduced by 8.33% */
+@media (max-width: 540px){
+  .navbar{
+    height: 47px;
+    padding: 7.5px 24px;
+  }
+.navbar .nav-branding {
+   font-size: 21px;
+}
+.hamburger{
+    display: flex;
+    align-items: center;
+}
+.intro{
+    padding-top: 65px;
+}
+.intro-title{
+    font-size: 55px;
+}
+intro-title-title-container{
+    padding: 18.5px;
+}
+.intro-title-title-container .intro-title{
+    margin: -11px;
+}
+span.text-glow {
+    text-shadow: 0 0 13px rgb(137 59 255 / 70%);
+}
+.intro-about{
+    font-size: 11px;
+}
+.intro-sign-up-wrapper{
+    padding-top: 71px;
+}
+.intro-sign-up {
+    font-size: 12px;
+    font-weight: 320;
+    border-radius: 6px;
+    padding: 10px 18px;
+    box-shadow: 0 0 19.5px #893bffda !important;
+}
+.intro-review-wrapper{
+    padding: 15.5px;
+    padding-top: 23px;
+    gap: 16px;
+}
+.intro-review-number{
+    padding: 7.5px;
+    font-size: 30px;
+    font-weight: 430;
+}
+.intro-review-title{
+    font-size: 14px;
+}
+.brand-logos-wrapper{
+    padding: 7.5px 10%;
+    margin-top: 70px;
+    height: 90px;
+}
+.ui-core-footer-wrapper{
+    padding: 31px 23px;
+}
+.ui-core-footer-intro{
+    margin-bottom: 1.38rem;
+    padding-bottom: 1.38rem;
+}
+.footer-intro-title{
+    margin-bottom: 0.265rem;
+    font-size: 18px;
+}
+.footer-intro-title h2{
+    font-weight: 520;
+    font-size: 18px;
+    margin-bottom: 7.5px;
+}
+.footer-intro h5{
+    font-weight: 70;
+    font-size: 12px;
+}
+.footer-intro{
+    font-size: 12px;
+}
+
+.ui-core-footer-content{
+    max-width: 55rem;
+   
+}
+.footer-content-1-title{
+    margin-bottom: 18.5px;
+    font-size: 25px;
+}
+.footer-content-1-title h1{
+    font-size: 26px;
+}
+.footer-content-1-content p{
+    font-weight: 72;
+    line-height: 1.1rem;
+    font-size: 10px;
+    margin-bottom: 15.5px
+}
+.footer-content-title{
+    margin-bottom: 12px;
+}
+.ui-core-footer-content .footer-content-1{
+    max-width: 32rem;
+}
+.footer-content-1{
+    padding-right: 7.5px;
+}
+.footer-content-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+.footer-content-list a{
+    font-size: 10px;
+    font-weight: 72;
+}
+.footer-content-list li{
+    margin: 6.40px 0px;
+}
+.social-icon{
+    height: 18px;
+    width: 18px;
+    margin-bottom: 15px;
+}
+.ui-core-footer-support{
+   font-size:12px;
+}
+.ui-core-footer-support span{
+   font-size:10px;
+}
+
+.faq-title{
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.faq-list{
+    margin: 8px 5%;
+    gap: 8px;
+}
+.faq-ques{
+    border-radius: 13px;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 350;
+}
+.faq-ques:hover{
+    padding: 13px;
+    box-shadow: 0 0 21px #893bffda !important;
+}
+.ui-core-footer-content{
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-ans{
+    font-weight: 142;
+    font-size: 10px;
+    border-radius: 13px;
+    width: 100%;
+}
+.faq.active .faq-ans{
+    max-height: 234px;
+}
+.faq-ans p{
+    padding: 19px;
+    font-size: 15px;
+}
+
+}
