@@ -631,7 +631,7 @@ span.text-glow {
     margin-bottom: 7.5px;
 }
 .footer-intro h5{
-    font-weight: 70;
+    font-weight: 300;
     font-size: 12px;
 }
 .footer-intro{
@@ -650,7 +650,7 @@ span.text-glow {
     font-size: 26px;
 }
 .footer-content-1-content p{
-    font-weight: 72;
+    font-weight: 300;
     line-height: 1.1rem;
     font-size: 10px;
     margin-bottom: 15.5px
@@ -670,7 +670,7 @@ span.text-glow {
 }
 .footer-content-list a{
     font-size: 10px;
-    font-weight: 72;
+    font-weight: 200;
 }
 .footer-content-list li{
     margin: 6.40px 0px;
