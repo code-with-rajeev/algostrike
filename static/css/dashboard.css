@@ -259,7 +259,7 @@ th {
    font-size: 15px;
    width: 100%;
    float: left;
-   color: darkgray
+   color: darkgray;
    line-height: normal;
    padding-bottom: 1rem!important;
 }
