@@ -114,7 +114,7 @@ span.text-glow {
     font-size: 32px;
 }
 .footer-content-1-content p{
-    font-weight: 92;
+    font-weight: 350;
     line-height: 1.4rem;
     font-size: 13px;
     margin-bottom: 19px
@@ -135,7 +135,7 @@ span.text-glow {
 .footer-content-list a{
     color: white;
     font-size: 13px;
-    font-weight: 92;
+    font-weight: 250;
 }
 .footer-content-list li{
     margin: 7.5px 0px;
@@ -163,19 +163,18 @@ span.text-glow {
 }
 .faq-ques{
     border-radius: 15px;
-    padding: 23px;
+    padding: 30px 23px;
     font-size: 19px;
     font-weight: 460;
 }
 .faq-ques:hover{
-    padding-top: 28px;
-    padding-bottom: 28px;
+    padding: 33px 23px;
     box-shadow: 0 0 24px #893bffda !important;
 }
 
 
 .faq-ans{
-    font-weight: 184;
+    font-weight: 350;
     font-size: 17px;
     width: 100%;
     border-radius: 15px;
@@ -287,7 +286,7 @@ span.text-glow {
     margin-bottom: 8.5px;
 }
 .footer-intro h5{
-    font-weight: 85;
+    font-weight: 350;
     font-size: 14px;
 }
 .footer-intro{
@@ -306,7 +305,7 @@ span.text-glow {
     font-size: 30px;
 }
 .footer-content-1-content p{
-    font-weight: 85;
+    font-weight: 250;
     line-height: 1.3rem;
     font-size: 12px;
     margin-bottom: 18px
@@ -326,7 +325,7 @@ span.text-glow {
 }
 .footer-content-list a{
     font-size: 12px;
-    font-weight: 85;
+    font-weight: 300;
 }
 .footer-content-list li{
     margin: 7.25px 0px;
@@ -354,19 +353,18 @@ span.text-glow {
 }
 .faq-ques{
     border-radius: 14px;
-    padding: 22px;
+    padding: 26px 22px;
     font-size: 18px;
     font-weight: 430;
 }
 .faq-ques:hover{
-    padding-top: 27px;
-    padding-bottom: 27px;
+    padding: 29px 22px;
     box-shadow: 0 0 23px #893bffda !important;
 }
 
 
 .faq-ans{
-    font-weight: 170;
+    font-weight: 350;
     font-size: 16px;
     width: 100%;
     border-radius: 14px;
@@ -501,7 +499,7 @@ span.text-glow {
 }
 .footer-content-list a{
     font-size: 11px;
-    font-weight: 78;
+    font-weight: 200;
 }
 .footer-content-list li{
     margin: 6.90px 0px;
@@ -528,19 +526,18 @@ span.text-glow {
 }
 .faq-ques{
     border-radius: 13px;
-    padding: 20px;
+    padding: 24px 20px;
     font-size: 16.5px;
     font-weight: 400;
 }
 .faq-ques:hover{
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding: 27px 20px;
     box-shadow: 0 0 23px #893bffda !important;
 }
 
 
 .faq-ans{
-    font-weight: 155;
+    font-weight: 300;
     font-size: 15px;
     border-radius: 13px;
     width: 100%;

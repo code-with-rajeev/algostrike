@@ -235,7 +235,7 @@ span.text-glow {
    margin-bottom: 10px;
 }
 .footer-intro h5{
-   font-weight: 100;
+   font-weight: 300;
    font-size: 16px;
 }
 .footer-intro{
@@ -256,7 +256,7 @@ span.text-glow {
    font-size: 34px;
 }
 .footer-content-1-content p{
-   font-weight: 100;
+   font-weight: 250;
    line-height: 1.5rem;
    font-size: 14px;
    margin-bottom: 20px
@@ -284,7 +284,7 @@ span.text-glow {
 .footer-content-list a{
    color: white;
    font-size: 14px;
-   font-weight: 100;
+   font-weight: 250;
    text-decoration: none;
 }
 .footer-content-list li{
@@ -336,7 +336,7 @@ span.text-glow {
    border-style: none;
    border-radius: 16px 16px 16px 16px;
    overflow: hidden;
-   padding: 24px 24px 24px 24px;
+   padding: 35px 26px;
    font-family: "Montserrat", Sans-serif;
    font-size: 20px;
    font-weight: 500;
@@ -344,7 +344,7 @@ span.text-glow {
 }
 .faq-ques:hover{
    background-color: #52438cde;
-   padding: 25px;
+   padding: 38px 26px;
    transition: all .3s ease-in-out;
    box-shadow: 0 0 25px #893bffda !important;
 }
@@ -352,7 +352,7 @@ span.text-glow {
 .faq-ans{
    max-height: 0px;
    background: #2120226e;
-   font-weight: 200;
+   font-weight: 300;
    font-size: 18px;
    width: 100%;
    overflow: hidden;
