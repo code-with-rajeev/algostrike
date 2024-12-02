@@ -159,11 +159,11 @@ span.text-glow {
 .faq-list{
     max-width: 700px;
     margin: 9px 0px;
-    gap: 9px
+    gap: 9px;
 }
 .faq-ques{
-    border-radius: 15px
-    padding: 23px
+    border-radius: 15px;
+    padding: 23px;
     font-size: 19px;
     font-weight: 460;
 }
@@ -353,8 +353,8 @@ span.text-glow {
     gap: 8.5px;
 }
 .faq-ques{
-    border-radius: 14px
-    padding: 22px
+    border-radius: 14px;
+    padding: 22px;
     font-size: 18px;
     font-weight: 430;
 }
@@ -527,8 +527,8 @@ span.text-glow {
     gap: 8px;
 }
 .faq-ques{
-    border-radius: 13px
-    padding: 20px
+    border-radius: 13px;
+    padding: 20px;
     font-size: 16.5px;
     font-weight: 400;
 }
