@@ -74,7 +74,6 @@ span.text-glow {
 .brand-logos-wrapper{
     padding: 9px 10%;
     margin-top: 92px;
-    height: 115px;
     column-gap: 5%;
 }
 .ui-core-footer-wrapper{
@@ -151,7 +150,9 @@ span.text-glow {
 .ui-core-footer-support span{
    font-size:13px;
 }
-
+.faq-wrapper{
+    padding: 65px 0px;
+ }
 .faq-title{
     font-size: 27.5px;
     margin-bottom: 19px;
@@ -267,7 +268,6 @@ span.text-glow {
     padding: 8.5px 10%;
     margin-top: 85px;
     column-gap: 5%;
-    height: 105px;
 }
 .ui-core-footer-wrapper{
     padding: 36px 27px;
@@ -341,7 +341,9 @@ span.text-glow {
 .ui-core-footer-support span{
    font-size:12px;
 }
-
+.faq-wrapper{
+    padding: 55px 0px;
+ }
 .faq-title{
     font-size: 25.5px;
     margin-bottom: 18px;
@@ -441,7 +443,6 @@ span.text-glow {
 .brand-logos-wrapper{
     padding: 8px 10%;
     margin-top: 77px;
-    height: 98px;
 }
 .ui-core-footer-wrapper{
     padding: 33px 25px;
@@ -515,7 +516,9 @@ span.text-glow {
 .ui-core-footer-support span{
    font-size:11px;
 }
-
+.faq-wrapper{
+    padding: 45px 0px;
+ }
 .faq-title{
     font-size: 26px;
     margin-bottom: 16.5px;
@@ -609,7 +612,6 @@ span.text-glow {
 .brand-logos-wrapper{
     padding: 7.5px 10%;
     margin-top: 70px;
-    height: 90px;
 }
 .ui-core-footer-wrapper{
     padding: 31px 23px;
@@ -683,7 +685,9 @@ span.text-glow {
 .ui-core-footer-support span{
    font-size:10px;
 }
-
+.faq-wrapper{
+    padding: 25px 0px;
+ }
 .faq-title{
     font-size: 16px;
     margin-bottom: 15px;
