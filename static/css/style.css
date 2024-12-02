@@ -198,7 +198,7 @@ span.text-glow {
    background: #06090e;
    display: grid;
    grid-template-columns: 1fr 1fr 1fr 1fr;
-   height: 125px;
+   height: auto;
    width: 100%;
    column-gap: 5%;
 }
@@ -316,6 +316,7 @@ span.text-glow {
    width: 100%;
    height: auto;
    justify-content: center;
+   padding: 75px 0px;
 
 }
 .faq-title{
