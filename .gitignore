@@ -1,2 +1,6 @@
 #ignore .env files
 .env
+
+#ignore personal folders 
+data/
+personal/
