@@ -20,3 +20,17 @@ def generate_signal(market_data):
     elif short_ma < long_ma:
         return "SELL"
     return "HOLD"
+
+# To demonstrate how to use modules
+from shared.constants import BUY, SELL
+from shared.signal_validator import validate_signal
+
+def calculate_signal(data):
+    """Analyze data to generate buy or sell signal."""
+    if data['price'] > data['moving_average']:
+        signal = BUY
+    elif data['price'] < data['moving_average']:
+        signal = SELL
+    else:
+        signal = None
+    return validate_signal(signal)
