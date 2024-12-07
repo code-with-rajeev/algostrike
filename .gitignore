@@ -1,5 +1,60 @@
-#ignore .env files
-.env
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.log
+
+# Virtual Environment
+env/
+venv/
+
+# Django
+db.sqlite3           # If using SQLite for local development
+*.pot
+*.py[cod]
+*.sqlite3
+*.db
+
+# Secrets and Configurations
+.env                 # Environment variables file
+settings/secrets.py  # Sensitive settings like API keys, if you use this file
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Celery and Task Queues
+celerybeat-schedule  # Celery beat schedule file
+celerybeat.pid       # Celery process ID
+*.pid
+
+# Cache and Temporary Files
+*.swp
+*.swo
+*.tmp
+*.temp
+.cache/
+*.bak
+.DS_Store            # macOS Finder files
+
+# API Tokens or Authentication Keys
+api_tokens.json
+auth/
+
+# Static and Media Files
+#/static/             # If you're building static files locally
+#/media/              # User-uploaded media files
+
+# IDE and Editor Config Files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Deployment Files
+*.env                # Environment variables
+*.pem                # Private keys (e.g., SSH)
 
 #ignore personal folders 
 data/
