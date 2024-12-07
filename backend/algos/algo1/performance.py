@@ -1,3 +1,4 @@
+# To demonstrate the purpose of this file.
 from core.database import fetch_user_trades, update_algo_performance
 
 def calculate_algo_performance(algo_id):
