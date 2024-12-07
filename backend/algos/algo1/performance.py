@@ -1,35 +1,8 @@
-# performance.py
+from core.database import fetch_user_trades, update_algo_performance
 
-def calculate_pnl(trades):
-    """
-    Calculate profit/loss from executed trades.
-    Args:
-        trades (list): A list of executed trade dictionaries.
-                      Example: [{'entry': 100, 'exit': 105, 'size': 1}, ...]
-    
-    Returns:
-        float: Net profit/loss
-    """
-    pnl = 0
-    for trade in trades:
-        pnl += (trade['exit'] - trade['entry']) * trade['size']
-    return pnl
-
-def evaluate_performance(trades):
-    """
-    Evaluate the algorithm's performance metrics.
-    Args:
-        trades (list): A list of executed trade dictionaries.
-    
-    Returns:
-        dict: Performance metrics (PnL, win rate, etc.)
-    """
-    pnl = calculate_pnl(trades)
-    wins = sum(1 for t in trades if t['exit'] > t['entry'])
-    win_rate = wins / len(trades) if trades else 0
-
-    return {
-        'total_pnl': pnl,
-        'win_rate': round(win_rate * 100, 2),
-        'total_trades': len(trades)
-    }
+def calculate_algo_performance(algo_id):
+    """Calculate and update performance of an algorithm."""
+    trades = fetch_user_trades(algo_id)
+    profit_loss = sum([trade['profit'] for trade in trades])
+    update_algo_performance(algo_id, profit_loss)
+    return profit_loss
