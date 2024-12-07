@@ -57,5 +57,5 @@ auth/
 *.pem                # Private keys (e.g., SSH)
 
 #ignore personal folders 
-data/
-personal/
+datasets/
+private/
