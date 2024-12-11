@@ -1,5 +1,5 @@
-from django.http import JsonResponse
+from django.http import HttpResponse as HR
 
 # Create your views here.
 def test_view(request):
-    return JsonResponse({"message":"Gunicorn is running properly!"})
+    return HR("Gunicorn Running!")
