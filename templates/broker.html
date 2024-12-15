@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Broker Credential Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .form-container {
+      margin-top: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Link Broker Account</h1>
+
+  <div>
+    <label for="broker-select">Select Broker:</label>
+    <select id="broker-select" onchange="updateFormFields()">
+      <option value="" disabled selected>Select a broker</option>
+      <option value="kotak_neo">Kotak Neo</option>
+      <option value="zerodha">Zerodha</option>
+      <option value="angel_one">Angel One</option>
+      <option value="upstox">Upstox</option>
+      <option value="fyers">FYERS</option>
+    </select>
+  </div>
+
+  <div class="form-container">
+    <form id="broker-form">
+      <!-- Dynamic fields will be appended here -->
+      
+    </form>
+  </div>
+  <div id="otpSection" style="display:none;">
+    <label for="otp">Enter OTP:</label>
+    <input type="text" id="otp" name="otp">
+    <button id="verifyOtpButton">Verify OTP</button>
+    <p id="otpStatus"></p>
+  </div>
+
+  <script>
+    // Define broker-specific fields
+    const brokerFields = {
+      kotak_neo: [
+        { label: "API Key", id: "api_key", type: "text", required: true },
+        { label: "Secret Key", id: "secret_key", type: "text", required: true },
+        { label: "Client ID", id: "client_id", type: "text", required: true },
+        { label: "Mobile", id: "mobile", type: "tel", required: true },
+        { label: "Password", id: "password", type: "password", required: true }
+      ],
+      zerodha: [
+        { label: "API Key", id: "api_key", type: "text", required: true },
+        { label: "Secret Key", id: "secret_key", type: "text", required: true },
+        { label: "Client ID", id: "client_id", type: "text", required: true },
+        { label: "TOTP", id: "totp", type: "text", required: true }
+      ],
+      angel_one: [
+        { label: "API Key", id: "api_key", type: "text", required: true },
+        { label: "Client ID", id: "client_id", type: "text", required: true },
+        { label: "Password", id: "password", type: "password", required: true }
+      ],
+      upstox: [
+        { label: "API Key", id: "api_key", type: "text", required: true },
+        { label: "Secret Key", id: "secret_key", type: "text", required: true },
+        { label: "Client ID", id: "client_id", type: "text", required: true },
+        { label: "Access Token", id: "access_token", type: "text", required: true }
+      ],
+      fyers: [
+        { label: "API Key", id: "api_key", type: "text", required: true },
+        { label: "Client ID", id: "client_id", type: "text", required: true },
+        { label: "Access Token", id: "access_token", type: "text", required: true },
+        { label: "Request Token", id: "request_token", type: "text", required: true }
+      ]
+    };
+
+    // Function to dynamically update form fields
+    function updateFormFields() {
+      const broker = document.getElementById("broker-select").value;
+      const formContainer = document.getElementById("broker-form");
+
+      // Clear existing fields
+      formContainer.innerHTML = "";
+      
+      // Populate fields for the selected broker
+      if (brokerFields[broker]) {
+        brokerFields[broker].forEach(field => {
+          const formGroup = document.createElement("div");
+          formGroup.className = "form-group";
+
+          const label = document.createElement("label");
+          label.setAttribute("for", field.id);
+          label.textContent = field.label;
+
+          const input = document.createElement("input");
+          input.setAttribute("type", field.type);
+          input.setAttribute("id", field.id);
+          input.setAttribute("name", field.id);
+          if (field.required) input.setAttribute("required", "true");
+
+          formGroup.appendChild(label);
+          formGroup.appendChild(input);
+          formContainer.appendChild(formGroup);
+        });
+      
+      }
+    document.getElementById("broker-form").innerHTML+='<button type="submit">Generate OTP</button>';
+    }
+    
+
+      // submitting form
+      document.getElementById('broker-form').addEventListener('submit', async (event) => {       event.preventDefault();
+      // Capture form data
+      console.log('submitted');
+      const broker = document.getElementById("broker-select").value;
+      const formData = new FormData(event.target);
+      const credentials = Object.fromEntries(formData);
+      credentials['broker'] = broker;
+      console.log(credentials);
+
+      // Send POST request to backend
+      // Note: 
+      // " /backend "  [ For poduction ]
+      // " http://127.0.0.1:8001/backend " [For Local Development ]
+
+      const response = await fetch('/backend/broker_credentials/', {
+        // Note : Currently, there is no backend running in production. So, we will redirect the request to Vercel server which is running our Django project.
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+
+
+      const result = await response.json();
+      console.log(result)
+      if (result.success) {
+        alert('OTP sent to your mobile number.');
+        document.getElementById('otpSection').style.display = 'block';
+      } else {
+        alert(result.message || 'Failed to generate OTP.');
+      }
+      });
+   // verify otp
+    document.getElementById('verifyOtpButton').addEventListener('click', async () => {
+      const otp = document.getElementById('otp').value;
+
+      // Send OTP verification POST request
+      const response = await fetch('/backend/broker_credentials/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ otp }),
+      });
+
+      const result = await response.json();
+      const otpStatus = document.getElementById('otpStatus');
+      if (result.success) {
+        otpStatus.textContent = 'OTP verified successfully!';
+        otpStatus.style.color = 'green';
+      } else {
+        otpStatus.textContent = 'Invalid OTP. Please try again.';
+        otpStatus.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html>
