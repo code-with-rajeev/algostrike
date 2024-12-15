@@ -12,12 +12,15 @@ def broker_credentials(request):
             # Note: for kotak Neo only, seperate authentication is required for seperate broker
             data = json.loads(request.body)
             broker = data.get('broker')
-            customer_key = data.get('customerKey')
-            customer_secret = data.get('customerSecret')
-            password = data.get('password')
-            mobile_number = data.get('mobileNumber')
+            customer_key = data.get('API Key')
+            customer_secret = data.get('Secret Key')
+            password = data.get('Password')
+            mobile_number = data.get('Mobile')
+            # clientID = data.get('Client ID')
+            # access_token = data.get('Access Token')
             
             # Perform validation (example logic, replace with your own checks)
+            # Note: Temporary bypass authentications and just check the missing fields.
             if not all([customer_key, customer_secret, password, mobile_number]):
                 return JsonResponse({'success': False,'message': 'Missing required fields'}, status=400)
             if customer_secret == 'test_secret' and customer_key == 'test_key':
