@@ -94,8 +94,11 @@ def wizard(request):
     return render(request, 'wizard.html', {'message':'This Strategy Builder feature will be available soon !', 'name': request.user.username})
     
 
-
-# Other services
+# Other Backend services
+@login_required
+def add_broker(request):
+    # check whether broker's credentials already exists. If Yes, fetch them and return.
+    return render(request, 'add_broker.html',{'available_brokers':'No available brokers []'})
 
 @login_required
 def portfolio_view(request):
