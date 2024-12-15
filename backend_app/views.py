@@ -9,6 +9,7 @@ def broker_credentials(request):
     if request.method == 'POST':
         try:
             # Parse the incoming JSON data
+            # Note: for kotak Neo only, seperate authentication is required for seperate broker
             data = json.loads(request.body)
             broker = data.get('broker')
             customer_key = data.get('customerKey')
