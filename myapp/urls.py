@@ -19,6 +19,7 @@ urlpatterns = [
     path('reports',views.reports, name ='reports'),
     path('wizard',views.wizard, name ='wizard'),
     # others
+    path('add_broker',views.add_broker, name ='add_broker'),
     path('portfolio',views.portfolio_view, name ='portfolio'),
     path('create_trade',views.create_trade, name ='create_trade'),
     path('user_trades',views.user_trades, name ='user_trades'),
