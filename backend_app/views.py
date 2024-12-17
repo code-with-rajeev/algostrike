@@ -21,43 +21,16 @@ def broker_credentials(request):
             # authenticate_broker.authenticate(credentials) 
             # return - > JSON reponse {success: [True/False], data: [token, error_type], error: error, status: []}
             response = authenticate(credentials)
+            # Note: if response.success == True, means OTP has been sent to the CLIENT registered number.
 
-            # clientID = data.get('Client ID')
-            # access_token = data.get('Access Token')
-            
-            # Perform validation (example logic, replace with your own checks)
-            # Note: Temporary bypass authentications and just check the missing fields.
-            if not all([customer_key, customer_secret, password, mobile_number]):
-                return JsonResponse({'success': False,'message': 'Missing required fields'}, status=400)
-            if customer_secret == 'test_secret' and customer_key == 'test_key':
-                otp_sent = True
-            else:
-                otp_sent = False
-            # Simulate server interaction (replace with actual API call to Kotak Neo server)
-            # Example of what an API call might look like (pseudo-code):
-            # response = requests.post("https://kotak-neo-server/api/login", json={
-            #     'customer_key': customer_key,
-            #     'customer_secret': customer_secret,
-            #     'password': password,
-            #     'mobile_number': mobile_number
-            # })
-            # 
-            # if response.status_code == 200 and response.json().get('login_success'):
-            #     store_credentials(customer_key, customer_secret, password, mobile_number)
-            #     return JsonResponse({'success': True, 'message': 'Login successful'})
-            # else:
-            #     return JsonResponse({'success': False, 'message': 'Login failed'}, status=401)
-
-            # Simulating success for now
-
-
-            if otp_sent:
+            if response.success:
                 # temporary storing credentials securely before otp verification(e.g., database, secure storage)
-                # store_credentials(customer_key, customer_secret, password, mobile_number)
+                # Prefer redis to store credentials with 5min timeout temporarily.
+                # store_credentials(customer_key, customer_secret, password, mobile_number).
                 return JsonResponse({'success': True, 'message': 'OTP sent to mobile number'})
             else:
-                return JsonResponse({'success': False, 'message': 'Invalid Credentials'}, status=401)
-
+                return JsonResponse({'success': False, 'message': reponse.message}, status=401)
+            
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
 

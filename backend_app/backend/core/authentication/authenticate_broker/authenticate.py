@@ -27,5 +27,6 @@ def authenticate(credentials):
         """
         message = 'Invalid Credentials' # Temporary response
         return JsonResponse({'success': False, 'message': message}, status=400)
+    return JsonResponse({'success': True})
         
     
