@@ -8,9 +8,6 @@ def broker_credentials(request):
     
     if request.method == 'POST':
         try:
-            # temporarily redirect under maintainance response
-            return JsonResponse({'success': False, 'message': 'This service is under maintainance, Please try again later!'}, status=401)
-
             # Parse the incoming JSON data
             # Note: Temporary kotak Neo authentication will work only, seperate authentication is required for seperate broker
 
