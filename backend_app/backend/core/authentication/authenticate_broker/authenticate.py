@@ -10,22 +10,21 @@ def authenticate(credentials):
     # check for missing credentials !
     response = requried_credentials(credentials)
     if (not response['success']):
-        return {'success': False, 'message': 'Missing required fields','status':400}
+        # Overview: return {'success': False, 'message': 'Missing required fields','status':400}
+        return response
     
     # check whether, broker is already registered. No need to store credentials in database. Update logs and session after authenticating successfully. 
     response = does_broker_exist(credentials)
     if (not response['success']):
         # optional: If already exits, try to renew session/ login-again. Avoid data redudancy.
-        return {'success': False, 'message': 'Broker already exist', 'status':400}
+        # Overview: return {'success': False, 'message': 'Broker already exist', 'status':400}
+        return response
 
     #  route broker's credentials to their appropriate authentication / login method
     response = route_broker(credentials)
     if (not response['success']):
-        """
+        # Overview: return {'success': False, 'message': ERROR_MESSAGE, 'status':400}
         return response
-        """
-        message = 'Invalid Credentials' # Temporary response
-        return {'success': False, 'message': message, 'status':400}
     return {'success': True}
         
     
