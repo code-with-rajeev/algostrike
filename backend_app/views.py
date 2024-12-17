@@ -2,20 +2,26 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
-mobile_number = 0
+
 @csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
-    global mobile_number
+    
     if request.method == 'POST':
         try:
+            # Redirect under maintainance response
+            return JsonResponse({'success': False, 'message': 'This service is under maintainance, Please try again later!'}, status=401)
+
             # Parse the incoming JSON data
-            # Note: for kotak Neo only, seperate authentication is required for seperate broker
+            # Note: Temporary kotak Neo authentication will work only, seperate authentication is required for seperate broker
+
             data = json.loads(request.body)
             broker = data.get('broker')
-            customer_key = data.get('API Key')
-            customer_secret = data.get('Secret Key')
-            password = data.get('Password')
-            mobile_number = data.get('Mobile')
+            credentials = data.get('credentials')
+            # root/backend/core/authentication/authenticate_broker/authenticate_broker.py
+            # authenticate_broker.authenticate(credentials) 
+            # return - > JSON reponse {success: [True/False], data: [token, error_type], error: error, status: []}
+            response = authenticate(credentials)
+
             # clientID = data.get('Client ID')
             # access_token = data.get('Access Token')
             
