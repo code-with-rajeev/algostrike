@@ -8,7 +8,7 @@ def broker_credentials(request):
     
     if request.method == 'POST':
         try:
-            # Redirect under maintainance response
+            # temporarily redirect under maintainance response
             return JsonResponse({'success': False, 'message': 'This service is under maintainance, Please try again later!'}, status=401)
 
             # Parse the incoming JSON data
