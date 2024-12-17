@@ -23,13 +23,13 @@ def broker_credentials(request):
             response = authenticate(credentials)
             # Note: if response.success == True, means OTP has been sent to the CLIENT registered number.
 
-            if response.success:
+            if response['success']:
                 # temporary storing credentials securely before otp verification(e.g., database, secure storage)
-                # Prefer redis to store credentials with 5min timeout temporarily.
+                # Optional: [ IMP ] Prefer redis to store credentials temporarily with 5min timeout temporarily.
                 # store_credentials(customer_key, customer_secret, password, mobile_number).
                 return JsonResponse({'success': True, 'message': 'OTP sent to mobile number'})
             else:
-                return JsonResponse({'success': False, 'message': reponse.message}, status=401)
+                return JsonResponse({'success': False, 'message': response['message']}, status=response['status'])
             
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
