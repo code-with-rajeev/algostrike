@@ -16,7 +16,7 @@ def broker_credentials(request):
 
             data = json.loads(request.body)
             broker = data.get('broker')
-            credentials = data.get('credentials')
+            credentials = data 
             # root/backend/core/authentication/authenticate_broker/authenticate_broker.py
             # authenticate_broker.authenticate(credentials) 
             # return - > JSON reponse {success: [True/False], data: [token, error_type], error: error, status: []}

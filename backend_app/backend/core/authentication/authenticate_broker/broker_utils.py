@@ -3,13 +3,23 @@ Helper / neccessary functions that may be used while authentication / login / ot
 """
 def requried_credentials(credentials):
     
-    # Temporarily redirect under maintainance response / service unavailable
-    return {'success': False, 'message': 'This service is under maintainance, Please try again later!', 'status':503}
+    # Test: Bypass missing credentials check
+    if credentials.get('API Key') == 'missing_credentials':
+        return {'success': False, 'message': 'Missing Fields Required', 'status':400}
+    return {'success': True}
 
 def does_broker_exist(credentials):
-    message = 'Some error occured' # Temporary response to avoid further processing
-    return {'success': False, 'message': message, 'status':400}
+    # Test: Bypass duplicate broker's credentials check
+    if credentials.get('API Key') == 'existing_credentials':
+        return {'success': False, 'message': "Broker's credentials already exist", 'status':400}
+    return {'success': True}
 
 def route_broker(credentials):
-    message = 'Some error occured' # Temporary response to avoid further processing
-    return {'success': False, 'message': message, 'status':400}
+    if credentials.get('API Key') == 'invalid_credentials':
+        return {'success': False, 'message': 'Invalid Credentials', 'status':400}
+    return {'success': True}
+
+"""
+When service is unavailable
+return {'success': False, 'message': 'This service is under maintainance, Please try again later!', 'status':503}
+"""
