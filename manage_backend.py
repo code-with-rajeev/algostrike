@@ -3,6 +3,16 @@
 import os
 import sys
 
+# Root directory
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Module Path
+PATH = os.path.join(ROOT_DIR, "backend_app")
+
+# Added some packages
+# that may be needed for backend development
+sys.path.append(PATH)
+
 
 def main():
     """Run administrative tasks."""
