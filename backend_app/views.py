@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import json
+# Module required for authentication
+from backend.core.authentication.authenticate_broker.authenticate import authenticate
 
 @csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
