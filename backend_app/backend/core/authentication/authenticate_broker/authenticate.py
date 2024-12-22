@@ -2,7 +2,8 @@
 Description :
 
 """
-from broker_utils import *
+# Using absolute import
+from .broker_utils import *
 # importing required_credentials, does_broker_exist, route_broker, get_credentials
 
 def authenticate(credentials):
