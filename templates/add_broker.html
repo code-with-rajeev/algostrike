@@ -141,7 +141,7 @@
       // " /backend "  [ For poduction ]
       // " http://127.0.0.1:8001/backend " [For Local Development ]
 
-      const response = await fetch('/backend/broker_credentials', {
+      const response = await fetch('/backend/broker_credentials/', {
         // Note : Currently, there is no backend running in production. So, we will redirect the request to Vercel server which is running our Django project.
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -163,7 +163,7 @@
       const otp = document.getElementById('otp').value;
 
       // Send OTP verification POST request
-      const response = await fetch('/backend/broker_credentials', {
+      const response = await fetch('/backend/broker_credentials/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ otp }),
