@@ -83,6 +83,8 @@ def verify_broker(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+def test_server(request):
+    return JsonResponse({'success': True, 'message': 'Running Server'})
 
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     # Simulate storing credentials (replace with actual database or secure storage logic)
