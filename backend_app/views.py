@@ -37,7 +37,7 @@ def broker_credentials(request):
 
 @csrf_exempt
 def verify_broker(request):
-    global mobile_number
+    #global mobile_number
     if request.method == 'POST':
         try:
             # Parse the incoming JSON data
@@ -45,7 +45,8 @@ def verify_broker(request):
             otp = data.get('otp')
 
             # Validate input
-            if not all([otp, mobile_number]):
+            #if not all([otp, mobile_number]):
+            if not otp:
                 return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
 
             # Simulate OTP verification with the broker (replace with actual API call)
