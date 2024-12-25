@@ -59,3 +59,5 @@ auth/
 #ignore personal folders 
 datasets/
 private/
+sites/
+secrets/
