@@ -72,7 +72,7 @@ CORS_ALLOW_METHODS = [
     "DELETE",
 ]
 """
-ROOT_URLCONF = 'myproject.urls'
+ROOT_URLCONF = 'backend_app.urls'
 
 TEMPLATES = [
     {
