@@ -1,6 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+
+from backend_app.backend.tasks.premarket.sample import test_func
+
 import json
 # Module required for authentication
 from backend.core.authentication.authenticate_broker.authenticate import authenticate
@@ -84,8 +87,9 @@ def verify_broker(request):
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
 def test_server(request):
-    return JsonResponse({'success': True, 'message': 'Running Server'})
-
+    test_func.delay()
+    return JsonResponse({'success': True, 'message': f'Celery is working.. result is delayed by 10 seconds'})
+    
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     # Simulate storing credentials (replace with actual database or secure storage logic)
     print(f"Storing credentials: {customer_key}, {customer_secret}, {password}, {mobile_number}")
