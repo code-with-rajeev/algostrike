@@ -88,7 +88,7 @@ def verify_broker(request):
 
 def test_server(request):
     test_func.delay()
-    return JsonResponse({'success': True, 'message': f'Celery is working.. result is delayed by 10 seconds'})
+    return JsonResponse({'success': True, 'message': f'Celery is working.. '})
     
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     # Simulate storing credentials (replace with actual database or secure storage logic)
