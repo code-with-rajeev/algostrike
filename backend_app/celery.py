@@ -1,11 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 import os
-
+import sys 
 from celery import Celery
 from django.conf import settings
 
+# Project directory
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','backend_app.settings')
+# Path where settings.py exists.
+sys.path.append(PROJECT_DIR)
+
+# Import Django settings to Celery
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','settings')
 
 app = Celery('backend_app')
 app.conf.enable_utc = False
