@@ -22,6 +22,7 @@ app.config_from_object(settings, namespace='CELERY')
 
 # Celery Beat Settings
 
+# Path where Celery will look for tasks
 app.autodiscover_tasks()
 
 @app.task(bind=True)
