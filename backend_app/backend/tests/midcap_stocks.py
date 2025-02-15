@@ -81,4 +81,21 @@ MidcapStocks = [
     'MAHABANK',
     '360ONE',
     'MFSL',
-    ]
+    'KPITTECH',
+    'SJVN',
+    'NATIONALUM',
+    'LTF',
+    'NAM-INDIA',
+    'M&MFIN',
+    'COCHINSHIP',
+    'LAURUSLABS',
+    'EMBASSY',
+    'SONACOMS',
+    'AWL',
+    'EXIDEIND',
+    'LICHSGFIN',
+    'PSB',
+    'TATATECH',
+    'IRB',
+    'ABFRL'
+]
