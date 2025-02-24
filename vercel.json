@@ -1,9 +1,4 @@
 {
-    "ignoreFiles": [
-        "backend_app/**",
-        "kotak_neo/**",
-        "server_requirements.txt"
-    ],
     "builds": [{
         "src": "myproject/wsgi.py",
         "use": "@vercel/python",
