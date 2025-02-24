@@ -1,4 +1,6 @@
 {
+    "ignore": ["/backend_app/**"],
+    
     "builds": [{
         "src": "myproject/wsgi.py",
         "use": "@vercel/python",
