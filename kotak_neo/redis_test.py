@@ -7,6 +7,7 @@ r = redis.Redis(host="localhost", port=6379,db=0)
 # Deletes all the keys in the current database [ db = 0 ]
 # r.flushdb()
 #r.set('key','value')
+
 def update(ins , tf , ltp, ltt):
     key = f"ohlc:{ins}:{tf}"
     
