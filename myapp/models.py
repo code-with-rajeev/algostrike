@@ -23,7 +23,11 @@ class Algo(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.CharField(max_length=20, choices=[  # Status of subscription
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+        ('disabled', 'Disabled')
+    ], default='active')
     subscription_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     min_required_funds = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     max_risk = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank = True)
