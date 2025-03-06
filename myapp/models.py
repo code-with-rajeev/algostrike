@@ -9,6 +9,8 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
     fund_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
     total_return = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
     api_key = models.CharField(max_length=255, blank=True, null=True)
     api_secret = models.CharField(max_length=255, blank=True, null=True)
     date_joined = models.DateTimeField(default=now)
