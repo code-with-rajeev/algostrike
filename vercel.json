@@ -10,6 +10,14 @@
             "src": "/(.*)",
             "dest": "myproject/wsgi.py"
         }
-    ]
-    
+    ],
+     "build": {
+        "env": {
+            "DJANGO_SETTINGS_MODULE": "myproject.settings"
+        },
+        "commands": [
+            "python manage.py makemigrations",
+            "python manage.py migrate"
+        ]
+    }
 }
