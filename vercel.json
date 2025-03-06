@@ -11,7 +11,7 @@
             "dest": "myproject/wsgi.py"
         }
     ],
-     "build": {
+     "builds": {
         "env": {
             "DJANGO_SETTINGS_MODULE": "myproject.settings"
         },
