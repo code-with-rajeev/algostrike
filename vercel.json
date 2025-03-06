@@ -3,21 +3,16 @@
     "builds": [{
         "src": "myproject/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.11"}
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.11"},
+        "commands": [
+            "python manage.py makemigrations",
+            "python manage.py migrate"
+        ]
     }],
     "routes": [
         {
             "src": "/(.*)",
             "dest": "myproject/wsgi.py"
         }
-    ],
-     "builds": {
-        "env": {
-            "DJANGO_SETTINGS_MODULE": "myproject.settings"
-        },
-        "commands": [
-            "python manage.py makemigrations",
-            "python manage.py migrate"
-        ]
-    }
+    ]
 }
