@@ -6,6 +6,10 @@ from backend.interfaces.cache_manager import CacheManager
 
 #logger = get_logger('app')
 
+"""
+DESCRIPTION: handle core logic of Algo's
+"""
+
 class AlgoManager:
     def __init__(self):
         self.cache = CacheManager()
@@ -57,7 +61,9 @@ def get_algo_module(self, algo_name):
             logger.info(f"Disabled algo: {algo_name}")
             """
         except Algo.DoesNotExist:
+            """
             logger.warning(f"Cannot disable, algo {algo_name} not found")
+            """
 
     def set_active(self, algo_name):
         """Mark algo as active in DB and Redis."""
@@ -68,6 +74,11 @@ def get_algo_module(self, algo_name):
             key = f"active_algo:algo:{algo_name}"
             data = {"status": "active", "requirements": self.get_requirements(algo_name)}
             self.cache.set(key, data, ttl=86400)  # 24-hour TTL
+            """
             logger.info(f"Set algo {algo_name} as active in Redis")
+            """
         except Algo.DoesNotExist:
+            """
             logger.warning(f"Cannot activate, algo {algo_name} not found")
+            """
+            pass
