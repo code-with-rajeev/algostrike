@@ -1,6 +1,7 @@
 from celery import shared_task
 from myapp.models import Algo  # Adjust your ORM model
 from backend.interfaces.cache_manager import CacheManager
+from backend.algos.shared.algo_manager import AlgoManager
 #from backend.core.utils import get_logger
 from datetime import date
 
@@ -11,7 +12,8 @@ def algo_scheduler():
     """
     PREMARKET TASK: activate all inactive algos and store in redis
     """
-    pass
+    algo_manager = AlgoManager()
+    
 
 
 @shared_task
