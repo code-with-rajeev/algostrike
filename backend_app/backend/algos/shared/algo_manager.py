@@ -13,7 +13,7 @@ DESCRIPTION: handle core logic of Algo's
 class AlgoManager:
     def __init__(self):
         self.cache = CacheManager()
-        self.base_path = "backend.algos" Python module path to algo folders
+        self.base_path = "backend.algos" #Python module path to algo folders
         
     def get_algo_module(self, algo_name):
         """Dynamically import an algo’s config.py."""

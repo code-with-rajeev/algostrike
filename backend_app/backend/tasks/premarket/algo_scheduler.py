@@ -16,7 +16,9 @@ def algo_scheduler():
 
     #fetch inactive algos
     algo_manager.get_algo(status="inactive")
-    
+
+    #activate them and update in redis, DB, config.json
+
     
 
 
