@@ -13,7 +13,12 @@ def algo_scheduler():
     PREMARKET TASK: activate all inactive algos and store in redis
     """
     algo_manager = AlgoManager()
+
+    #fetch inactive algos
+    algo_manager.get_algo(status="inactive")
     
+    
+
 
 
 @shared_task

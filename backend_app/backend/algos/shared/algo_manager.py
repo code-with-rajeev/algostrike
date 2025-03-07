@@ -15,7 +15,7 @@ class AlgoManager:
         self.cache = CacheManager()
         self.base_path = "backend.algos" Python module path to algo folders
         
-def get_algo_module(self, algo_name):
+    def get_algo_module(self, algo_name):
         """Dynamically import an algo’s config.py."""
         try:
             module = importlib.import_module(f"{self.base_path}.{algo_name}.config")
@@ -25,6 +25,24 @@ def get_algo_module(self, algo_name):
             logger.error(f"Failed to load config for {algo_name}: {str(e)}")
             """
             return None
+    
+    def get_algo(self, status):
+        """Return algos with required status"""
+        if not status:
+            """Raise an Error"""
+            return None
+        try:
+            algos = Algo.objects.get(is_active=status)
+            all_algos = []
+            for algo in algos:
+                all_algos.append({"name":algo.name, "id":algo.id})
+            return all_algos
+        except Algo.DoesNotExist:
+            """
+            logger.warning(f"Cannot disable, algo {algo_name} not found")
+            """
+            pass
+
 
     def get_requirements(self, algo_name):
         """Read requirements from algo’s config.py."""
@@ -64,6 +82,7 @@ def get_algo_module(self, algo_name):
             """
             logger.warning(f"Cannot disable, algo {algo_name} not found")
             """
+            pass
 
     def set_active(self, algo_name):
         """Mark algo as active in DB and Redis."""
