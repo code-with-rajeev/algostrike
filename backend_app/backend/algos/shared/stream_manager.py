@@ -16,7 +16,7 @@ Types of Streams:
         Uses session token of user to fetch current tick at that instant.
         Fast but need to process and manage OHLC data.
     - API:
-        Uses broker's public to fetch OHLC data in date range.
+        Uses broker's public API to fetch OHLC data in date range.
         This process is delayed but accurate.
         One time fetching at specific range(recommended).
 """
