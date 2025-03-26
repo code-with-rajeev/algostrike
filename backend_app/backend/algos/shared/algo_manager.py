@@ -41,16 +41,20 @@ class AlgoManager:
             """
             logger.warning(f"Cannot disable, algo {algo_name} not found")
             """
-            pass
+            return []
 
 
     def get_requirements(self, algo_name):
         """Read requirements from algo’s config.py."""
         module = self.get_algo_module(algo_name)
-        if module and hasattr(module, 'REQUIREMENTS'):
-            return module.REQUIREMENTS  # e.g., ["NIFTY", "5min"]
+        if module and hasattr(module, 'STATIC_REQUIREMENTS'):
+            return module.STATIC_REQUIREMENTS  # e.g., ["NIFTY", "5min"]
         return []  # Default empty list
 
+    def setup_requirements(self,REQUIREMENTS):
+        """Remove duplicates and store in redis"""
+        req_manager = RequirementManager()
+        
     def get_subscribed_users(self, algo_name):
         """Fetch all users subscribed to this algo."""
         try:
@@ -91,8 +95,8 @@ class AlgoManager:
             algo.is_active = True
             algo.save()
             key = f"active_algo:algo:{algo_name}"
-            data = {"status": "active", "requirements": self.get_requirements(algo_name)}
-            self.cache.set(key, data, ttl=86400)  # 24-hour TTL
+            #data = {"status": "active", "requirements": self.get_requirements(algo_name)}
+            #self.cache.set(key, data, ttl=86400)  # 24-hour TTL
             """
             logger.info(f"Set algo {algo_name} as active in Redis")
             """
