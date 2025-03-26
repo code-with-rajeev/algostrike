@@ -15,9 +15,25 @@ def algo_scheduler():
     algo_manager = AlgoManager()
 
     #fetch inactive algos
-    algo_manager.get_algo(status="inactive")
+    inactive = algo_manager.get_algo(status="inactive")
 
-    #activate them and update in redis, DB, config.json
+    #fetch active algos
+    active = algo_manager.get_algo(status="active")
+    
+    REQUIREMENTS = []
+    for algo in inactive+active:
+        status = algo_manager.set_active(algo['name']) # True/False
+        req = algo_manager.get_requirements(algo['name'])
+        if req:
+            REQUIREMENTS.append({'algo_name':algo['name'], 'requirements':req})
+    # remove duplicates store in redis
+    # create routes for the requirements
+    algo_manager.setup_requirements(REQUIREMENTS)
+    """
+    returns a list of static-requirements dictionary.
+    """
+    # There might be some algos that are already acitve but there REDIS key may getting expired soon. Store them again.
+    
 
     
 
