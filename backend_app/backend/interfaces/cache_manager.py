@@ -1,30 +1,31 @@
 """
-NOTE: This code is for demonstration purposes only. It is not functional as-is 
-and is designed to showcase maintainability, modularity, and workflow interactions.
+ABOUT: manage cache with redis server
 """
 
 import redis
+import json
 
-# Initialize Redis client (replace with actual configuration)
-redis_client = redis.StrictRedis(host='localhost', port=6379, decode_responses=True)
+class CacheManager:
+    def __init__(self):
+        # Initialize Redis client
+        self.client = redis.Redis(host='localhost', port=6379, db=0)  # Update with EC2 Redis
 
-# Function to cache data
-def set_cache(key, value, expiry=3600):
-    """
-    Store a value in the cache with an optional expiry time.
-    """
-    try:
-        redis_client.set(key, value, ex=expiry)
-    except Exception as e:
-        print(f"Error setting cache for {key}: {str(e)}")
-
-# Function to retrieve cached data
-def get_cache(key):
-    """
-    Retrieve a value from the cache.
-    """
-    try:
-        return redis_client.get(key)
-    except Exception as e:
-        print(f"Error fetching cache for {key}: {str(e)}")
-        return None
+    def handler(self):
+        """
+        gives full access to redis
+        """
+        return self.client
+    def set(self, key, value, ttl=None):
+        """
+        Store a value in the cache with an optional expiry time.
+        """
+        self.client.set(key, json.dumps(value))
+        if ttl:
+            self.client.expire(key, ttl)
+            
+    def get(self, key):
+        """
+        Retrieve a value from the cache.
+        """
+        value = self.client.get(key)
+        return json.loads(value) if value else None
