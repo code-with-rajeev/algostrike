@@ -34,8 +34,8 @@ def algo_scheduler():
     """
     # There might be some algos that are already acitve but there REDIS key may getting expired soon. Store them again.
     
-
-    
+    # connect to StreamSubscriber
+    algo_manager.connect_stream()
 
 
 
