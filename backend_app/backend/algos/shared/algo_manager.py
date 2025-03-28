@@ -54,7 +54,14 @@ class AlgoManager:
     def setup_requirements(self,REQUIREMENTS):
         """Remove duplicates and store in redis"""
         req_manager = RequirementManager()
-        
+
+        req_manager.route_requirements(REQUIREMENTS)
+        req_manager.filter_requirements(REQUIREMENTS)
+
+    def connect_stream(self):
+        """Subscribe to data streams"""
+        connetion = StreamSubscriber()
+
     def get_subscribed_users(self, algo_name):
         """Fetch all users subscribed to this algo."""
         try:
