@@ -14,8 +14,29 @@ class RequirementManager:
         
     def filter_requirements(self,REQUIREMENTS):
         # StreamSubscriber format: hset
-        # for GLOBAL : "active_algos:algo:requirements:GLOBAL" : {f"{INS}":[timeframe,last_fetch]}
-        pass
+        # for GLOBAL : "active_algos:algo:requirements:GLOBAL" : {f"{INS}":{timeframe:[...], token:value}
+        filtered = {
+            'SUB':{},
+            'SNAP':{},
+            'API':{},
+            }
+        key = f"active_algos:algo:requirements:"
+        handler = self.cache.handler()
+        # SAMPLE: "active_algos:algo:requirements:SNAP":{f"{INS}":{timeframe:[...], token:value}
+        for algo  in REQUIREMENTS:
+            static_requirements = algo['requirements']
+            for r in static_requirements:
+                mode = r['frequency']
+                if filtered[mode].get(r['instrument'],None):
+                    filtered[mode][r['instrument']]['timeframe'].append(r['timeframe'])
+                else:
+                    filtered[mode][r['instrument']] = {'timeframe':[r['timeframe']], 'token':None}
+
+        #add in redis
+        for mode,filtered_requirements in filtered.items():
+            for instrument,value in filtered_requirements.items():
+                handler.hset(key+mode, instrument,json.dumps(value))
+                handler.expire(key,86400)# 24-hour TTL
         
     def route_requirements(self,REQUIREMENTS):
         """ stores and manages the mapping of requirements to corresponding algorithms """
