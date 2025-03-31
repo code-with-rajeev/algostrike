@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from .models import TradeLog
 from django.contrib.auth.hashers import make_password
 from myapp.models import CustomUser
-from myapp.utils import is_safe_string
+from myapp.utils import is_valid_username
 
 # Create your views here.
 def index(request):
@@ -27,8 +27,8 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        if not is_safe_string(username):
-            messages.error(request, "Username must be at least 3 characters and contain only a-z, A-Z, 0-9, or _")
+        if not is_valid_string(username):
+            messages.error(request, "Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _")
             return render(request, 'login.html')
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -47,8 +47,8 @@ def register(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        if not is_safe_string(username):
-            return render(request, 'register.html',{'message':'Username must be at least 3 characters and contain only a-z, A-Z, 0-9, or _'})
+        if not is_valid_username(username):
+            return render(request, 'register.html',{'message':'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _'})
         # Check for existing data
         if CustomUser.objects.filter(email__iexact=email).exists():
             return render(request, 'register.html',{'message':'Email already exists'})
