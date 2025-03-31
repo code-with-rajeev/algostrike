@@ -48,8 +48,7 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         if not is_safe_string(username):
-            messages.error(request, "Username must be at least 3 characters and contain only a-z, A-Z, 0-9, or _")
-            return render(request, 'register.html')
+            return render(request, 'register.html',{'message':'Username must be at least 3 characters and contain only a-z, A-Z, 0-9, or _'})
         # Check for existing data
         if CustomUser.objects.filter(email__iexact=email).exists():
             return render(request, 'register.html',{'message':'Email already exists'})
