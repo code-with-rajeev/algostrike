@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = False
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["www.algostrike.com","algostrike.com","127.0.0.1","localhost","algostrike.vercel.app"]
+ALLOWED_HOSTS = ["www.algostrike.com","algostrike.com","127.0.0.1","localhost",".vercel.app"]
 
 
 # Application definition
