@@ -27,7 +27,7 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        if not is_valid_string(username):
+        if not is_valid_username(username):
             messages.error(request, "Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _")
             return render(request, 'login.html')
         user = authenticate(request, username=username, password=password)
