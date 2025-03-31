@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["*","127.0.0.1","localhost","10.0",".vercel.app"]
+ALLOWED_HOSTS = ["www.algostrike.com","algostrike.com","127.0.0.1","localhost","algostrike.vercel.app"]
 
 
 # Application definition
