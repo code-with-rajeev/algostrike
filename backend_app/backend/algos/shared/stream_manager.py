@@ -39,7 +39,7 @@ class Snap:
     def __init__(self):
         self.key = 'active_algos:algo:requirements:SNAP'
         self.cache = CacheManager()
-        self.tasks: Dict[str, Dict] = {}  # {instrument: {timeframe, task_id, last_fetch}}
+        self.tasks = {}  # {instrument: {timeframe, task_id, last_fetch}}
         self.lock = threading.Lock()
         self.default_timeframe = "1M"
         self.token = ""  # Should be set via config or auth method
@@ -89,7 +89,7 @@ class Snap:
             logger.error(f"Error adding snap: {str(e)}")
             return False
 
-    async def remove_snap(self, instrument: str) -> bool:
+    async def remove_snap(self, instrument: str):
         """Remove an instrument from monitoring"""
         try:
             with self.lock:
@@ -103,7 +103,7 @@ class Snap:
             logger.error(f"Error removing snap: {str(e)}")
             return False
 
-    async def fetch_once(self, instrument: str) -> Optional[Dict]:
+    async def fetch_once(self, instrument: str):
         """Fetch current data ticks once"""
         try:
             if not self.data_fetcher:
@@ -117,7 +117,7 @@ class Snap:
             return None
 
     @shared_task(bind=True)
-    async def trigger_task(self) -> None:
+    async def trigger_task(self):
         """Periodic task to fetch data for all instruments"""
         try:
             if not self.tasks:
@@ -134,7 +134,7 @@ class Snap:
             #logger.error(f"Error in trigger task: {str(e)}")
 
 
-    async def start_snap(self) -> None:
+    async def start_snap(self):
         """Initialize snap service from Redis"""
         try:
             if self.running:
@@ -160,7 +160,7 @@ class Snap:
             #logger.error(f"Error starting snap: {str(e)}")
             self.running = False
 
-    async def stop_snap(self) -> None:
+    async def stop_snap(self):
         """Gracefully stop the snap service"""
         self.running = False
         with self.lock:
@@ -173,7 +173,7 @@ class StreamSubscriber:
         self.cache = CacheManager()
         self.snap_handler = Snap()
 
-    async def subscribe(self, mode: str, task: Dict = {}) -> bool:
+    async def subscribe(self, mode, task):
         """Subscribe to a streaming mode"""
         try:
             if mode == "SNAP":
