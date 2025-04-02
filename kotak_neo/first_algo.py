@@ -8,25 +8,12 @@ mapping = {
     '26000': "NIFTY"
     }
 
-instrument_tokens = [{"instrument_token": "55631", "exchange_segment": "nse_fo"}]
+instrument_tokens = [{"instrument_token": "26000", "exchange_segment": "nse_fo"}]
 
 # Connect
 client = make_connection()
 def on_message(message):
-    type_ = message.get('type',None)
-    if type_ != 'stock_feed':
-        return
-    data = message['data']
-    for feed in data:
-        
-        symbol = feed.get('tk',None)
-        ltp = feed.get('ltp',None)
-        ltt = feed.get('ltt',None)
-        fdtm = feed.get('fdtm',None)
-        if not ltt:
-            ltt = fdtm
-        if ltp and ltt and symbol:
-            update(mapping[symbol],'1M',ltp, ltt)    
+    pass
 def on_error(error_message):
     print("error is ",error_message)
 # Handle socket
