@@ -8,9 +8,7 @@ mapping = {
     '26000': "NIFTY"
     }
 
-instrument_tokens = [{"instrument_token": "55631", "exchange_segment": "nse_fo"},
-                     {"instrument_token": "55632", "exchange_segment": "nse_fo"},
-                     {"instrument_token": "26000", "exchange_segment": "nse_cm"}]
+instrument_tokens = [{"instrument_token": "55631", "exchange_segment": "nse_fo"}]
 
 # Connect
 client = make_connection()
