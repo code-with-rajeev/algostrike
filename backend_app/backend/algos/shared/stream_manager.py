@@ -3,7 +3,7 @@ ABOUT: handles the entire process of fetching data asynchronously by creating th
 Types of Streams:
     - SUB:
         subscribe to websocket stream and get realtime ticks.
-        connenction lost problem solved
+        connection lost problem solved
     - SNAP/API:
         Uses broker's public to fetch OHLC data in date range.
         This process is delayed but accurate.
