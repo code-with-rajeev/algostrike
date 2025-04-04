@@ -33,11 +33,6 @@ def algo_scheduler():
     returns a list of static-requirements dictionary.
     """
     # There might be some algos that are already acitve but there REDIS key may getting expired soon. Store them again.
-    
-    # connect to StreamSubscriber
-    algo_manager.connect_stream()
-
-
 
 @shared_task
 def filter_all_algos():
