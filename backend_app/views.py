@@ -95,3 +95,13 @@ def store_credentials(customer_key, customer_secret, password, mobile_number):
     print(f"Storing credentials: {customer_key}, {customer_secret}, {password}, {mobile_number}")
     # Example: Save to database or encrypted storage
     pass
+    
+def debug_mode(request):
+    try:
+        from .tasks import schedule_algo, schedule_stream_worker
+        schedule_algo.delay()
+        schedule_stream_worker()
+        return JsonResponse({'success': True}, status=200)
+    except Exception as a:
+        return JsonResponse({'success': False, 'message': f'Error : {a}'}, status=400)
+      
