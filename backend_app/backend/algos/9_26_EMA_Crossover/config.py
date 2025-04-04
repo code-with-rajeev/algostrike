@@ -9,12 +9,12 @@ ABOUT = {
     
     }
 STATIC_REQUIREMENTS = [
-    """
-    Testing: SUB, SNAP, API method of fetching data
-    """
+#Testing: SUB, SNAP, API method of fetching data
     {
-        "instrument":"RELIANCE",
-        "timeframe":"5M",
-        "frequency":"API" #Major Delay Response
+        "instrument":"NIFTY",
+        "timeframe":"1M",
+        "frequency":"SUB", #Live response
+        "instrument_token":"26000",
+        "exchange_segment":"nse_cm"
     }
 ]
