@@ -7,4 +7,5 @@ urlpatterns = [
     path('broker_credentials',views.broker_credentials, name ='broker_credentials'),
     path('verify_broker',views.verify_broker, name ='verify_broker'),
     path('test_server',views.test_server, name ='test_server'),
+    path('admin/', admin.site.urls),
     ]
