@@ -16,7 +16,7 @@ import required modules
 from celery import shared_task
 from celery.schedules import crontab
 from backend.interfaces.cache_manager import CacheManager
-from backend.core.uttils import get_logger
+from backend.core.utils import get_logger
 from myapp.models import Algo  # ORM Model
 import asyncio
 import threading
@@ -131,8 +131,8 @@ class StreamManager:
         # while self.connected != True
         # In kotak-neo, fetch any quote to re-connect.
         pass
-        """
+        
         for i in range(5):
             self.client.quotes(instrument_tokens={}, quote_type="ltp", isIndex=False,server_id='')
             time.sleep(i)
-        """
+        
