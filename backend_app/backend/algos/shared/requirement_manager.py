@@ -13,8 +13,15 @@ class RequirementManager:
         self.cache = CacheManager()
         
     def filter_requirements(self,REQUIREMENTS):
-        # StreamSubscriber format: hset
-        # for GLOBAL : "active_algos:algo:requirements:GLOBAL" : {f"{INS}":{timeframe:[...], token:value}
+        # StreamSubscriber format: hashset
+        # redis-key : "active_algos:algo:requirements:GLOBAL"
+        # key-value : {
+        #    f"{instrument_name}": {
+        #         "timeframe":[...],
+        #         "instrument_token":token,
+        #         "exchange_segment":segment
+        #         }
+        #    }
         filtered = {
             'SUB':{},
             'SNAP':{},
@@ -22,7 +29,15 @@ class RequirementManager:
             }
         key = f"active_algos:algo:requirements:"
         handler = self.cache.handler()
-        # SAMPLE: "active_algos:algo:requirements:SNAP":{f"{INS}":{timeframe:[...], token:value}
+        # redis-key : "active_algos:algo:requirements:SUB"
+        # key-value : {
+        #    "NIFTY": {
+        #         "timeframe":['1M','5M'],
+        #         "instrument_token":26000,
+        #         "exchange_segment":"nse_cm"
+        #         }
+        #    }        for algo  in REQUIREMENTS:
+
         for algo  in REQUIREMENTS:
             static_requirements = algo['requirements']
             for r in static_requirements:
@@ -30,8 +45,7 @@ class RequirementManager:
                 if filtered[mode].get(r['instrument'],None):
                     filtered[mode][r['instrument']]['timeframe'].append(r['timeframe'])
                 else:
-                    filtered[mode][r['instrument']] = {'timeframe':[r['timeframe']], 'token':None}
-
+                    filtered[mode][r['instrument']] = {'timeframe':[r['timeframe']], 'instrument_token':r['instrument_token'], 'exchange_segment':r['exchange_segment']}
         #add in redis
         for mode,filtered_requirements in filtered.items():
             for instrument,value in filtered_requirements.items():
