@@ -1,3 +1,4 @@
+# seperate AWS Ec2 [Backend] from Vercel [Frontend]
 backend_app
 kotak_neo
 server_requirements.txt

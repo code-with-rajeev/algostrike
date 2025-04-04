@@ -1,4 +1,7 @@
-#!/usr/bin/env python
+"""
+Note: This manage.py handles HTTP requests and serve the frontend (HTML templates, static files, etc)
+"""
+
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -10,7 +13,6 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(ROOT_DIR, "backend_app")
 
 # Added some packages
-# that may be needed for backend development
 sys.path.append(PATH)
 
 def main():

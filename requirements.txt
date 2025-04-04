@@ -1,3 +1,6 @@
+# Vercel is serverless and doesn't support long running background tasks (like Celery or Redis-based queues).
+# These backend server-side dependencies are listed seperately in server_requirements.txt
+# Below requirements are for Vercel only.
 asgiref==3.8.1
 Django==5.1.3
 sqlparse==0.5.2
