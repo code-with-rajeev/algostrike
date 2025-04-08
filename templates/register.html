@@ -129,7 +129,7 @@ input {
   height:40px;
   color: rgba(255, 255, 255, 0.8);
 
-  width: 80px;
+  width: 100%;
 
   transition: all 1s;
 }
@@ -206,10 +206,10 @@ h1 {
         <input type="email" id="email" name="email" required><br>
         <label for="password" class = 'subtitle'>Password:</label><br>
         <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" class = 'submit-btn'></input>
-        <span class = 'message' style = 'color:white; padding-left: 30px'>Already have an account? <a href="{% url 'login' %}" style='text-decoration: none ; color:#38d39f'>Log in</a></span>
+        <input type="submit" class = 'submit-btn' value='Generate OTP'></input>
+        <br>
+        <span class = 'none' font-size = 'small' style = 'color:white; padding-left: 30px'>Already have an account? <a href="{% url 'login' %}" style='text-decoration: none ; color:#38d39f'>Log in</a></span>
       </form>
-
     </div>
   </div>
 </div>
