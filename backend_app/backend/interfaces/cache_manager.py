@@ -29,3 +29,9 @@ class CacheManager:
         """
         value = self.client.get(key)
         return json.loads(value) if value else None
+
+    def exists(key):
+        """
+        checks if key already exists
+        """
+        return self.client.exists(key)

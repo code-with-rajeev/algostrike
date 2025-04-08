@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
+from backend_app.backend.core.authentication.authenticate_user import verification as user_verification
 from backend_app.backend.tasks.premarket.sample import test_func
 
 import json
@@ -105,3 +105,29 @@ def debug_mode(request):
     except Exception as a:
         return JsonResponse({'success': False, 'message': f'Error : {a}'}, status=400)
       
+def verify_user(request):
+    if request.method == 'POST':
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body)
+            otp = data.get('otp')
+            username = data.get('username')
+
+            # Validate input
+            #if not all([otp, username]):
+            if not all([otp, username]):
+                return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
+
+            # Verify from redis database
+            otp_valid = user_verification.verify_otp(username,otp)
+
+            if otp_valid:
+                # Return the response
+                return JsonResponse({'success': True, 'message': 'OTP verified'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Invalid OTP'}, status=400)
+                
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
