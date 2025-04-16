@@ -13,6 +13,7 @@ def generate_otp(username):
     # Random 6-digits otp
     otp = str(random.randint(100000,999999))
     user_otp = cache.set(f'user:authentication:user_otp:{username}',otp, ttl = 300 ) # 5-min expiry (300 seconds)
+    
     return True
 
 def verify_otp(username,otp):

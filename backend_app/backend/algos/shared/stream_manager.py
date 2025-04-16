@@ -47,8 +47,8 @@ class StreamManager:
         self.cache = CacheManager()
         self.handler = self.cache.handler() 
         self.instrument_tokens = [{"instrument_token": "26000", "exchange_segment": "nse_cs"}] #set 'NIFTY' as default
-        self.customer_key = os.environ.get('ADMIN_CUSTOMER_KEY') #hide in prodcution
-        self.consumer_secret = os.environ.get('ADMIN_CUSTOMER_SECRET') #hide in production
+        self.consumer_key = os.environ.get('ADMIN_CONSUMER_KEY') #hide in prodcution
+        self.consumer_secret = os.environ.get('ADMIN_CONSUMER_SECRET') #hide in production
         self.access_token = ""  # Should be set via config or auth method
         self.server_id = ""
         self.sid = ""
@@ -66,9 +66,9 @@ class StreamManager:
         client.on_message = self.on_message
         client.on_error = self.on_error
         
-        client.login(mobilenumber=os.environ.get('ADMIN_NUMBER'), password=os.environ.get('ADMIN_PASSWORD'))
+        client.login(mobilenumber=os.environ.get('ADMIN_2FA_PHONE'), password=os.environ.get('ADMIN_2FA_PASSWORD'))
 
-        client.session_2fa(OTP=os.environ.get('M_PIN'))
+        client.session_2fa(OTP=os.environ.get('ADMIN_2FA_MPIN'))
         return client
 
     def start_stream(self):

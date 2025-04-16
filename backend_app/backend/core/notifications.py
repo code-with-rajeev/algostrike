@@ -6,7 +6,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 # Email configuration
-SMTP_SERVER = "smtp.example.com"
+SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 EMAIL_USER = "your_email@example.com"
 EMAIL_PASS = "your_password"
