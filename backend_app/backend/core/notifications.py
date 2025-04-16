@@ -4,12 +4,13 @@ This code demonstrates how to send notifications via email.
 
 import smtplib
 from email.mime.text import MIMEText
+import os
 
 # Email configuration
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-EMAIL_USER = "your_email@example.com"
-EMAIL_PASS = "your_password"
+EMAIL_USER =os.environ.get("TEST_MAIL")
+EMAIL_PASS = os.environ.get("TEST_MAIL_PASSWORD")
 
 def send_email(to_email, subject, message):
     """
