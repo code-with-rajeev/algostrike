@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.algostrike.com", "algostrike.com",os.environ.get('SERVER_IP')]
+ALLOWED_HOSTS = ["www.algostrike.com", "algostrike.com",os.environ.get('SERVER_IP'),"app.algostrike.com"]
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -69,6 +69,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
+    "https://www.algostrike.com",
+    "https://algostrike.com",
 ]
 """
 # Optionally, allow specific HTTP methods (default includes GET, POST, etc.)
