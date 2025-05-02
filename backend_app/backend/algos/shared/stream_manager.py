@@ -16,6 +16,7 @@ import required modules
 from celery import shared_task
 from celery.schedules import crontab
 from backend.interfaces.cache_manager import CacheManager
+from backend.algos.shared.tick_manager import TickManager
 from backend.core.utils import get_logger
 from websocket import WebSocketConnectionClosedException
 from myapp.models import Algo  # ORM Model
@@ -55,8 +56,12 @@ class StreamManager:
         self.sid = ""
         self.socket_thread = None # Threads for incoming WebSocket response
         self.data_fetcher = None  # Should be injected via dependency injection
+        self.tick_manager = TickManager()  # manage incoming ticks and store them in OHLC format
         self.connected = False
         self.running = False
+        self.ping = 999
+        self.last_fetch = time.time()
+        self.current_fetch = None
 
     def make_connection():
         """Authenticating Credentials"""
@@ -133,12 +138,19 @@ class StreamManager:
 
             if (message.get('type',None)):
                 # stock_feed / order_feed / quotes may be recieved
+                # update the ping
+                self.current_fetch = time.time()
+                self.ping = (self.current_fetch- self.last_fetch)*1000
+                self.last_fetch = self.current_fetch
+                self.cache.set("stream_manager:ping",self.ping)
+
                 if (message.get('stock_feed',None)):
                     self.connected=True
                     # Parse the data
                     feed = message['data'][0]
                     if(feed.get('ltp',None)):
-                       print(f"NIFTY : {feed['ltp']}")            
+                       # update OHLC  
+                       self.tick_manager.update_OHLC(feed)
                 elif(message.get('quotes',None)):
                     self.connected=True
                     # Parse the data
@@ -167,15 +179,17 @@ class StreamManager:
         elif(isinstance(message, WebSocketConnectionClosedException) and self.connected):
             # message: type-> WebSocketConnectionClosedException, 
             self.connected = False
-            self.reconnect()
+            # reconnect asynchronously
+            ayncio.run(self.reconnect())
                     
     def on_error(self, error):
         """ Handle errors """
         print(f"Error is -> {error}")
-        if(isinstance(message, WebSocketConnectionClosedException) and self.connected):
+        if(isinstance(error, WebSocketConnectionClosedException) and self.connected):
             # message: type-> WebSocketConnectionClosedException, 
             self.connected = False
-            self.reconnect()
+            # reconnect asynchronously
+            ayncio.run(self.reconnect())
 
     def socket(self):
         """Connect to WebSocket"""
