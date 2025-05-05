@@ -186,32 +186,192 @@ h1 {
     </style>
 </head>
 <body>
-<div class = 'heading'>Are you a <span style='color:#38d39f;'>Developer?</span></div>
-<div class="flex-container">
-  <div class="content-container">
-    <div class="form-container">
-      <form method="post">
-        <h1>
-          Sign Up
-        </h1>
-        <div class='message'>
-          {{message}}
-        </div>
-        <br>
-        <br>
-        {% csrf_token %}
-        <label for="username" class = 'subtitle'>username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="email" class = 'subtitle'>Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password" class = 'subtitle'>Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" class = 'submit-btn' value='Generate OTP'></input>
-        <br>
-        <span class = 'none' font-size = 'small' style = 'color:white; padding-left: 30px'>Already have an account? <a href="{% url 'login' %}" style='text-decoration: none ; color:#38d39f'>Log in</a></span>
-      </form>
+
+  <div class = 'heading'>Are you a <span style='color:#38d39f;'>Developer?</span></div>
+  <div class="flex-container">
+    <div class="content-container">
+      <div class="form-container">
+        <form method="post" id="register-form">
+          <h1>
+            Sign Up
+          </h1>
+          <div class='message' id='message'>
+            {{message}}
+          </div>
+          <br>
+          <br>
+          {% csrf_token %}
+          <label for="username" class = 'subtitle'>username:</label><br>
+          <input type="text" id="username" name="username" required><br>
+          <label for="email" class = 'subtitle'>Email:</label><br>
+          <input type="email" id="email" name="email" required><br>
+          <label for="password" class = 'subtitle'>Password:</label><br>
+          <input type="password" id="password" name="password" required><br><br>
+          <input type="button" class = 'submit-btn' id = 'submit-btn' value='Generate 
+  
+  OTP'></input>
+          <br>
+          <span class = 'none' font-size = 'small' style = 'color:white; padding-left: 
+  
+  30px'>Already have an account? <a href="{% url 'login' %}" style='text-decoration: none ; 
+  
+  color:#38d39f'>Log in</a></span>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-</body>
-</html>
+
+  <script>
+  document.getElementById("submit-btn").addEventListener('click', submitForm);
+  
+  async function submitForm(){
+  
+      const form = document.getElementById("register-form");
+      if (!form.checkValidity()){
+          form.reportValidity();
+          return;
+      }
+  
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message");
+      
+      const regex = /^[a-zA-Z][a-zA-Z0-9_]{6,}$/;
+      if(!regex.test(username)){
+          console.log("regex");
+          message.textContent = "Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _";
+          return;
+      }
+      fetch("http://app.algostrike.com/generate_otp", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              username: username,
+              email: email,
+              password: password
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data)
+          const status = data.status;
+          const message = data.message;
+          if (!status){
+              const type = data.type;
+              document.getElementById('message').textContent = message;
+  
+              if (type == "OTP sent"){
+                  const attempts = data.attempts
+                  alert("OTP already sent. Please check your email.")
+                  const msg = "You have "+(3-attempts)+" attempts remaining!";
+                  generateOTP(msg, username, email, password);
+              }
+              else if (type == "max attempts"){
+                  const ttl = data.ttl
+                  alert(message);
+                  disableOTP(ttl);
+              }
+              return;
+          }
+
+          alert("OTP sent to email. Valid for 5min.");
+          generateOTP(message, username, email, password);
+      })
+      .catch(error => console.error("Error:", error));
+      return;
+  }
+
+  function generateOTP(message,username,email,password){
+          const form = document.getElementById("register-form");
+          form.innerHTML = `
+  
+          <h1>Sign Up</h1>
+  
+          <div class="message" id="message"></div>
+  
+          <br><br>
+  
+          {% csrf_token %}
+          <label for="otp" class="subtitle">Enter OTP:</label><br>
+  
+          <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" 
+              maxlength="6" minlength="6" id="otp" name="otp" required> `;
+  
+          const verifyBtn = document.createElement('input');
+          verifyBtn.type = 'button';
+          verifyBtn.className = 'submit-btn';
+          verifyBtn.id = 'verify-btn';
+          verifyBtn.value = 'Verify';
+          form.appendChild(verifyBtn);
+  
+      
+      document.getElementById('message').textContent = message;
+          document.getElementById('message').textContent = message;
+          document.getElementById('verify-btn').addEventListener('click', () => {
+                  
+  
+    validateOTP(event, username, email, password);
+          })
+  }
+  function validateOTP(username, email, password){
+      
+      const otp = document.getElementById('otp').value;
+      fetch("http://app.algostrike.com/verify_otp", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              username: username,
+              email: email,
+              password: password,
+              otp: otp
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          const status = data.status
+          const message = data.message
+          
+  
+          if (!status){
+              const type = data.type
+              document.getElementById('message').textContent = message;
+  
+              if (type == "max attempts" || type == "expired"){
+                  alert(message);
+                  location.reload();
+              }
+          
+          }
+          alert("OTP has been verified");
+          window.location.href = "/login";
+      })
+      .catch(error => console.error("Error:", error));
+      return;
+  }
+  
+  function disableOTP(ttl){
+      const button = document.getElementById('submit-btn');
+      button.style.cursor = 'not-allowed';
+      button.disabled = true;
+      let timeleft = ttl;
+      const message = document.getElementById('message');
+      const timer = setInterval(() => {
+          timeleft--;
+          message.textContent = "Too many attempts. Try again in "+timeleft+" seconds.";
+          if (timeleft <= 0){
+              clearInterval(timer);
+              button.style.cursor = 'pointer';
+              button.disabled = false;
+              message.textContent = "Please enter unique credentials only";
+              }
+          }, 1000);
+  
+  }
+  </script>
+  </body>
+  </html>  
