@@ -341,8 +341,7 @@ h1 {
       .then(data => {
           const status = data.status
           const message = data.message
-          
-  
+          console.log(data);
           if (status===false){
               const type = data.type
               document.getElementById('message').textContent = message;
@@ -352,7 +351,6 @@ h1 {
                   location.reload();
               }
               return;
-          
           }
           alert("OTP has been verified");
           window.location.href = "/login";
