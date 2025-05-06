@@ -241,7 +241,7 @@ h1 {
           message.textContent = "Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _";
           return;
       }
-      fetch("http://app.algostrike.com/api/user/authenticate/generate_otp", {
+      fetch("https://app.algostrike.com/api/user/authenticate/generate_otp", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -317,7 +317,7 @@ h1 {
   function validateOTP(username, email, password){
       
       const otp = document.getElementById('otp').value;
-      fetch("http://app.algostrike.com/api/user/authenticate/verify_otp", {
+      fetch("https://app.algostrike.com/api/user/authenticate/verify_otp", {
           method: "POST",
           headers: {
               "Content-Type": "application/json"
