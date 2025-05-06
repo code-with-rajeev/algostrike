@@ -43,34 +43,11 @@ def logout_view(request):
     return redirect('login')
 
 def register(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        if not is_valid_username(username):
-            return render(request, 'register.html',{'message':'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _'})
-        # Check for existing data
-        if CustomUser.objects.filter(email__iexact=email).exists():
-            return render(request, 'register.html',{'message':'Email already exists'})
-        if CustomUser.objects.filter(username=username).exists():
-            return render(request, 'register.html',{'message':'Username already exists'})
-
-
-
-        # Create and save the new user with default PnL and Invested
-        try:
-            new_user = CustomUser.objects.create(
-            username=username,
-            email=email,
-            password=make_password(password),  # Hash the password
-            )
-            new_user.save()            
-        except IntegrityError:
-            return render(request, 'register.html',{'message':'Something Went Wrong'})
-        # Redirect to the login page
-        return redirect('login')
-
-    return render(request, 'register.html',{'message':'Please enter unique credentials only'})
+    # Signup is handled via OTP-based authentication from backend_app.views.generate_otp
+   if request.method == 'GET':
+        return render(request, 'register.html',{'message':'Please enter unique credentials only'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
 #Dashboard View
 @login_required
