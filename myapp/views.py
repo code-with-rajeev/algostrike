@@ -44,7 +44,7 @@ def logout_view(request):
 
 def register(request):
     # Signup is handled via OTP-based authentication from backend_app.views.generate_otp
-   if request.method == 'GET':
+    if request.method == 'GET':
         return render(request, 'register.html',{'message':'Please enter unique credentials only'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
