@@ -56,7 +56,7 @@ def verify_otp(request):
                 return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
             # Validate input
             if not is_valid_username(username):
-                return JsonResponse({'success': False, 'message': 'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _'})            
+                return JsonResponse({'success': False, 'message': 'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _', "type":"invalid regex"})            
             # Check whether email/username already in use
             # if (exists): return JsonResponse({'success': False, 'message': 'Username/Email already exist'})
             if CustomUser.objects.filter(email__iexact=email).exists():

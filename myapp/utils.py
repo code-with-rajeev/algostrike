@@ -6,6 +6,6 @@ def is_safe_string(input_str):
     return all(char.isalnum() or char == '_' for char in input_str)
 
 def is_valid_username(input_str):
-    if is_safe_string(input_str) and len(input_str)>7:
+    if is_safe_string(input_str) and len(input_str)>=7 and input_str[0].isalum():
         return True
     return False

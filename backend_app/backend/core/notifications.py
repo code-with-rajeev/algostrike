@@ -30,7 +30,8 @@ def send_email(to_email, subject, message):
         #print(f"Email sent to {to_email}")
 
     except Exception as e:
-        pass
+        # Email doesn't exist error ?
+        raise
         #print(f"Failed to send email: {str(e)}")
 
 def authentication_otp_mail(username, to_email, otp):
@@ -51,6 +52,8 @@ def authentication_otp_mail(username, to_email, otp):
 
         #print(f"Email sent to {to_email}")
 
+        # OTP sent successfully!
+
     except Exception as e:
-        pass
+        raise
         #print(f"Failed to send email: {str(e)}")
