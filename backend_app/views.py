@@ -1,15 +1,82 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from backend_app.backend.core.authentication.authenticate_user import verification as user_verification
-
+from django.contrib.auth.hashers import make_password
+from myapp.models import CustomUser
+from myapp.utils import is_valid_username
 import json
 # Module required for authentication
 from backend.core.authentication.authenticate_broker.authenticate import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from backend_app.backend.core.authentication.authenticate_user import verification as user_verification
+
+# This function generates OTP
+@csrf_exempt
+def generate_otp(request):
+    if request.method == 'POST':
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body)
+            email = data.get('email')
+            username = data.get('username')
+            password = data.get('password')
+
+            #if not all([otp, username]):
+            if not all([email, username,password]):
+                return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
+            # Validate input
+            if not is_valid_username(username):
+                return JsonResponse({'success': False, 'message': 'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _'})            
+            # Check whether email/username already in use
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                return JsonResponse({'success': False, 'message': 'Email already exists'})
+            if CustomUser.objects.filter(username=username).exists():
+                return JsonResponse({'success': False, 'message': 'Username already exists'})
+            # Generates 6-digit random OTP
+            response = user_verification.generate_otp(username, email)
+            return JsonResponse(response) 
+            
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+        
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def verify_otp(request):
+    if request.method == 'POST':
+        try:
+            # Parse the incoming JSON data
+            data = json.loads(request.body)
+            email = data.get('email')
+            username = data.get('username')
+            password = data.get('password')
+            otp = data.get('otp')
+
+            #if not all([otp, username]):
+            if not all([email, username,password]):
+                return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
+            # Validate input
+            if not is_valid_username(username):
+                return JsonResponse({'success': False, 'message': 'Username must be at least 7 characters and contain only a-z, A-Z, 0-9, or _'})            
+            # Check whether email/username already in use
+            # if (exists): return JsonResponse({'success': False, 'message': 'Username/Email already exist'})
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                return JsonResponse({'success': False, 'message': 'Email already exists'})
+            if CustomUser.objects.filter(username=username).exists():
+                return JsonResponse({'success': False, 'message': 'Username already exists'})
+            
+            response = user_verification.verify_otp(email,otp)
+            return JsonResponse(response) 
+            
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+        
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
 
 @csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
-    
+    return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
+    # Forbidden
     if request.method == 'POST':
         try:
             # Parse the incoming JSON data
@@ -69,14 +136,14 @@ def verify_broker(request):
                 #if credentials:
                 if True:
                     # Store credentials permanently (e.g., in a database)
-                    print(f"Storing credentials for {mobile_number} credentials")
+                    # print(f"Storing credentials for {mobile_number} credentials")
 
                     # Clear temporary cache
                     # cache.delete(cache_key)
 
-                    return JsonResponse({'success': True, 'message': 'Broker added successfully'})
+                    return JsonResponse({'success': True, 'message': 'Broker added successfully (This is mock response for testing. OTP validation is bypassed)'}, status = 200)
                 else:
-                    return JsonResponse({'success': False, 'message': 'Temporary credentials not found'}, status=404)
+                    return JsonResponse({'success': False, 'message': 'Temporary credentials not found (This is mock response for testing. Enter OTP=12345, validation will be bypassed)'}, status=404)
             else:
                 return JsonResponse({'success': False, 'message': 'Invalid OTP'}, status=400)
 
@@ -85,16 +152,20 @@ def verify_broker(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-def test_server(request):
+def test_server(request):    
     return JsonResponse({'success': True, 'message': f'Backend is running without errors!'})
     
 def store_credentials(customer_key, customer_secret, password, mobile_number):
+    return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
     # Simulate storing credentials (replace with actual database or secure storage logic)
     print(f"Storing credentials: {customer_key}, {customer_secret}, {password}, {mobile_number}")
     # Example: Save to database or encrypted storage
     pass
     
 def debug_mode(request):
+
+    return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
+    # For testing only
     try:
         from .tasks import schedule_algo, schedule_stream_worker
         schedule_algo.delay()
@@ -102,30 +173,3 @@ def debug_mode(request):
         return JsonResponse({'success': True}, status=200)
     except Exception as a:
         return JsonResponse({'success': False, 'message': f'Error : {a}'}, status=400)
-      
-def verify_user(request):
-    if request.method == 'POST':
-        try:
-            # Parse the incoming JSON data
-            data = json.loads(request.body)
-            otp = data.get('otp')
-            username = data.get('username')
-
-            # Validate input
-            #if not all([otp, username]):
-            if not all([otp, username]):
-                return JsonResponse({'success': False, 'message': 'Missing required fields'}, status=400)
-
-            # Verify from redis database
-            otp_valid = user_verification.verify_otp(username,otp)
-
-            if otp_valid:
-                # Return the response
-                return JsonResponse({'success': True, 'message': 'OTP verified'})
-            else:
-                return JsonResponse({'success': False, 'message': 'Invalid OTP'}, status=400)
-                
-        except json.JSONDecodeError:
-            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
-
-    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
