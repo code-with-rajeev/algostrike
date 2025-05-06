@@ -318,11 +318,13 @@ h1 {
         });
   }
   function validateOTP(username, email, password){
-    if (otp.length == 5){
+
+    const otp = document.getElementById('otp').value;
+    if (otp.length != 6){
         alert("Please enter 6 digit-OTP");
         return;
         }
-      const otp = document.getElementById('otp').value;
+
       fetch("https://app.algostrike.com/api/user/authenticate/verify_otp", {
           method: "POST",
           headers: {
