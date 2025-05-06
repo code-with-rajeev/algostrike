@@ -26,15 +26,14 @@ def generate_otp(username, email):
         "otp":otp,
         "attempts":0
         }
-    
-    handler.hset(key, mapping = mapping) # store in redis
-    handler.expire(key, 300)# 5-min expiry (300 seconds)
 
     try:
         # Import module for sending email
         from backend.core.notifications import authentication_otp_mail as auth
         auth(username, email,otp)
-        #print("Your OTP is",otp)
+        # OTP sent successfully!
+        handler.hset(key, mapping = mapping) # store in redis
+        handler.expire(key, 300)# 5-min expiry (300 seconds)
         return {"status":True, "message":"OTP has been sent"}
     except Exception as a:
         #print(f'Error while sending mail {a}')
