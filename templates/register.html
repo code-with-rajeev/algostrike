@@ -306,16 +306,22 @@ h1 {
           form.appendChild(verifyBtn);
   
       
-      document.getElementById('message').textContent = message;
           document.getElementById('message').textContent = message;
+          document.getElementById('message').textContent = message;
+
           document.getElementById('verify-btn').addEventListener('click', () => {
-                  
-  
-    validateOTP(event, username, email, password);
-          })
+            validateOTP(event, username, email, password);
+          });
+          form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            validateOTP(username, email, password);
+        });
   }
   function validateOTP(username, email, password){
-      
+    if (otp.length == 5){
+        alert("Please enter 6 digit-OTP");
+        return;
+        }
       const otp = document.getElementById('otp').value;
       fetch("https://app.algostrike.com/api/user/authenticate/verify_otp", {
           method: "POST",
@@ -335,7 +341,7 @@ h1 {
           const message = data.message
           
   
-          if (!status){
+          if (status===false){
               const type = data.type
               document.getElementById('message').textContent = message;
   
@@ -343,6 +349,7 @@ h1 {
                   alert(message);
                   location.reload();
               }
+              return;
           
           }
           alert("OTP has been verified");
