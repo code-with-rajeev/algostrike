@@ -29,3 +29,5 @@ celery==5.2
 django-celery-beat==2.6.0
 redis==5.0.0
 django-environ
+channels>=4.0
+channels-redis>=4.0
