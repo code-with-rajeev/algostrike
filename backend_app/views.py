@@ -154,6 +154,10 @@ def verify_broker(request):
 
 def test_server(request):    
     return JsonResponse({'success': True, 'message': f'Backend is running without errors!'})
+
+def strategies(request, strategy_id):
+    # Need Testing
+    return JsonResponse({'success': True, 'message': f'Your strategy {strategy_id} is undertesting'})
     
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
