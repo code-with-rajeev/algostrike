@@ -5,33 +5,105 @@ from django.utils.timezone import now
 import uuid
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, blank=False, null=False)
     phone = models.CharField(max_length=15, blank=True, null=True)
-    fund_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
-    total_return = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
-    api_key = models.CharField(max_length=255, blank=True, null=True)
-    api_secret = models.CharField(max_length=255, blank=True, null=True)
+    fund_balance = models.DecimalField(max_digits=15, decimal_places=2, default=0.0) # Wallet balance
     date_joined = models.DateTimeField(default=now)
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+    active_plan_details = models.JSONField(
+        default=dict(
+            activePlan={},  # {"planID": planID, "name": planName}
+            expiredPlan={}  # Recently expired plan
+        )
+    )
+    preference = models.JSONField(
+        default=dict(theme="Light", notification="Yes")
+    )
+    profile_information = models.JSONField(
+        default=dict(
+            tradingExperience="",
+            interestedProduct="",
+            codingExperience="",
+            tradingGoal=""
+        )
+    )
+    strategy_information = models.JSONField(
+        default=dict(
+            strategiesSaved=0, # created / customized by user 
+            runningStrategies=0,
+            analyticAccess="OFF",
+            personalSupport="OFF",
+            executionTime=0
+        )
+    )
+    favourite_strategy = models.JSONField(default = list) # List of all favourite strategies
+    broker_information = models.JSONField(
+        default=dict(defaultBroker={}, otherBroker={})
+    )
     def __str__(self):
         return self.username
 
-class Algo(models.Model):
+class Strategy(models.Model):
+    # Core Fields
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     is_active = models.CharField(max_length=20, choices=[  # status of Algo 
         ('active', 'Active'), # Live 
         ('inactive', 'Inactive'), # Temporary off
         ('disabled', 'Disabled') # Permanently disabled / under maintainance
-    ], default='active')
+    ], default='Disabled')
+    mode = models.CharField(
+        max_length=20,
+        choices=[
+            ('intraday', 'Intraday'),
+            ('swing', 'Swing')
+        ],
+        default='Intraday'
+    )  # Trading style
+    segment = models.CharField(
+        max_length=50,
+        choices=[
+            ('NSE_EQ', 'NSE Equity'),
+            ('NSE_FNO', 'NSE FnO'),
+            ('Forex', 'Forex'),
+            ('US_Equity', 'US Equity'),
+            ('Commodity', 'Commodity'),
+        ],
+        default='NSE_FNO'
+    )  # Market or asset class
+    instruments = JSONField(default=list) # ["Reliance", "Zomato"] etc
+
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    version = models.CharField(max_length=10, default="1.0.0") # Performance tracking for multiple Version
+    tags = JSONField(default=list)  # ["Price Exit", "Stop-Loss"]
+    # Text  Content
+    short_description = models.TextField(null=True, blank=True)
+    strategy_breakdown = models.JSONField(null=True, blank=True,
+        default = dict(
+            stratefyBreakdown = "",
+            entryCondition = "",
+            exitCondition = "",
+            keyPoints = ""
+        )
+    )
+
     subscription_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     min_required_funds = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    max_risk = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank = True) # Percentage
-    success_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank = True) # Percentage
+
+    user_count = models.PositiveIntegerField(default=0)  # Subscribed by user
+
+    parameters = models.JSONField(default = dict(
+            maxRisk = None,
+            takeProfit = None,
+            successRate = None,
+            # Depends on strategy
+        )
+    )
+    total_trades = models.PositiveIntegerField(default=0)  # Number of trades executed till now
 
     def __str__(self):
         return self.name
@@ -55,40 +127,26 @@ class AlgoTradeLog(models.Model):
         return f"Algo {self.algo.name} Trade Log {self.id} at {self.trade_timestamp}"
 
 class Subscription(models.Model):
+    # Record of Real accounts subscribed to a specific strategy
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Links to CustomUser
-    algo = models.ForeignKey(Algo, on_delete=models.CASCADE)  # Links to Algo
-    subscription_date = models.DateTimeField(auto_now_add=True)  # When the subscription was created
-    expiry_date = models.DateTimeField()  # When the subscription will expire
-    status = models.CharField(max_length=20, choices=[  # Status of subscription
-        ('active', 'Active'),
-        ('expired', 'Expired'),
-        ('cancelled', 'Cancelled')
-    ], default='active')
-    subscription_fee = models.DecimalField(max_digits=10, decimal_places=2)  # Fee paid for subscription
+    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Links to Strategy
     additional_info = models.JSONField(blank=True, null=True)  # Any additional subscription-related data
-    
+    type = models.CharField(max_length=10,
+        choices=[  # Type of Strategy
+            ('demo', 'Demo'),
+            ('real', 'Real')
+        ],
+        default = "demo"
+    )
     def __str__(self):
-        return f"{self.user.username} subscribed to {self.algo.name}"
-
-    def is_active(self):
-        """
-        Utility method to check if the subscription is active.
-        """
-        return self.status == 'active' and self.expiry_date > timezone.now()
-        """
-        Subscription Renewal
-        
-        subscription.expiry_date += timedelta(days=30)  # Add 30 days to the expiry
-        subscription.save()
-        """
-
+        return f"{self.user.username} subscribed to {self.strategy.name}"
 
 
 class TradeLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name="tradelogs")  # Link to the user
-    algo = models.ForeignKey(Algo, on_delete=models.CASCADE)  # Link to the algorithm
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="tradelogs")  # Link to the user
+    Strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Link to the algorithm
     timestamp = models.DateTimeField(auto_now_add=True)  # When the trade was executed
     trade_type = models.CharField(max_length=10, choices=[  # Type of trade
         ('buy', 'Buy'),
@@ -133,7 +191,7 @@ class Transaction(models.Model):
 
     id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="transactions")
-    algo = models.ForeignKey(Algo, on_delete=models.SET_NULL, null=True, blank=True, related_name="transactions")  # Nullable for non-algo-specific transactions
+    strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True, blank=True, related_name="transactions")  # Nullable for non-algo-specific transactions
     transaction_type = models.CharField(max_length=20, choices=TRANSACTION_TYPES)
     amount = models.DecimalField(max_digits=15, decimal_places=2)  # Amount charged for the transaction
     transaction_status = models.CharField(max_length=15, choices=TRANSACTION_STATUS, default='pending')
