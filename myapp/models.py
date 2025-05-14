@@ -1,6 +1,7 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import JSONField  # Correct import for PostgreSQL JSONField
 from django.utils.timezone import now
 import uuid
 
@@ -13,34 +14,34 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=True)
 
     active_plan_details = models.JSONField(
-        default=dict(
-            activePlan={},  # {"planID": planID, "name": planName}
-            expiredPlan={}  # Recently expired plan
-        )
+        default= lambda : {
+            "activePlan": {},  # {"planID": planID, "name": planName}
+            "expiredPlan":{}  # Recently expired plan
+        }
     )
     preference = models.JSONField(
-        default=dict(theme="Light", notification="Yes")
+        default= lambda : { "theme":"Light", "notification":"Yes"}
     )
     profile_information = models.JSONField(
-        default=dict(
-            tradingExperience="",
-            interestedProduct="",
-            codingExperience="",
-            tradingGoal=""
-        )
+        default= lambda : {
+            "tradingExperience":"",
+            "interestedProduct":"",
+            "codingExperience":"",
+            "tradingGoal":""
+        }
     )
     strategy_information = models.JSONField(
-        default=dict(
-            strategiesSaved=0, # created / customized by user 
-            runningStrategies=0,
-            analyticAccess="OFF",
-            personalSupport="OFF",
-            executionTime=0
-        )
+        default= lambda : {
+            "strategiesSaved":0, # created / customized by user 
+            "runningStrategies":0,
+            "analyticAccess":"OFF",
+            "personalSupport":"OFF",
+            "executionTime":0
+        }
     )
     favourite_strategy = models.JSONField(default = list) # List of all favourite strategies
     broker_information = models.JSONField(
-        default=dict(defaultBroker={}, otherBroker={})
+        default= lambda : { "defaultBroker":{}, "otherBroker":{}}
     )
     def __str__(self):
         return self.username
@@ -83,12 +84,12 @@ class Strategy(models.Model):
     # Text  Content
     short_description = models.TextField(null=True, blank=True)
     strategy_breakdown = models.JSONField(null=True, blank=True,
-        default = dict(
-            stratefyBreakdown = "",
-            entryCondition = "",
-            exitCondition = "",
-            keyPoints = ""
-        )
+        default = lambda: {
+            "stratefyBreakdown" : "",
+            "entryCondition" : "",
+            "exitCondition" : "",
+            "keyPoints" : ""
+        }
     )
 
     subscription_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
@@ -96,12 +97,12 @@ class Strategy(models.Model):
 
     user_count = models.PositiveIntegerField(default=0)  # Subscribed by user
 
-    parameters = models.JSONField(default = dict(
-            maxRisk = None,
-            takeProfit = None,
-            successRate = None,
+    parameters = models.JSONField(default = lambda: {
+            "maxRisk": None,
+            "takeProfit": None,
+            "successRate": None,
             # Depends on strategy
-        )
+        }
     )
     total_trades = models.PositiveIntegerField(default=0)  # Number of trades executed till now
 
@@ -109,9 +110,9 @@ class Strategy(models.Model):
         return self.name
 
 # Separate Demo-Trade Log for performance of the Algorithm
-class AlgoTradeLog(models.Model):
+class StrategyTradeLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    algo = models.ForeignKey(Algo, on_delete=models.CASCADE)  # Foreign key to identify which algo this log is for
+    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Foreign key to identify which algo this log is for
     trade_timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp of trade execution
     trade_type = models.CharField(max_length=10, choices=[  # Type of trade
         ('buy', 'Buy'),
