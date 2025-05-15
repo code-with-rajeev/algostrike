@@ -37,7 +37,7 @@ def get_default_broker_information():
     return { "defaultBroker":{}, "otherBroker":{}}
 
 def get_default_instruments():
-    return []
+    return {}
 
 def get_default_tags():
     return []
@@ -181,6 +181,54 @@ class Subscription(models.Model):
     ], default='close')
     def __str__(self):
         return f"{self.user.username} subscribed to {self.strategy.name}"
+
+class Plans(models.Model):
+    plan_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    plan_type = models.CharField(max_length=100, unique=True)  # Plan name
+    plan_price = models.PositiveIntegerField()  # Integer price
+    price_symbol = models.CharField(max_length=3, default='INR')  # Currency symbol, e.g., INR
+    max_capital_allowed = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)  # Maximum capital allowed
+    live_trading = models.BooleanField(default=False)  # Live trading yes/no
+    concurrent_executions_live = models.PositiveIntegerField(default=0)  # Number of concurrent executions (live trading)
+    concurrent_executions_all = models.PositiveIntegerField(default=0)  # Number of concurrent executions (all)
+    execution_time_bt_pt = models.PositiveIntegerField(default=0)  # Execution time for backtesting & paper trading (in minutes)
+    personal_support = models.BooleanField(default=False)  # Personal support yes/no
+    pnl_tracker = models.BooleanField(default=False)  # P&L tracker yes/no
+
+    def __str__(self):
+        return self.plan_type
+
+class UserPlanSubscription(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='plan_subscriptions')
+    plan = models.ForeignKey(Plans, on_delete=models.PROTECT, related_name='user_subscriptions')
+    
+    # Replicated plan configuration fields to freeze at subscription time
+    plan_type = models.CharField(max_length=100)  # Copied from Plans.plan_type
+    plan_price = models.PositiveIntegerField()  # Copied from Plans.plan_price
+    price_symbol = models.CharField(max_length=3)  # Copied from Plans.price_symbol
+    max_capital_allowed = models.DecimalField(max_digits=15, decimal_places=2)  # Copied from Plans.max_capital_allowed
+    live_trading = models.BooleanField()  # Copied from Plans.live_trading
+    concurrent_executions_live = models.PositiveIntegerField()  # Copied from Plans.concurrent_executions_live
+    concurrent_executions_all = models.PositiveIntegerField()  # Copied from Plans.concurrent_executions_all
+    execution_time_bt_pt = models.PositiveIntegerField()  # Copied from Plans.execution_time_bt_pt
+    personal_support = models.BooleanField()  # Copied from Plans.personal_support
+    pnl_tracker = models.BooleanField()  # Copied from Plans.pnl_tracker
+    
+    # Subscription-specific fields
+    subscription_timestamp = models.DateTimeField(auto_now_add=True)  # When the subscription was created
+    validity_hours_left = models.FloatField(default=0.0)  # Remaining validity in hours
+    is_active = models.BooleanField(default=True)  # Whether the subscription is currently active
+
+    def __str__(self):
+        return f"{self.user.username} - {self.plan_type} (Subscribed: {self.subscription_timestamp})"
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'subscription_timestamp'], name='user_subscription_idx'),
+            models.Index(fields=['plan', 'is_active'], name='plan_active_idx'),
+        ]
+        verbose_name_plural = "User Plan Subscriptions"
 
 class TradeLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
