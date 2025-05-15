@@ -1,9 +1,64 @@
-# Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models import JSONField  # Correct import for PostgreSQL JSONField
 from django.utils.timezone import now
 import uuid
+
+# Define default dictionaries as callable functions
+def get_default_active_plan_details():
+    return {
+        "activePlan": {},  # {"planID": planID, "name": planName}
+        "expiredPlan":{}  # Recently expired plan
+    }
+
+def get_default_preference():
+    return { "theme":"Light", "notification":"Yes"}
+
+def get_default_profile_information():
+    return {
+        "tradingExperience":"",
+        "interestedProduct":"",
+        "codingExperience":"",
+        "tradingGoal":""
+    }
+
+def get_default_strategy_information():
+    return {
+        "strategiesSaved":0, # created / customized by user 
+        "runningStrategies":0,
+        "analyticAccess":"OFF",
+        "personalSupport":"OFF",
+        "executionTime":0
+    }
+
+def get_default_favourite_strategy():
+    return []
+
+def get_default_broker_information():
+    return { "defaultBroker":{}, "otherBroker":{}}
+
+def get_default_instruments():
+    return []
+
+def get_default_tags():
+    return []
+
+def get_default_strategy_breakdown():
+    return {
+        "strategyBreakdown" : "",
+        "entryCondition" : "",
+        "exitCondition" : "",
+        "keyPoints" : ""
+    }
+
+def get_default_parameters():
+    return {
+        "maxRisk": None,
+        "takeProfit": None,
+        "successRate": None,
+    }
+
+def get_default_additional_info():
+    return {}
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, blank=False, null=False)
@@ -13,55 +68,43 @@ class CustomUser(AbstractUser):
     last_login = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
-    active_plan_details = models.JSONField(
-        default= lambda : {
-            "activePlan": {},  # {"planID": planID, "name": planName}
-            "expiredPlan":{}  # Recently expired plan
-        }
-    )
-    preference = models.JSONField(
-        default= lambda : { "theme":"Light", "notification":"Yes"}
-    )
-    profile_information = models.JSONField(
-        default= lambda : {
-            "tradingExperience":"",
-            "interestedProduct":"",
-            "codingExperience":"",
-            "tradingGoal":""
-        }
-    )
-    strategy_information = models.JSONField(
-        default= lambda : {
-            "strategiesSaved":0, # created / customized by user 
-            "runningStrategies":0,
-            "analyticAccess":"OFF",
-            "personalSupport":"OFF",
-            "executionTime":0
-        }
-    )
-    favourite_strategy = models.JSONField(default = list) # List of all favourite strategies
-    broker_information = models.JSONField(
-        default= lambda : { "defaultBroker":{}, "otherBroker":{}}
-    )
+    active_plan_details = models.JSONField(default=get_default_active_plan_details)
+    preference = models.JSONField(default=get_default_preference)
+    profile_information = models.JSONField(default=get_default_profile_information)
+    strategy_information = models.JSONField(default=get_default_strategy_information)
+    favourite_strategy = models.JSONField(default=get_default_favourite_strategy)
+    broker_information = models.JSONField(default=get_default_broker_information)
+
     def __str__(self):
         return self.username
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['email'], name='email_idx'),
+        ]
 
 class Strategy(models.Model):
     # Core Fields
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    is_active = models.CharField(max_length=20, choices=[  # status of Algo 
+    is_active = models.CharField(max_length=20, choices=[
         ('active', 'Active'), # Live 
         ('inactive', 'Inactive'), # Temporary off
         ('disabled', 'Disabled') # Permanently disabled / under maintainance
-    ], default='Disabled')
+    ], default='disabled')
+
+    algo_type = models.CharField(max_length=20, choices=[
+        ('custom_technical', 'Custom '), # Pure technical based Algo Model
+        ('ai_model', 'Advance Trained Model') # AI based Algo Model
+    ], default='model')
+
     mode = models.CharField(
         max_length=20,
         choices=[
             ('intraday', 'Intraday'),
             ('swing', 'Swing')
         ],
-        default='Intraday'
+        default='intraday'
     )  # Trading style
     segment = models.CharField(
         max_length=50,
@@ -74,36 +117,23 @@ class Strategy(models.Model):
         ],
         default='NSE_FNO'
     )  # Market or asset class
-    instruments = JSONField(default=list) # ["Reliance", "Zomato"] etc
+    instruments = models.JSONField(default=get_default_instruments) # ["Reliance", "Zomato"] etc
 
     # Metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     version = models.CharField(max_length=10, default="1.0.0") # Performance tracking for multiple Version
-    tags = JSONField(default=list)  # ["Price Exit", "Stop-Loss"]
+    tags = models.JSONField(default=get_default_tags)  # ["Price Exit", "Stop-Loss"]
     # Text  Content
     short_description = models.TextField(null=True, blank=True)
-    strategy_breakdown = models.JSONField(null=True, blank=True,
-        default = lambda: {
-            "stratefyBreakdown" : "",
-            "entryCondition" : "",
-            "exitCondition" : "",
-            "keyPoints" : ""
-        }
-    )
+    strategy_breakdown = models.JSONField(blank=True, default=get_default_strategy_breakdown)
 
     subscription_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     min_required_funds = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     user_count = models.PositiveIntegerField(default=0)  # Subscribed by user
 
-    parameters = models.JSONField(default = lambda: {
-            "maxRisk": None,
-            "takeProfit": None,
-            "successRate": None,
-            # Depends on strategy
-        }
-    )
+    parameters = models.JSONField(default=get_default_parameters)
     total_trades = models.PositiveIntegerField(default=0)  # Number of trades executed till now
 
     def __str__(self):
@@ -113,47 +143,56 @@ class Strategy(models.Model):
 class StrategyTradeLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Foreign key to identify which algo this log is for
-    trade_timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp of trade execution
-    trade_type = models.CharField(max_length=10, choices=[  # Type of trade
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)  # Timestamp of trade execution
+    trade_type = models.CharField(max_length=10, choices=[
         ('buy', 'Buy'),
         ('sell', 'Sell')
     ])
-    quantity = models.IntegerField()  # Number of units traded
+    quantity = models.IntegerField(default=0)  # Number of units traded
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Price at which trade occurred
     profit_loss = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Profit or loss from trade
-    trade_status = models.CharField(max_length=50)  # Completed/Failed/Pending etc.
-    additional_info = models.JSONField(blank=True, null=True)  # Optional field for additional data
-    
+    additional_info = models.JSONField(default=get_default_additional_info, blank=True)  # Optional field for additional data
     def __str__(self):
-        return f"Algo {self.algo.name} Trade Log {self.id} at {self.trade_timestamp}"
+        return f"Algo {self.strategy.name} Trade Log {self.id} at {self.timestamp}"
+        
+    class Meta:
+        indexes = [
+            models.Index(fields=['timestamp'], name='timestamp_idx'),
+        ]
 
 class Subscription(models.Model):
     # Record of Real accounts subscribed to a specific strategy
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Links to CustomUser
     strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Links to Strategy
-    additional_info = models.JSONField(blank=True, null=True)  # Any additional subscription-related data
-    type = models.CharField(max_length=10,
-        choices=[  # Type of Strategy
+    additional_info = models.JSONField(blank=True, default=get_default_additional_info)  # Any additional subscription-related data
+    quantity = models.IntegerField(default=0)  # Number of units 
+    profit_loss = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Profit or loss from trade
+
+    algo_type = models.CharField(max_length=10,
+        choices=[
             ('demo', 'Demo'),
             ('real', 'Real')
         ],
-        default = "demo"
+        default="demo"
     )
+    algo_status = models.CharField(max_length=10, choices=[
+        ('open', 'Open'),
+        ('close', 'Close')
+    ], default='close')
     def __str__(self):
         return f"{self.user.username} subscribed to {self.strategy.name}"
-
 
 class TradeLog(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="tradelogs")  # Link to the user
-    Strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Link to the algorithm
+    strategy = models.ForeignKey(Strategy, on_delete=models.CASCADE)  # Link to the algorithm
     timestamp = models.DateTimeField(auto_now_add=True)  # When the trade was executed
-    trade_type = models.CharField(max_length=10, choices=[  # Type of trade
+    trade_type = models.CharField(max_length=10, choices=[
         ('buy', 'Buy'),
         ('sell', 'Sell')
     ])
-    trade_status = models.CharField(max_length=10, choices=[  # Type of trade
+    trade_status = models.CharField(max_length=10, choices=[
         ('open', 'Open'),
         ('close', 'Close')
     ], default='open')
@@ -162,10 +201,10 @@ class TradeLog(models.Model):
     quantity = models.IntegerField()  # Number of units traded
     pnl = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Profit or Loss from the trade
     strategy_notes = models.TextField(blank=True, null=True)  # Optional notes about the trade (e.g., strategy used)
-    additional_info = models.JSONField(blank=True, null=True)  # Additional trade-related information
+    additional_info = models.JSONField(blank=True, default=get_default_additional_info) # Additional trade-related information
 
     def __str__(self):
-        return f"Trade by {self.user.username} on {self.algo.name} at {self.timestamp}"
+        return f"Trade by {self.user.username} on {self.strategy.name} at {self.timestamp}"
 
     def calculate_pnl(self):
         """
@@ -190,7 +229,7 @@ class Transaction(models.Model):
         ('failed', 'Failed'),
     ]
 
-    id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="transactions")
     strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True, blank=True, related_name="transactions")  # Nullable for non-algo-specific transactions
     transaction_type = models.CharField(max_length=20, choices=TRANSACTION_TYPES)
