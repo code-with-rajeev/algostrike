@@ -137,6 +137,9 @@ class Strategy(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = "Strategy"
 
 # Separate Demo-Trade Log for performance of the Algorithm
 class StrategyTradeLog(models.Model):
@@ -158,6 +161,7 @@ class StrategyTradeLog(models.Model):
         indexes = [
             models.Index(fields=['timestamp'], name='timestamp_idx'),
         ]
+        verbose_name_plural = "Strategy TradeLog"
 
 class Subscription(models.Model):
     # Record of Real accounts subscribed to a specific strategy
@@ -197,6 +201,9 @@ class Plans(models.Model):
 
     def __str__(self):
         return self.plan_type
+
+    class Meta:
+        verbose_name_plural = "Available Plans"
 
 class UserPlanSubscription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
