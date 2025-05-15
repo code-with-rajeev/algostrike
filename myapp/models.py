@@ -45,9 +45,8 @@ def get_default_tags():
 def get_default_strategy_breakdown():
     return {
         "strategyBreakdown" : "",
-        "entryCondition" : "",
-        "exitCondition" : "",
-        "keyPoints" : ""
+        "executionLogic" : {},
+        "keyPoints" : []
     }
 
 def get_default_parameters():
