@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
-    'channels'
+    'channels',
     'corsheaders',
     'backend_app',
     'myapp',
