@@ -11,6 +11,8 @@ urlpatterns = [
     path('api/test/debug_mode',views.debug_mode, name ='debug_mode'),
     path('api/user/authenticate/generate_otp',views.generate_otp, name ='generate_otp'),
     path('api/user/authenticate/verify_otp',views.verify_otp, name ='verify_otp'),
-    path('strategies/<str:strategy_id>',views.strategies, name ='strategies'),
+    path('strategies',views.strategies_list, name ='strategies_list'),
+    path('strategies/<str:strategy_id>',views.strategies_details, name ='strategies_details'),
+    path('pricing',views.pricing, name ='pricing'),
     path('admin/', admin.site.urls),
     ]

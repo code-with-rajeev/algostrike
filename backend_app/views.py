@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from myapp.models import CustomUser
+from myapp.models import Strategy
+from myapp.models import Plans
 from myapp.utils import is_valid_username
 import json
 # Module required for authentication
@@ -155,10 +157,45 @@ def verify_broker(request):
 def test_server(request):    
     return JsonResponse({'success': True, 'message': f'Backend is running without errors!'})
 
-def strategies(request, strategy_id):
-    # Need Testing
-    return JsonResponse({'success': True, 'message': f'Your strategy {strategy_id} is undertesting'})
-    
+def strategies_details(request, strategy_id):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    try:
+        data = Strategy.objects.filter(id = strategy_id).values() # fetch all values
+        response = []
+        for strategy in data:
+            strategy['id'] = strategy_id
+            response.append(strategy)
+        return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
+    except Exception as a:
+       return JsonResponse({'success': True, 'message': f'Error fetching Strategies', 'data': []}, status = 500)
+
+def strategies_list(request):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    try:
+        data = Strategy.objects.all().values('id','name','mode','segment','instruments','version','tags','short_description','min_required_funds','user_count') # fetch all values
+        response = []
+        for strategy in data:
+            strategy['id'] = str(strategy['id'])
+            response.append(strategy)
+        return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
+    except Exception as a:
+       return JsonResponse({'success': True, 'message': f'Error fetching Strategies', 'data': []}, status = 500)
+
+def pricing(request):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    try:
+        data = Plans.objects.all().values() # fetch all values
+        response = []
+        for plan in data:
+            plan['plan_id'] = str(plan['plan_id'])
+            response.append(plan)
+        return JsonResponse({'success': True, 'message': f'Fetched Available Plans', 'data': response}, status = 200)
+    except Exception as a:
+       return JsonResponse({'success': True, 'message': f'Error fetching Plans', 'data': []}, status = 500)
+
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
     # Simulate storing credentials (replace with actual database or secure storage logic)
