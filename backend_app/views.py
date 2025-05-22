@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 from myapp.models import CustomUser
 from myapp.models import Strategy
 from myapp.models import Plans
+from myapp.models import UserPlanSubscription
 from myapp.utils import is_valid_username
 import json
 # Module required for authentication
@@ -74,7 +75,248 @@ def verify_otp(request):
         
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+"""
+Dashboard : Working
+"""
+#@login_required
+# CSRF Needed
+# Allow Only Post method
+def profile_info(request):
+    #if request.method == 'POST':
+    if True: # For testing
+        try:
+            if not request.user.is_authenticated:
+            # Redirect Login
+                return JsonResponse({"success": False, "message": "Anonymous user"}, status=401)
+            #qwery = request.GET.get("query")
+            data = CustomUser.objects.filter(username=request.user).values(
+                "username","email","phone","fund_balance","date_joined","preference","profile_information").first()
+            response = {
+                "success": True,
+                "data": data
+            }
+            return JsonResponse(response)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
 
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+def account_info(request):
+    #if request.method == 'POST':
+    if True: # For testing
+        try:
+            if not request.user.is_authenticated:
+            # Redirect Login
+                return JsonResponse({"success": False, "message": "Anonymous user"}, status=401)
+            #qwery = request.GET.get("query")
+            data = CustomUser.objects.filter(username=request.user).values(
+                "is_active","date_joined","last_login","fund_balance","broker_information").first()
+            response = {
+                "success": True,
+                "data": data
+            }
+    
+            return JsonResponse(data)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+def subscription_info(request):
+    #if request.method == 'POST':
+    if True: # For testing
+        try:
+            if not request.user.is_authenticated:
+            # Redirect Login
+                return JsonResponse({"success": False, "message": "Anonymous user"}, status=401)
+            #query = request.GET.get("query")
+            
+            data = CustomUser.objects.filter(username=request.user).values(
+                "active_plan_details","favourite_strategy","strategy_information").first()
+            response = {
+                "success": True,
+                "data": data
+            }
+            return JsonResponse(data)
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'message': 'Invalid JSON'}, status=400)
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+
+"""
+Strategies : Working
+"""
+def strategies_details(request, strategy_id):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    # if request.method == "POST":
+    if True: # For testing
+        try:
+            if not Strategy.objects.filter(id = strategy_id).exists():
+                return JsonResponse({'success': False, 'message': 'Invalid Strategy'}, status=405)
+            query = request.GET.get("query")
+            if query in ["addFavourites","addPortfolio","requestCustomization"]:
+                if not request.user.is_authenticated:
+                    return JsonResponse({"success": False, "message": "Anonymous user can't access this"}, status=401)
+                # User must login to update
+                if query == "addFavourites":
+                    method = request.GET.get("method","true")
+                    # Get the user instance
+                    instance = CustomUser.objects.get(username = request.user)
+                    if method == "true":
+                        if strategy_id not in instance.favourite_strategy:
+                            instance.favourite_strategy.append(strategy_id)
+                            instance.save()
+                        return JsonResponse({"success": True, "message": "Sucessfully Added to Favourites"}, status=200)
+                    # This step must be done via DELETE method
+                    elif method == "false":
+                        if strategy_id in instance.favourite_strategy:
+                            instance.favourite_strategy.remove(strategy_id)
+                            instance.save()
+                        return JsonResponse({"success": True, "message": "Sucessfully Removed from Favourites"}, status=200)
+                elif query == "addPortfolio":
+                    method = request.GET.get("method","true")
+                    if method == "true":            
+                        return JsonResponse({"success": True, "message": "Sucessfully Added to Portfolio"}, status=200)
+                    # This step must be done via DELETE method
+                    elif method == "false":
+                        return JsonResponse({"success": True, "message": "Sucessfully Removed from Portfolio"}, status=200)
+                elif query == "requestCustomization":
+                    return JsonResponse({'success': False, 'message': 'This feature is not Available'}, status=405)
+
+                return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+            # No expected query
+            data = Strategy.objects.filter(id = strategy_id).values() # fetch all values
+            response = []
+            for strategy in data:
+                strategy['id'] = strategy_id
+                response.append(strategy)
+            return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
+        except Exception as a:
+           return JsonResponse({'success': True, 'message': f'Error fetching Strategies: {a}', 'data': []}, status = 500)
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+def strategies_list(request):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    # Missing Pagination / Partial data fetching
+    args = [
+        'id','name','mode','segment','instruments',
+        'version','tags','short_description','min_required_funds',
+        'user_count'
+        ]
+    # if request.method == "POST":
+    if True: # For testing
+        try:
+            query = request.GET.get("sortBy")
+            data = []
+            if query:
+                # Expect a valid query
+                if query == "minCapitalReq":
+                    # Sort via min req funds
+                    order = request.GET.get("order","asc")
+                    ordering = 'min_required_funds' if order == 'asc' else '-min_required_funds'
+                    data = Strategy.objects.all().order_by(ordering).values(*args) # fetch all values
+                    
+                elif query == "favourite":
+                    if request.user.is_authenticated:
+                        fav_list = CustomUser.objects.get(username=request.user).favourite_strategy
+                        if fav_list:
+                            data = Strategy.objects.filter(id__in=fav_list).values(*args) # fetch all fav_strategies
+                else:
+                    # Invalid query, fetch default
+                    data = Strategy.objects.all().values(*args) # fetch all values
+            else:
+                # No expected query
+                data = Strategy.objects.all().values(*args) # fetch all values
+            response = []
+            for strategy in data:
+                strategy['id'] = str(strategy['id'])
+                response.append(strategy)
+            return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
+        except Exception as a:
+            return JsonResponse({'success': False, 'message': f'Error fetching Strategies', 'data': []}, status = 500)
+
+
+"""
+Plans : Payment GateWay not Integrated
+"""
+def available_plans(request):
+    # Need Testing / No Auth req
+    # You can also return from cache
+    #if request.method == 'POST':
+    if True: # For testing
+        try:
+            #query = request.GET.get("query")            
+            data = Plans.objects.all().values()# fetch available plans
+            response = []
+            for plan in data:
+                plan['plan_id'] = str(plan['plan_id'])
+                response.append(plan)
+            return JsonResponse({'success': True, 'message': f'Fetched Available Plans', 'data': response}, status = 200)
+    
+        except Exception as a:
+            return JsonResponse({'success': True, 'message': f'Error fetching Plans', 'data': []}, status = 500)
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+def purchase_plan(request, plan_id):
+    # Need Testing / Auth req
+    # You can also return from cache
+    # if request.method == 'POST':
+    if True: # For testing
+        try:
+            # Validate Authentication
+            if not request.user.is_authenticated:
+                    return JsonResponse({"success": False, "message": "Anonymous user can't access this feature"}, status=401)
+            # Check if such plan exists            
+            if not Plans.objects.filter(plan_id = plan_id).exists():
+                return JsonResponse({'success': False, 'message': 'Invalid Plan Request'}, status=405)
+            query = request.GET.get("method")
+            if query == 'testing':
+                # Fetch requested plan details
+                selected_plan = Plans.objects.get(plan_id = plan_id)
+                current_user = data = CustomUser.objects.get(username=request.user)
+                # Either create new or extend expiry
+                subscription, created = UserPlanSubscription.objects.get_or_create(
+                    user = current_user,
+                    plan = selected_plan,
+                    plan_type = selected_plan.plan_type,
+                    plan_price = selected_plan.plan_price,
+                    max_capital_allowed = selected_plan.max_capital_allowed,
+                    live_trading = selected_plan.live_trading,
+                    concurrent_executions_live = selected_plan.concurrent_executions_live,
+                    concurrent_executions_all = selected_plan.concurrent_executions_all,
+                    execution_time_bt_pt = selected_plan.execution_time_bt_pt,
+                    personal_support = selected_plan.personal_support,
+                    pnl_tracker = selected_plan.pnl_tracker,
+                    validity_hours_left = 720 # 30 Days
+                    )
+                if not created:
+                    subscription.validity_hours_left += 720
+                    subscription.save()
+                    current_user.active_plan_details['activePlan'] = {"subscriptionID": str(subscription.id), "planType": subscription.plan_type}
+                    current_user.strategy_information["personalSupport"]=selected_plan.personal_support
+                    current_user.strategy_information["executionTime"]=selected_plan.execution_time_bt_pt
+                    
+                    current_user.save()
+                    return JsonResponse({'success': True, 'message': 'Plan Already Exists, Validity increased by 30 Days'}, status=200)
+                else:
+                    current_user.active_plan_details['activePlan'] = {"subscriptionID": str(subscription.id), "planType": subscription.plan_type}
+                    current_user.strategy_information["personalSupport"]=selected_plan.personal_support
+                    current_user.strategy_information["executionTime"]=selected_plan.execution_time_bt_pt
+                    current_user.save()
+                    return JsonResponse({'success': True, 'message': 'Congratulation! New Plan Added'}, status=200)
+                    
+        except Exception as a:
+            return JsonResponse({'success': False, 'message': f'Purchase failed: {a}'}, status=405)           
+    return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
+
+
+
+"""
+Others : Avoid these API / Under Testing
+"""
 @csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
     return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
@@ -156,45 +398,6 @@ def verify_broker(request):
 
 def test_server(request):    
     return JsonResponse({'success': True, 'message': f'Backend is running without errors!'})
-
-def strategies_details(request, strategy_id):
-    # Need Testing / No Auth req
-    # You can also return from cache
-    try:
-        data = Strategy.objects.filter(id = strategy_id).values() # fetch all values
-        response = []
-        for strategy in data:
-            strategy['id'] = strategy_id
-            response.append(strategy)
-        return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
-    except Exception as a:
-       return JsonResponse({'success': True, 'message': f'Error fetching Strategies', 'data': []}, status = 500)
-
-def strategies_list(request):
-    # Need Testing / No Auth req
-    # You can also return from cache
-    try:
-        data = Strategy.objects.all().values('id','name','mode','segment','instruments','version','tags','short_description','min_required_funds','user_count') # fetch all values
-        response = []
-        for strategy in data:
-            strategy['id'] = str(strategy['id'])
-            response.append(strategy)
-        return JsonResponse({'success': True, 'message': f'Fetched Available Strategies', 'data': response}, status = 200)
-    except Exception as a:
-       return JsonResponse({'success': True, 'message': f'Error fetching Strategies', 'data': []}, status = 500)
-
-def pricing(request):
-    # Need Testing / No Auth req
-    # You can also return from cache
-    try:
-        data = Plans.objects.all().values() # fetch all values
-        response = []
-        for plan in data:
-            plan['plan_id'] = str(plan['plan_id'])
-            response.append(plan)
-        return JsonResponse({'success': True, 'message': f'Fetched Available Plans', 'data': response}, status = 200)
-    except Exception as a:
-       return JsonResponse({'success': True, 'message': f'Error fetching Plans', 'data': []}, status = 500)
 
 def store_credentials(customer_key, customer_secret, password, mobile_number):
     return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)

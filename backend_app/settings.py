@@ -72,6 +72,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://www.algostrike.com",
     "https://algostrike.com",
+    "https://app.algostrike.com"
 ]
 """
 # Optionally, allow specific HTTP methods (default includes GET, POST, etc.)
