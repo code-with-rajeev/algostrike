@@ -23,7 +23,7 @@ urlpatterns = [
 
     # Plans
     path('api/pricing',views.available_plans, name ='available_plans'),
-    path('api/pricing/<str:plan_id>/purchase',views.purchase_plan, name ='purchase_plan')
+    path('api/pricing/<str:plan_id>/purchase',views.purchase_plan, name ='purchase_plan'),
 
     path('admin/', admin.site.urls),
     ]
