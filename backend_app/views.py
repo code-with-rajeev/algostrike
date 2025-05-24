@@ -12,6 +12,18 @@ from backend.core.authentication.authenticate_broker.authenticate import authent
 from django.views.decorators.csrf import csrf_exempt
 from backend_app.backend.core.authentication.authenticate_user import verification as user_verification
 
+# Custom decorator to allow any origin for CORS
+# Only For Testing
+def allow_any_origin(view_func):
+    def wrapped_view(request, *args, **kwargs):
+        response = view_func(request, *args, **kwargs)
+        response['Access-Control-Allow-Origin'] = '*'  # Allow all origins
+        response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTION'
+        response['Access-Control-Allow-Headers'] = 'Content-Type, X-CSRFToken'
+        response['Access-Control-Allow-Credentials'] = 'true'  # Allow cookies for session/CSRF
+        return response
+    return wrapped_view
+
 # This function generates OTP
 @csrf_exempt
 def generate_otp(request):
@@ -81,6 +93,8 @@ Dashboard : Working
 #@login_required
 # CSRF Needed
 # Allow Only Post method
+
+@allow_any_origin
 def profile_info(request):
     #if request.method == 'POST':
     if True: # For testing
@@ -101,6 +115,7 @@ def profile_info(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+@allow_any_origin
 def account_info(request):
     #if request.method == 'POST':
     if True: # For testing
@@ -122,6 +137,7 @@ def account_info(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+@allow_any_origin
 def subscription_info(request):
     #if request.method == 'POST':
     if True: # For testing
@@ -147,6 +163,7 @@ def subscription_info(request):
 """
 Strategies : Working
 """
+@allow_any_origin
 def strategies_details(request, strategy_id):
     # Need Testing / No Auth req
     # You can also return from cache
@@ -197,6 +214,7 @@ def strategies_details(request, strategy_id):
            return JsonResponse({'success': True, 'message': f'Error fetching Strategies: {a}', 'data': []}, status = 500)
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+@allow_any_origin
 def strategies_list(request):
     # Need Testing / No Auth req
     # You can also return from cache
@@ -242,6 +260,7 @@ def strategies_list(request):
 """
 Plans : Payment GateWay not Integrated
 """
+@allow_any_origin
 def available_plans(request):
     # Need Testing / No Auth req
     # You can also return from cache
@@ -260,6 +279,7 @@ def available_plans(request):
             return JsonResponse({'success': True, 'message': f'Error fetching Plans', 'data': []}, status = 500)
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
+@allow_any_origin
 def purchase_plan(request, plan_id):
     # Need Testing / Auth req
     # You can also return from cache
