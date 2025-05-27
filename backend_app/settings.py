@@ -66,7 +66,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+# Allowing all origin, For Testing but must has secret_test_key
+CORS_ALLOW_ALL_ORIGIN = True
+"""
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
@@ -74,6 +76,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://algostrike.com",
     "https://app.algostrike.com"
 ]
+"""
+
 """
 # Optionally, allow specific HTTP methods (default includes GET, POST, etc.)
 CORS_ALLOW_METHODS = [

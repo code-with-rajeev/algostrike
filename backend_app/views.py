@@ -24,6 +24,18 @@ def allow_any_origin(view_func):
         return response
     return wrapped_view
 
+# For testing API
+def api_testing(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            secret_testing_key = data.get("secret_testing_key")
+            if secret_testing_key == os.environ.get("TESTING_KEY"):
+                return True
+        return False
+    except Exception as a:
+        return False
+
 # This function generates OTP
 @csrf_exempt
 def generate_otp(request):
@@ -94,8 +106,11 @@ Dashboard : Working
 # CSRF Needed
 # Allow Only Post method
 
-@allow_any_origin
+#@allow_any_origin
 def profile_info(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
     #if request.method == 'POST':
     if True: # For testing
         try:
@@ -115,8 +130,12 @@ def profile_info(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@allow_any_origin
+#@allow_any_origin
 def account_info(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     #if request.method == 'POST':
     if True: # For testing
         try:
@@ -137,8 +156,12 @@ def account_info(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@allow_any_origin
+#@allow_any_origin
 def subscription_info(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     #if request.method == 'POST':
     if True: # For testing
         try:
@@ -163,8 +186,12 @@ def subscription_info(request):
 """
 Strategies : Working
 """
-@allow_any_origin
+#@allow_any_origin
 def strategies_details(request, strategy_id):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     # Need Testing / No Auth req
     # You can also return from cache
     # if request.method == "POST":
@@ -214,8 +241,12 @@ def strategies_details(request, strategy_id):
            return JsonResponse({'success': True, 'message': f'Error fetching Strategies: {a}', 'data': []}, status = 500)
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@allow_any_origin
+#@allow_any_origin
 def strategies_list(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     # Need Testing / No Auth req
     # You can also return from cache
     # Missing Pagination / Partial data fetching
@@ -260,8 +291,12 @@ def strategies_list(request):
 """
 Plans : Payment GateWay not Integrated
 """
-@allow_any_origin
+#@allow_any_origin
 def available_plans(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     # Need Testing / No Auth req
     # You can also return from cache
     #if request.method == 'POST':
@@ -279,8 +314,12 @@ def available_plans(request):
             return JsonResponse({'success': True, 'message': f'Error fetching Plans', 'data': []}, status = 500)
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@allow_any_origin
+#@allow_any_origin
 def purchase_plan(request, plan_id):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     # Need Testing / Auth req
     # You can also return from cache
     # if request.method == 'POST':
@@ -339,6 +378,10 @@ Others : Avoid these API / Under Testing
 """
 @csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
     # Forbidden
     if request.method == 'POST':
@@ -370,6 +413,10 @@ def broker_credentials(request):
 
 @csrf_exempt
 def verify_broker(request):
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+
     #global mobile_number
     if request.method == 'POST':
         try:
@@ -420,16 +467,19 @@ def test_server(request):
     return JsonResponse({'success': True, 'message': f'Backend is running without errors!'})
 
 def store_credentials(customer_key, customer_secret, password, mobile_number):
-    return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
     # Simulate storing credentials (replace with actual database or secure storage logic)
     print(f"Storing credentials: {customer_key}, {customer_secret}, {password}, {mobile_number}")
     # Example: Save to database or encrypted storage
     pass
     
 def debug_mode(request):
-
-    return JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource'}, status = 403)
-    # For testing only
+    # For API Testing only!
+    if not api_testing(request):
+        JsonResponse({'success': False, 'error': 'Forbidden', 'message': 'You do not have permission for access this resource. Please provide valid secret_testing_key.'}, status = 403)
+    """
     try:
         from .tasks import schedule_algo, schedule_stream_worker
         schedule_algo.delay()
@@ -437,3 +487,5 @@ def debug_mode(request):
         return JsonResponse({'success': True}, status=200)
     except Exception as a:
         return JsonResponse({'success': False, 'message': f'Error : {a}'}, status=400)
+    """
+    pass
