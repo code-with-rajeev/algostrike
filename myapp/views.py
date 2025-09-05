@@ -56,7 +56,7 @@ def dashboard(request):
     #return render(request, 'portfolio.html', {'trades': trades})
     return render(request, 'dashboard.html', {'name': request.user.username})
 
-@login_required
+#Allow Access
 def strategies(request):
     
     return render(request, 'strategies.html',{'message':'No Strategies yet !', 'name': request.user.username})
