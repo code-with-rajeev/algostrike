@@ -706,7 +706,7 @@ consultButton.addEventListener('click', () => {
         fetch("http://127.0.0.1:8000/api/audio_snippet/parse", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: finalTranscript.trim() })
+          body: finalTranscript.trim()
         }).then(r => r.json())
 .then(d => {
   if (!d.status || !d.data) return;

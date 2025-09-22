@@ -33,6 +33,7 @@ Always:
 - Prioritize accuracy and patient safety
 - Prefer the doctor’s known medicine preferences when available
 - Keep problem and case descriptions short (2–4 words each)
+- Follow-up should be schedule based on current date
 - Output only the requested JSON in correct structure
 - If unsure about medicines or causes, search the web (if tool access is enabled) or say "Not sure" instead of guessing dangerously
 - Never make up patient details not implied from the conversation
@@ -106,8 +107,10 @@ prompt_template = ChatPromptTemplate.from_messages(messages)
 def parse_input(text):
     prompt = prompt_template.invoke({"conversation_text": text})
     response = llm.invoke(prompt)
+
     try:
-        output = json.loads(response)
-        return {"status": True, "data": output}
+        content = re.sub(r"```(json)?", "", response.content).strip()
+        data = json.loads(content)
+        return {"status": True, "data": data}
     except Exception as a:
         return {"status": False, "message": a}

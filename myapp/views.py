@@ -63,13 +63,13 @@ def assistant_page(request):
 def audio_parse(request):
     try:
         if request.method == 'POST':
-        data = request.body.decode("utf-8")
-
-        suggestion = parser.parse_input(data)
-        if suggestion["status"] != False:
-            return JsonResponse(suggestion)
-        return JsonResponse({"status":False, "message": suggestion["message"]})
+            data = request.body.decode("utf-8")
+            suggestion = parser.parse_input(data)
+            if suggestion["status"] != False:
+                return JsonResponse(suggestion)
+            return JsonResponse({"status":False, "message": suggestion["message"]})
     except Exception as a:
+        print(a)
         return JsonResponse({"status":False, "message": "INVALID REQUEST"})
 
 # Create your views here.
