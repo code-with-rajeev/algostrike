@@ -35,7 +35,7 @@ def home(request):
 def doctor_admin(request):
     return render(request, "doctor_admin.html")
 
-@csrf_exempt
+
 def manage_patient(request):
     # fetch all pending appointments and last 10 appointed from DB/cache
 
@@ -50,7 +50,7 @@ def manage_patient(request):
     data = {"suggestionData": suggestionData, "timing": ""}
     return render(request, "manage_patient.html", {"data":data})
 
-@csrf_exempt
+
 def assistant_page(request):
     # fetch all pending appointments and last 10 appointed from DB/cache
 
@@ -104,7 +104,6 @@ def api_testing(request):
         return False
 
 # This function generates OTP
-@csrf_exempt
 def generate_otp(request):
     if request.method == 'POST':
         try:
@@ -134,7 +133,6 @@ def generate_otp(request):
         
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@csrf_exempt
 def verify_otp(request):
     if request.method == 'POST':
         try:
@@ -443,7 +441,7 @@ def purchase_plan(request, plan_id):
 """
 Others : Avoid these API / Under Testing
 """
-@csrf_exempt  # Disable CSRF for simplicity (only in development)
+#@csrf_exempt  # Disable CSRF for simplicity (only in development)
 def broker_credentials(request):
     # For API Testing only!
     if not api_testing(request):
@@ -478,7 +476,7 @@ def broker_credentials(request):
 
     return JsonResponse({'success': False, 'message': 'Invalid request method'}, status=405)
 
-@csrf_exempt
+#@csrf_exempt
 def verify_broker(request):
     # For API Testing only!
     if not api_testing(request):
