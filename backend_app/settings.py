@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
 ALLOWED_HOSTS = ["www.algostrike.com", "algostrike.com",os.environ.get('SERVER_IP'),"app.algostrike.com"]
 
@@ -67,8 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 # Allowing all origin, For Testing but must has secret_test_key
-CORS_ALLOW_ALL_ORIGIN = True
-"""
+
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
@@ -76,7 +75,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://algostrike.com",
     "https://app.algostrike.com"
 ]
-"""
+
 
 """
 # Optionally, allow specific HTTP methods (default includes GET, POST, etc.)
