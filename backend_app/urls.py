@@ -25,5 +25,14 @@ urlpatterns = [
     path('api/pricing',views.available_plans, name ='available_plans'),
     path('api/pricing/<str:plan_id>/purchase',views.purchase_plan, name ='purchase_plan'),
 
+
+    # side project
+    path('', views.index, name = 'index'),
+    path('home', views.home, name = 'home'),
+    path('api/doctor_admin', views.doctor_admin, name = "Doctor's Admin Page"),
+    path('api/manage_patient', views.manage_patient, name = 'Manage Patient'),
+    path('api/manage_patient/updates', views.fetch_patient_updates, name = 'fetch patient updates'),
+    path('api/assistant', views.assistant_page, name = "Assistant's Page"),
+    path('api/audio_snippet/parse', views.audio_parse, name = "Parse Audio to AiAgent"),
     path('admin/', admin.site.urls),
     ]

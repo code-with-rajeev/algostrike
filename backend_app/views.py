@@ -14,6 +14,72 @@ from backend_app.backend.core.authentication.authenticate_user import verificati
 
 # Custom decorator to allow any origin for CORS
 # Only For Testing
+
+from myapp import parser
+# from backend.interfaces.cache_manager import CacheManager
+
+
+# Side Project
+
+# POST API
+def fetch_patient_updates(request):
+    # Redis-> "{doctor_ID}:manage_patient" : {"ongoingPatient": [max = 1?], "pendingAppointment": [], "appointedPatients": [] }
+    return JsonResponse({"status":True, "message": "API under maintainance"})
+# Create your views here.
+def index(request):
+    return render(request, 'manage_patient.html')
+
+def home(request):
+    return render(request, 'manage_patient.html')
+
+def doctor_admin(request):
+    return render(request, "doctor_admin.html")
+
+
+def manage_patient(request):
+    # fetch all pending appointments and last 10 appointed from DB/cache
+
+    # dummy data
+    
+    suggestionData = {
+        "case": ["Fever", "Cough", "Diabetes", "Back Pain"],
+        "cause": ["Infection", "Stress", "Allergy", "Injury"],
+        "medicine": ["Paracetamol", "Ibuprofen", "Amoxicillin", "Cetirizine"]
+    }
+    
+    data = {"suggestionData": suggestionData, "timing": ""}
+    return render(request, "manage_patient.html", {"data":data})
+
+def assistant_page(request):
+    # fetch all pending appointments and last 10 appointed from DB/cache
+
+    # dummy data
+    pendingAppointments = [
+      {"id":"APT101", "name":"Ravi Kumar", "number":"9876543210", "date":"2025-09-17", "followup":"2025-09-22", "status":"pending"},
+      {"id":"APT102", "name":"Sita Sharma", "number":"9123456780", "date":"2025-09-18", "followup":"2025-09-23", "status":"pending"},
+      {"id":"APT103", "name":"Aman Gupta", "number":"9988776655", "date":"2025-09-19", "followup":"2025-09-25", "status":"pending"}
+    ]
+    appointedPatients = [
+      {"id":"APT090", "name":"Arjun Mehta", "number":"9090909090", "date":"2025-09-10", "followup":"2025-09-18", "status":"appointed"},
+      {"id":"APT091", "name":"Priya Singh", "number":"8080808080", "date":"2025-09-12", "followup":"2025-09-20", "status":"appointed"}
+    ]
+    data = {"pendingAppointments": pendingAppointments, "appointedPatients": appointedPatients}
+    return render(request, "assistant.html", {"data":data})
+
+@csrf_exempt
+def audio_parse(request):
+    try:
+        if request.method == 'POST':
+            data = request.body.decode("utf-8")
+            suggestion = parser.parse_input(data)
+            if suggestion["status"] != False:
+                return JsonResponse(suggestion)
+            return JsonResponse({"status":False, "message": suggestion["message"]})
+    except Exception as a:
+        print(a)
+        return JsonResponse({"status":False, "message": "INVALID REQUEST"})
+
+
 def allow_any_origin(view_func):
     def wrapped_view(request, *args, **kwargs):
         response = view_func(request, *args, **kwargs)
