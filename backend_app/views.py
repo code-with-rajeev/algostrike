@@ -35,7 +35,7 @@ def home(request):
 def doctor_admin(request):
     return render(request, "doctor_admin.html")
 
-
+@csrf_exempt
 def manage_patient(request):
     # fetch all pending appointments and last 10 appointed from DB/cache
 
@@ -50,6 +50,7 @@ def manage_patient(request):
     data = {"suggestionData": suggestionData, "timing": ""}
     return render(request, "manage_patient.html", {"data":data})
 
+@csrf_exempt
 def assistant_page(request):
     # fetch all pending appointments and last 10 appointed from DB/cache
 
