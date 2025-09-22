@@ -1,0 +1,604 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistant Page</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #eef1f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 350px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      transition: background 0.2s;
+    }
+
+    .btn-primary { background: #007bff; }
+    .btn-primary:hover { background: #0056b3; }
+
+    .btn-warning { background: #f0ad4e; }
+    .btn-warning:hover { background: #d68a24; }
+
+    .btn-success { background: #28a745; }
+    .btn-success:hover { background: #1e7e34; }
+
+    .btn-danger { background: #dc3545; }
+    .btn-danger:hover { background: #a71d2a; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #eee;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f9fbff;
+      font-weight: 600;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    /* Popup */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    .popup-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .popup-actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .btn.cancel-btn {
+      background: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    .btn.cancel-btn:hover {
+      background: #f2f2f2;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      input { max-width: 100%; }
+      .btn { width: 100%; margin-top: 8px; }
+    }
+
+/* Background Gradient Animation */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(120deg, #1a73e8, #673ab7, #00bcd4);
+  background-size: 300% 300%;
+  animation: bgAnimation 12s ease infinite;
+}
+
+@keyframes bgAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  margin: 10px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+.nav-brand {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  -webkit-text-stroke: 0.5px black;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  transition: all 0.4s ease;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Glowing Hover Effect */
+.nav-links li a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+/* Active link */
+.nav-links li a.active {
+  background: rgba(255,255,255,0.25);
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(255,255,255,0.7);
+}
+
+.logout-btn {
+  background: #e53935;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #ff5252;
+  box-shadow: 0 0 10px rgba(255,0,0,0.7);
+}
+
+/* Hamburger Button */
+.nav-toggle {
+  font-size: 28px;
+  background: none;
+  border: none;
+  display: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.nav-toggle:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Sidebar Animation */
+@media (max-width: 768px) {
+  .nav-close {
+    display: block;
+  }
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    height: 100vh;
+    display: none;
+    width: 250px;
+    background: rgba(25,25,25,0.9);
+    backdrop-filter: blur(12px);
+    padding: 60px 20px;
+    border-left: 2px solid rgba(255,255,255,0.2);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    transition: right 0.4s ease;
+  }
+  .nav-links a.active {
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  .nav-links.show {
+    right: 0;
+    display: block;
+  }
+
+  .nav-links li {
+    margin: 20px 0;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+}
+/* Close button inside sidebar */
+.nav-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  display: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.nav-close:hover {
+  transform: scale(1.2);
+  color: #ff5252;
+}
+
+
+
+/* Add text outline for better visibility */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* black outline */
+}
+
+/* Active nav item */
+.nav-links a.active {
+  background: rgba(0, 123, 255, 0.8);
+  box-shadow: 0 0 15px #007bff, 0 0 25px #007bff;
+}
+
+/* Hover effect stays glowing */
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Safely store JSON -->
+
+  {{data|json_script:"my-data"}}
+
+<nav class="navbar">
+  <div class="nav-brand">MediAssist</div>
+  <button class="nav-toggle" id="navToggle">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <button class="nav-close" id="navClose">×</button>
+    <li><a href="/api/manage_patient" class="nav-link ">Consult</a></li>
+    <li><a href="/api/doctor_admin" class="nav-link">Profile</a></li>
+    <li><a href="/api/assistant" class="nav-link active">Assistant</a></li>
+    <li><a href="#logout" class="logout-btn nav-link">Logout</a></li>
+  </ul>
+</nav>
+
+  <div class="container">
+    <h1 style="color: white">Assistant Dashboard</h1>
+
+    <!-- Card 1 -->
+    <div class="card">
+      <h2>Manage Appointments</h2>
+
+      <!-- Section A -->
+      <div class="section">
+        <h3>Fetch Existing Customer</h3>
+        <label>Appointment ID</label>
+        <input type="text" id="existingId" placeholder="Enter Appointment ID">
+        <br>
+        <button class="btn btn-success" onclick="addExisting()">Add</button>
+        <button class="btn btn-primary" onclick="confirmAppoint()">Appoint</button>
+      </div>
+
+      <!-- Section B -->
+      <div class="section">
+        <h3>Generate New Appointment</h3>
+        <label>Patient Number</label>
+        <input type="text" id="patientNumber" placeholder="Enter Patient Number">
+        <br>
+        <button class="btn btn-success" onclick="generateAppointment()">Generate ID</button>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <h2>Pending Appointments</h2>
+      <div class="table-container">
+        <table id="pendingTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Date</th>
+              <th>Follow-up</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <h2>Appointed Patients</h2>
+      <div class="table-container">
+        <table id="appointedTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Date</th>
+              <th>Follow-up</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    // JSON Parse
+    const jsonData = JSON.parse(document.getElementById("my-data").textContent);
+    console.log("DATA GOT is ",jsonData);
+
+    let pendingAppointments = jsonData.pendingAppointments;
+    let appointedPatients = jsonData.appointedPatients;
+    let currentPatient = null;
+
+    // Generate New Appointment
+    function generateAppointment() {
+      const number = document.getElementById("patientNumber").value.trim();
+      if (!number) return alert("Enter patient number");
+      const id = "APT" + Math.floor(Math.random() * 10000);
+      const newPatient = {
+        id,
+        name: "Unknown",
+        number,
+        date: new Date().toLocaleString(),
+        followup: "N/A",
+        status: "pending"
+      };
+      pendingAppointments.push(newPatient);
+      renderPending();
+      console.log("new id created and sent to patient number:", number);
+      document.getElementById("patientNumber").value = "";
+    }
+
+    // Render Pending Table
+    function renderPending() {
+      const tbody = document.getElementById("pendingTable").querySelector("tbody");
+      tbody.innerHTML = "";
+      pendingAppointments.forEach((p, i) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>${p.number}</td>
+          <td>${p.date}</td>
+          <td>${p.followup}</td>
+          <td>
+            <button class="btn ${p.status === "pending" ? "btn-warning" : "btn-primary"}" 
+              onclick="fillAppointment('${p.id}')">
+              ${p.status === "pending" ? "Pending" : "On-going"}
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" onclick="cancelAppointment(${i})" ${p.status !== "pending" ? "disabled" : ""}>Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Cancel Appointment
+    function cancelAppointment(index) {
+      pendingAppointments.splice(index, 1);
+      renderPending();
+    }
+
+    // Fill Appointment ID in Card1
+    function fillAppointment(id) {
+      document.getElementById("existingId").value = id;
+    }
+
+    // Add Existing Patient (Card1 Add button)
+    function addExisting() {
+      const id = document.getElementById("existingId").value.trim();
+      if (!id) return alert("Enter Appointment ID");
+      if (pendingAppointments.find(p => p.id === id) || appointedPatients.find(p => p.id === id)) {
+        return alert("Appointment already exists");
+      }
+      const newPatient = {
+        id,
+        name: "Unknown",
+        number: "N/A",
+        date: new Date().toLocaleString(),
+        followup: "N/A",
+        status: "pending"
+      };
+      pendingAppointments.push(newPatient);
+      renderPending();
+      console.log("Patient added to pending:", id);
+    }
+
+    // Confirm Appointment (Popup)
+    function confirmAppoint() {
+      const id = document.getElementById("existingId").value.trim();
+      if (!id) return alert("Enter Appointment ID");
+      const patient = pendingAppointments.find(p => p.id === id);
+      if (!patient) return alert("No pending appointment with this ID");
+
+      const popup = document.createElement("div");
+      popup.className = "popup-overlay";
+      popup.innerHTML = `
+        <div class="popup-card">
+          <p>Are you sure want to appoint this patient?</p>
+          <div class="popup-actions">
+            <button class="btn btn-success" id="confirmAppointBtn">Appoint</button>
+            <button class="btn cancel-btn" id="cancelPopupBtn">Cancel</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(popup);
+
+      popup.querySelector("#cancelPopupBtn").onclick = () => popup.remove();
+      popup.querySelector("#confirmAppointBtn").onclick = () => {
+        appointExisting(patient);
+        popup.remove();
+      };
+    }
+
+    // Appoint Existing Patient
+    function appointExisting(patient) {
+      if (currentPatient) {
+        return alert("Doctor already consulting a patient");
+      }
+      patient.status = "on-going";
+      currentPatient = patient;
+      renderPending();
+      console.log("existing patient appointed to doctor:", patient.id);
+
+      // After 5s, move to appointed
+      setTimeout(() => {
+        patient.status = "appointed";
+        appointedPatients.push(patient);
+        pendingAppointments = pendingAppointments.filter(p => p.id !== patient.id);
+        currentPatient = null;
+        renderPending();
+        renderAppointed();
+      }, 5000);
+    }
+
+    // Render Appointed Patients
+    function renderAppointed() {
+      const tbody = document.getElementById("appointedTable").querySelector("tbody");
+      tbody.innerHTML = "";
+      appointedPatients.forEach(p => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>${p.number}</td>
+          <td>${p.date}</td>
+          <td>${p.followup}</td>
+          <td><span style="color: green; font-weight: bold;">Appointed</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Initial render with dummy data
+    renderPending();
+    renderAppointed();
+
+//Navbar
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+const navClose = document.getElementById("navClose");
+const navItems = document.querySelectorAll(".nav-link");
+
+// Open sidebar
+navToggle.addEventListener("click", () => {
+  navLinks.classList.add("show");
+});
+
+// Close sidebar
+navClose.addEventListener("click", () => {
+  navLinks.classList.remove("show");
+});
+
+navToggle.addEventListener("click", () => {
+  navClose.classList.add("show");
+});
+
+  </script>
+</body>
+</html>

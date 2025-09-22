@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Management Dashboard</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #eef1f7;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+    .form-row {
+      display: flex;
+      gap: 35px;
+      flex-wrap: wrap;
+    }
+    .form-group {
+      flex: 1;
+      min-width: 180px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .three-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .tag-input {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fafafa;
+      min-height: 44px;
+      cursor: text;
+    }
+    .tag {
+      background: #007bff;
+      color: #fff;
+      padding: 6px 10px;
+      max-height: 20px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+    }
+    .tag span {
+      margin-left: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tag-input input {
+      border: none;
+      flex: 1;
+      padding: 6px;
+      min-width: 120px;
+      font-size: 14px;
+      background: transparent;
+      outline: none;
+    }
+    .suggestions {
+      margin-top: 6px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .suggestion {
+      background: #f1f1f1;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .suggestion:hover { background: #dce9ff; }
+    .btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn:hover { background: #0056b3; }
+    .action-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    #consultButton {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      background: #28a745;
+      color: #fff;
+      cursor: pointer;
+    }
+    #consultButton.active { background: #dc3545; }
+    .table-container {
+      background: #fff;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #007bff;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .action-btn {
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 6px;
+      color: #fff;
+    }
+    .edit-btn { background: #ffc107; }
+    .delete-btn { background: #dc3545; }
+    .edit-btn:hover { background: #e0a800; }
+    .delete-btn:hover { background: #a71d2a; }
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      td {
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+      }
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      th { display: none; }
+    }
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a73e8;
+  padding: 12px 24px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-brand {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.nav-links li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn {
+  background: #e53935;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.logout-btn:hover {
+  background: #c62828;
+}
+
+/* Hamburger Button */
+.nav-toggle {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.nav-toggle:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #1a73e8;
+    width: 200px;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .nav-links.show {
+    right: 0;
+    display: block;
+  }
+
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+  .nav-toggle {
+    display: block;
+  }
+}
+
+/* Background Gradient Animation */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(120deg, #1a73e8, #673ab7, #00bcd4);
+  background-size: 300% 300%;
+  animation: bgAnimation 12s ease infinite;
+}
+
+@keyframes bgAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  margin: 10px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+.nav-brand {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  -webkit-text-stroke: 0.5px black;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  transition: all 0.4s ease;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* Glowing Hover Effect */
+.nav-links li a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+/* Active link */
+.nav-links li a.active {
+  background: rgba(255,255,255,0.25);
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(255,255,255,0.7);
+}
+
+.logout-btn {
+  background: #e53935;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background: #ff5252;
+  box-shadow: 0 0 10px rgba(255,0,0,0.7);
+}
+
+/* Hamburger Button */
+.nav-toggle {
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.nav-toggle:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Sidebar Animation */
+@media (max-width: 768px) {
+  .nav-close {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    height: 100vh;
+    width: 250px;
+    display: none;
+    background: rgba(25,25,25,0.9);
+    backdrop-filter: blur(12px);
+    padding: 60px 20px;
+    border-left: 2px solid rgba(255,255,255,0.2);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    transition: right 0.4s ease;
+  }
+
+  .nav-links.show {
+    right: 0;
+  }
+
+  .nav-links li {
+    margin: 20px 0;
+  }
+}
+
+/* Close button inside sidebar */
+.nav-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 28px;
+  background: none;
+  border: none;
+  display: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.nav-close:hover {
+  transform: scale(1.2);
+  color: #ff5252;
+}
+
+
+/* Add text outline for better visibility */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* black outline */
+}
+
+/* Active nav item */
+.nav-links a.active {
+  background: rgba(0, 123, 255, 0.8);
+  box-shadow: 0 0 15px #007bff, 0 0 25px #007bff;
+}
+
+/* Hover effect stays glowing */
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Safely store JSON -->
+
+  {{data|json_script:"my-data"}}
+
+<nav class="navbar">
+  <div class="nav-brand">MediAssist</div>
+  <button class="nav-toggle" id="navToggle">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <button class="nav-close" id="navClose">×</button>
+    <li><a href="/api/manage_patient" class="nav-link active">Consult</a></li>
+    <li><a href="/api/doctor_admin" class="nav-link">Profile</a></li>
+    <li><a href="/api/assistant" class="nav-link">Assistant</a></li>
+    <li><a href="logout#" class="logout-btn nav-link">Logout</a></li>
+  </ul>
+</nav>
+
+
+
+
+<div class="container">
+  <div class="card">
+    <h1>Patient Form</h1>
+    <form id="patientForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Appointment ID</label>
+          <input type="text" id="appointmentId" required>
+        </div>
+        <div class="form-group">
+          <label>Patient Name</label>
+          <input type="text" id="patientName" required>
+        </div>
+        <div class="form-group">
+          <label>Patient Number</label>
+          <input type="text" id="patientNumber" required>
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" id="patientAge" required>
+        </div>
+      </div>
+      <div class="three-box">
+        <div>
+          <label>Case / Problem</label>
+          <div class="tag-input" id="caseBox"><input type="text" placeholder="Type and press Enter"></div>
+          <div class="suggestions" data-type="case"></div>
+        </div>
+        <div>
+          <label>Cause</label>
+          <div class="tag-input" id="causeBox"><input type="text" placeholder="Type and press Enter"></div>
+          <div class="suggestions" data-type="cause"></div>
+        </div>
+        <div>
+          <label>Medicine Prescribed</label>
+          <div class="tag-input" id="medicineBox"><input type="text" placeholder="Type and press Enter"></div>
+          <div class="suggestions" data-type="medicine"></div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:20px;">
+        <label>Follow-up Date</label>
+        <input type="date" id="followUpDate" required>
+      </div>
+      <div class="action-row">
+        <button class="btn" type="submit" id="addBtn">Add Patient</button>
+        <button type="button" id="consultButton">Start Consulting</button>
+      </div>
+    </form>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Appointment ID</th>
+          <th>Name</th>
+          <th>Number</th>
+          <th>Age</th>
+          <th>Case</th>
+          <th>Cause</th>
+          <th>Medicine</th>
+          <th>Follow-up</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="patientTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+
+  // JSON Parse
+  const jsonData = JSON.parse(document.getElementById("my-data").textContent);
+  console.log("DATA GOT is ",jsonData);
+
+  //const suggestionData = jsonData.suggestionData;
+
+  const suggestionData = {
+    case: ["Fever", "Cough", "Diabetes", "Back Pain"],
+    cause: ["Infection", "Stress", "Allergy", "Injury"],
+    medicine: ["Paracetamol", "Ibuprofen", "Amoxicillin", "Cetirizine"]
+  };
+
+  function setupTagInput(boxId, type) {
+    const container = document.getElementById(boxId);
+    const input = container.querySelector("input");
+    const suggestionsDiv = document.querySelector(`.suggestions[data-type="${type}"]`);
+    suggestionData[type].forEach(item => {
+      const sug = document.createElement("div");
+      sug.className = "suggestion";
+      sug.innerText = item;
+      sug.onclick = () => addTag(container, input, item);
+      suggestionsDiv.appendChild(sug);
+    });
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter" && input.value.trim() !== "") {
+        e.preventDefault();
+        addTag(container, input, input.value.trim());
+        input.value = "";
+      }
+    });
+  }
+  function addTag(container, input, text) {
+    const tag = document.createElement("div");
+    tag.className = "tag";
+    tag.innerHTML = `${text} <span>&times;</span>`;
+    tag.querySelector("span").onclick = () => tag.remove();
+    container.insertBefore(tag, input);
+  }
+  setupTagInput("caseBox", "case");
+  setupTagInput("causeBox", "cause");
+  setupTagInput("medicineBox", "medicine");
+
+  const form = document.getElementById('patientForm');
+  const tableBody = document.getElementById('patientTableBody');
+  const addBtn = document.getElementById('addBtn');
+  const consultButton = document.getElementById('consultButton');
+  let editingRow = null;
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const appointmentId = document.getElementById('appointmentId').value;
+    const patientName = document.getElementById('patientName').value;
+    const patientNumber = document.getElementById('patientNumber').value;
+    const patientAge = document.getElementById('patientAge').value;
+    const caseDetails = [...document.querySelectorAll("#caseBox .tag")].map(t=>t.childNodes[0].textContent);
+    const causeDetails = [...document.querySelectorAll("#causeBox .tag")].map(t=>t.childNodes[0].textContent);
+    const medicine = [...document.querySelectorAll("#medicineBox .tag")].map(t=>t.childNodes[0].textContent);
+    const followUpDate = document.getElementById('followUpDate').value;
+
+    if (editingRow) {
+      editingRow.innerHTML = rowHTML(appointmentId, patientName, patientNumber, patientAge, caseDetails, causeDetails, medicine, followUpDate);
+      attachRowEvents(editingRow);
+      editingRow = null;
+      addBtn.textContent = "Add Patient";
+    } else {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = rowHTML(appointmentId, patientName, patientNumber, patientAge, caseDetails, causeDetails, medicine, followUpDate);
+      attachRowEvents(newRow);
+      tableBody.prepend(newRow);
+    }
+    form.reset();
+    document.querySelectorAll(".tag").forEach(tag=>tag.remove());
+  });
+
+  function rowHTML(id, name, number, age, caseD, causeD, med, follow) {
+    return `
+      <td data-label="Appointment ID">${id}</td>
+      <td data-label="Name">${name}</td>
+      <td data-label="Number">${number}</td>
+      <td data-label="Age">${age}</td>
+      <td data-label="Case">${caseD.join(", ")}</td>
+      <td data-label="Cause">${causeD.join(", ")}</td>
+      <td data-label="Medicine">${med.join(", ")}</td>
+      <td data-label="Follow-up">${follow}</td>
+      <td>
+        <button class="action-btn edit-btn">Edit</button>
+        <button class="action-btn delete-btn">Delete</button>
+      </td>`;
+  }
+  function attachRowEvents(row) {
+    row.querySelector(".delete-btn").onclick = () => row.remove();
+    row.querySelector(".edit-btn").onclick = () => {
+      editingRow = row;
+      document.getElementById('appointmentId').value = row.children[0].innerText;
+      document.getElementById('patientName').value = row.children[1].innerText;
+      document.getElementById('patientNumber').value = row.children[2].innerText;
+      document.getElementById('patientAge').value = row.children[3].innerText;
+      refillTags("caseBox", row.children[4].innerText.split(", ").filter(Boolean));
+      refillTags("causeBox", row.children[5].innerText.split(", ").filter(Boolean));
+      refillTags("medicineBox", row.children[6].innerText.split(", ").filter(Boolean));
+      document.getElementById('followUpDate').value = row.children[7].innerText;
+      addBtn.textContent = "Update Patient";
+    };
+  }
+  function refillTags(boxId, values) {
+    const container = document.getElementById(boxId);
+    const input = container.querySelector("input");
+    container.querySelectorAll(".tag").forEach(t=>t.remove());
+    values.forEach(v => addTag(container, input, v));
+  }
+
+  // Speech Recognition
+  let recognition, isListening = false, finalTranscript = "";
+  if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+    recognition.onresult = (event) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) finalTranscript += transcript + " ";
+        else interim += transcript;
+      }
+    };
+    recognition.onend = () => {
+      if (isListening) recognition.start();
+    };
+  }
+consultButton.addEventListener('click', () => {
+
+    if (!recognition) { alert("Speech recognition not supported."); return; }
+    if (!isListening) {
+      finalTranscript = "";
+      recognition.start();
+      isListening = true;
+      consultButton.textContent = "Stop Consulting";
+      consultButton.classList.add("active");
+    } else {
+      recognition.stop();
+      isListening = false;
+      consultButton.textContent = "Start Consulting";
+      consultButton.classList.remove("active");
+      if (finalTranscript.trim()) {
+        console.log("Transcript:", finalTranscript.trim());
+        fetch("http://127.0.0.1:8000/api/audio_snippet/parse", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: finalTranscript.trim() })
+        }).then(r => r.json())
+.then(d => {
+  if (!d.status || !d.data) return;
+
+  const data = d.data;
+
+  // ✅ Fill tags only if they exist
+  if (data.case && Array.isArray(data.case)) {
+    refillTags("caseBox", data.case);
+  }
+  if (data.cause && Array.isArray(data.cause)) {
+    refillTags("causeBox", data.cause);
+  }
+  if (data.medicine && Array.isArray(data.medicine)) {
+    refillTags("medicineBox", data.medicine);
+  }
+
+  // ✅ Fill personal details only if present
+  if (data.name) document.getElementById("patientName").value = data.name;
+  if (data.age) document.getElementById("patientAge").value = data.age;
+
+  // ✅ Handle follow-up date
+  if (data.follow_up) {
+    // normalize date into yyyy-mm-dd (HTML date input format)
+    const date = new Date(data.follow_up);
+    if (!isNaN(date)) {
+      document.getElementById("followUpDate").value = date.toISOString().split("T")[0];
+    }
+  }
+})
+.catch(err => console.error(err));
+
+
+      }
+    }
+  });
+
+//Navbar
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+const navClose = document.getElementById("navClose");
+const navItems = document.querySelectorAll(".nav-link");
+
+// Open sidebar
+navToggle.addEventListener("click", () => {
+  navLinks.classList.add("show");
+});
+
+// Close sidebar
+navClose.addEventListener("click", () => {
+  navLinks.classList.remove("show");
+});
+
+
+</script>
+</body>
+</html>
