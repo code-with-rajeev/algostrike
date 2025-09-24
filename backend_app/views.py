@@ -77,7 +77,6 @@ def audio_parse(request):
                 return JsonResponse(suggestion)
             return JsonResponse({"status":False, "message": suggestion["message"]})
     except Exception as a:
-        print(a)
         return JsonResponse({"status":False, "message": "INVALID REQUEST"})
 
 

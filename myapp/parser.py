@@ -86,7 +86,9 @@ Your task:
    - list of problems (2–4 words each)
    - suggested medicines (prefer doctor's list first)
    - possible causes (short 5-7 words approx each)
-   - expected follow-up action (if any), example: if follow_up is tommorow than current_date+1 
+   - expected follow-up action (if any), example: If the doctor or patient mentions a follow-up like 'tomorrow' or 'day after tomorrow' 
+   (e.g., in Hindi 'kal' or 'parso'), then calculate the exact follow_up date by adding the
+    correct number of days to the current date, and always return it in YYYY-MM-DD
 3. Respond strictly in this JSON format:
 
 ```json
