@@ -559,7 +559,7 @@ body {
 
   // JSON Parse
   const jsonData = JSON.parse(document.getElementById("my-data").textContent);
-  console.log("DATA GOT is ",jsonData);
+  //console.log("DATA GOT is ",jsonData);
 
   //const suggestionData = jsonData.suggestionData;
 
@@ -709,6 +709,7 @@ consultButton.addEventListener('click', () => {
           body: finalTranscript.trim()
         }).then(r => r.json())
 .then(d => {
+  if (!d.status) {alert("Status: 500")}
   if (!d.status || !d.data) return;
 
   const data = d.data;
