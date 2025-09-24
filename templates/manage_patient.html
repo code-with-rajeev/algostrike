@@ -707,7 +707,7 @@ consultButton.addEventListener('click', () => {
         console.log("Transcript:", finalTranscript.trim());
         fetch("https://app.algostrike.com/api/audio_snippet/parse", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plainup" },
           body: finalTranscript.trim()
         }).then(r => r.json())
 .then(d => {
