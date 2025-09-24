@@ -705,7 +705,7 @@ consultButton.addEventListener('click', () => {
       consultButton.classList.remove("active");
       if (finalTranscript.trim()) {
         console.log("Transcript:", finalTranscript.trim());
-        fetch("http://127.0.0.1:8000/api/audio_snippet/parse", {
+        fetch("https://app.algostrike.com/api/audio_snippet/parse", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: finalTranscript.trim()
