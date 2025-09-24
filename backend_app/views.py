@@ -77,7 +77,7 @@ def audio_parse(request):
                 return JsonResponse(suggestion)
             return JsonResponse({"status":False, "message": suggestion["message"]})
     except Exception as a:
-        return JsonResponse({"status":False, "message": "INVALID REQUEST"})
+        return JsonResponse({"status":False, "message": a})
 
 
 def allow_any_origin(view_func):
