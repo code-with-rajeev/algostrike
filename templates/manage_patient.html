@@ -711,7 +711,7 @@ consultButton.addEventListener('click', () => {
           body: finalTranscript.trim()
         }).then(r => r.json())
 .then(d => {
-  if (!d.status) {alert("Status: 500")}
+  if (!d.status) {console.log(d.message)}
   if (!d.status || !d.data) return;
 
   const data = d.data;
