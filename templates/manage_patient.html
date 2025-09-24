@@ -692,13 +692,15 @@ consultButton.addEventListener('click', () => {
     if (!recognition) { alert("Speech recognition not supported."); return; }
     if (!isListening) {
       finalTranscript = "";
-      recognition.start();
       isListening = true;
+      recognition.start();
+
       consultButton.textContent = "Stop Consulting";
       consultButton.classList.add("active");
     } else {
-      recognition.stop();
       isListening = false;
+      recognition.stop();
+      
       consultButton.textContent = "Start Consulting";
       consultButton.classList.remove("active");
       if (finalTranscript.trim()) {
